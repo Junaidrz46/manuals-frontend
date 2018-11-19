@@ -4,9 +4,9 @@
             <form>
                 <h2>Add Representatives</h2>
                 <p>Username</p>
-                <input type="text" name="" placeholder="Enter Username">
-                <p>Enter Email</p>
-                <input type="text" name="" placeholder="Enter Email">
+                <input type="text" name="" placeholder="Type username...">
+                <p>E-mail</p>
+                <input type="text" name="" placeholder="Type e-mail...">
                 <p>Password</p>
                 <input type="password" name="" placeholder="*******">
                 <p>Confirm Password</p>
@@ -59,7 +59,8 @@ h2
 	margin:0;
 	padding:0 0 20px;
 	color:black;
-	font-weight:bold;
+	text-align: left;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .signup input
 {
@@ -73,12 +74,13 @@ h2
 	background:transparent;
 	outline:none;
 	height:40px;
-	color:#fff;
+	color:black;
 	font-size:16px;
 }
 ::placeholder
 {
-	color:black;
+	color:darkgray;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .signup input[type="Submit"]
 {

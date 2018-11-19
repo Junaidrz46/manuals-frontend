@@ -7,7 +7,7 @@ var url = "http://localhost:8080/rest/"
 
 export function loginUser(username, password) {
     // test
-    return {match: 0, role: "company_admin"}
+    return {match: 1, role: "company_admin"}
     //not test
     return axios.post('/users/login')
     .then(response => {
