@@ -3,12 +3,11 @@
         <div class="loginBox">
             <form>
                 <h2>Login</h2>
-                <p>Email</p>
+                <p>E-mail</p>
                 <input type="text" name="" placeholder="E-mail">
                 <p>Password</p>
                 <input type="password" name="" placeholder="*****">
                 <input type="Submit" name="" value="Sign In">
-                <a href="#">Forgot your password?</a>
             </form>
         </div>
     </div>
