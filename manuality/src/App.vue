@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
@@ -34,5 +33,12 @@ h1
 	text-align:center;
 	color:#F08080;
 }
+h2
+{
+	margin:0;
+	padding:0 0 20px;
+	color:#FFF8DC;
+	text-align:center;
+} 
 
 </style>

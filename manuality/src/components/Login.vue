@@ -1,17 +1,47 @@
 <template>
     <div id="login">
+		<img src="../assets/logo.png">
         <div class="loginBox">
             <form>
                 <h2>Login</h2>
-                <p>E-mail</p>
-                <input type="text" name="" placeholder="E-mail">
+                <p>Username</p>
+                <input type="text" name="" placeholder="Type your username...">
                 <p>Password</p>
                 <input type="password" name="" placeholder="*****">
-                <input type="Submit" name="" value="Sign In">
+                <input type="Submit" name="" value="Sign In" v-on:click="login">
             </form>
         </div>
     </div>
 </template>
+
+<script>
+import {loginUser} from '../API'
+import router from '../router/index'
+
+export default {
+	
+	methods: {
+		login: function() {
+			var loginData = loginUser("qwe", "asd");
+
+			if (loginData.match === 1) {
+				var redirectToHomeMap = {
+					"consumer": "/todo",
+					"representative": "/todo",
+					"company_admin": "/company_admin_home"
+				};
+				this.$router.push( redirectToHomeMap[loginData.role] );
+			}
+			else{
+				console.log("NO MATCH");
+			}
+
+			console.log("DONE");
+		}
+	}
+}
+</script>
+
 
 <style>
 .loginBox
@@ -29,7 +59,8 @@
     opacity: 0.7;
     margin-top: 70px;
     margin-left: 600px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	border-radius: 6px;
 	
 }
 .user
