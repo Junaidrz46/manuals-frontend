@@ -11,7 +11,12 @@
                 <input type="password" ref="pass" name="" placeholder="*******">
                 <p>Confirm Password</p>
                 <input type="password" ref="confirmPass" name="" placeholder="*******">
-                <input type="Submit" name="" value="Add representative" v-on:click="createRepresentative">
+                <input type="button" class="submitbutton" value="Add representative" v-on:click="createRepresentative">
+				<div class="addrep-error" id="error" v-if="seen">
+					<p class="message">
+						{{ message }}
+					</p>
+				</div>
             </form>
         </div>
     </div>
@@ -22,30 +27,51 @@ import {addRepresentative} from '../API'
 import router from '../router/index'
 
 export default {
-	
+	data () {
+		return{
+			seen: false,
+			message: ''
+		}
+	},
 	methods: {
+		checkEmail: function (email) {
+			var emailTest = /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
+  			return emailTest.test(email);	
+		},
 		createRepresentative: function() {
 			
-			var pass = this.$refs.pass.value;
-			var confirmPass = this.$refs.confirmPass.value;
+			console.log(this.checkEmail(this.$refs.email.value));
 
-			if (pass === confirmPass) {
+			if (this.$refs.username.value === "" || this.$refs.pass.value === "" || this.$refs.email.value === "" || this.$refs.confirmPass.value === ""){
+				this.message = 'Please complete all fields!'
+				this.seen = true;
 
-				var companyname = localStorage.getItem("current_companyname");
-				console.log(companyname)
+			}else if(this.checkEmail(this.$refs.email.value) === false){
+				this.message = 'Enter valid e-mail address!'
+			}else {
 
-				addRepresentative(
-					this.$refs.username.value,
-					this.$refs.email.value,
-					this.$refs.pass.value,
-					companyname
-				)
-				.then(response => {
-					console.log(response);
-				})
-				alert("Representative added!");
-			} else {
-				alert("PASSWORD DON NOT MATCH");
+				var pass = this.$refs.pass.value;
+				var confirmPass = this.$refs.confirmPass.value;
+
+				if (pass === confirmPass) {
+
+					var companyname = localStorage.getItem("current_companyname");
+					console.log(companyname)
+
+					addRepresentative(
+						this.$refs.username.value,
+						this.$refs.email.value,
+						this.$refs.pass.value,
+						companyname
+					)
+					.then(response => {
+						console.log(response);
+					})
+					this.seen = false;
+				} else {
+					this.message = 'Passwords do not match!'
+					this.seen = true;
+				}
 			}
 
 		}
@@ -118,7 +144,7 @@ h2
 	color:darkgray;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-.signup input[type="Submit"]
+.signup input[type="button"]
 {
 	border:none;
 	outline:none;
@@ -129,10 +155,18 @@ h2
 	cursor:pointer;
 	border-radius:20px;
 }
-.signup input[type="Submit"]:hover
+.signup input[type="button"]:hover
 {
 	background:black;
 	color:white;
+}
+
+.addrep-error p {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: red;
+	text-align: center;
+	margin-top: 30px;
+	
 }
 
 

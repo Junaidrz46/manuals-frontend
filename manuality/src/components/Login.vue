@@ -34,31 +34,28 @@ export default {
 				
 			if (this.$refs.username.value === "" || !this.$refs.pass.value === ""){
 					this.seen = true;
-			} else{ 	
-			loginUser(
-				this.$refs.username.value,
-				this.$refs.pass.value
-			)
-			.then(response => {
-				console.log(response.data)
-				if (response.data.loginstatus === "login-success") {
-					var redirectToHomeMap = {
-						"consumer": "/todo",
-						"companyRepresentative": "/company_rep_home",
-						"companyAdmin": "/company_admin_home"
-					};
-					this.$router.push( redirectToHomeMap[response.data.user.role] );
-					localStorage.setItem("currentUser", response.data.user.username);
-					localStorage.setItem("current_companyname", response.data.user.companyname);
-					console.log(localStorage.getItem("currentUser"));
-				}
-				else{
-					//TODO show ERROR Message
-					//alert(response.data.message);
-					this.seen = true;
-					
-			}
-			})
+			}else{ 	
+				loginUser(
+					this.$refs.username.value,
+					this.$refs.pass.value
+				)
+				.then(response => {
+					console.log(response.data)
+					if (response.data.loginstatus === "login-success") {
+						var redirectToHomeMap = {
+							"consumer": "/todo",
+							"companyRepresentative": "/company_rep_home",
+							"companyAdmin": "/company_admin_home"
+						};
+						this.$router.push( redirectToHomeMap[response.data.user.role] );
+						localStorage.setItem("currentUser", response.data.user.username);
+						localStorage.setItem("current_companyname", response.data.user.companyname);
+						console.log(localStorage.getItem("currentUser"));
+					}
+					else{
+						this.seen = true;
+					}
+				})
 			}
 		}
 	}
