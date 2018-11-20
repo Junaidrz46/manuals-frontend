@@ -5,10 +5,11 @@
             <form>
                 <h2>Login</h2>
                 <p>Username</p>
-                <input type="text" name="" placeholder="Type your username...">
+                <input type="text" ref="username" name="" placeholder="Type your username...">
                 <p>Password</p>
-                <input type="password" name="" placeholder="*****">
+                <input type="password" ref="pass" name="" placeholder="*****">
                 <input type="Submit" name="" value="Sign In" v-on:click="login">
+				<p class="login-error" ref="error">Your username and password don`t match</p>
             </form>
         </div>
     </div>
@@ -22,21 +23,29 @@ export default {
 	
 	methods: {
 		login: function() {
-			var loginData = loginUser("qwe", "asd");
-
-			if (loginData.match === 1) {
-				var redirectToHomeMap = {
-					"consumer": "/todo",
-					"representative": "/todo",
-					"company_admin": "/company_admin_home"
-				};
-				this.$router.push( redirectToHomeMap[loginData.role] );
+				
+			loginUser(
+				this.$refs.username.value,
+				this.$refs.pass.value
+			)
+			.then(response => {
+        		console.log(response.data)
+				if (response.data.loginstatus === "login-success") {
+					var redirectToHomeMap = {
+						"consumer": "/todo",
+						"representative": "/todo",
+						"companyAdmin": "/company_admin_home"
+					};
+					this.$router.push( redirectToHomeMap[response.data.user.role] );
+				}
+				else{
+					//TODO show ERROR Message
+					this.$refs.error.display = block;
+					alert(response.data.message);
 			}
-			else{
-				console.log("NO MATCH");
-			}
+			})
 
-			console.log("DONE");
+			// console.log("DONE");
 		}
 	}
 }
@@ -136,7 +145,12 @@ h2
      color:#fff;
 font-size:14px;
 font-weight:bold;
-text-decoration:none;	 
+text-decoration:none;
+}
+
+.login-error {
+	/*display: none;*/
+	
 }
 </style>
 

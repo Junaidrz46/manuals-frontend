@@ -1,27 +1,30 @@
 import axios from 'axios'
 
-axios.default.baseURL = 'http://localhost:8080'
+//axios.default.baseURL = 'http://localhost:8888/rest'
 
-var url = "http://localhost:8080/rest/"
+var url = "http://localhost:8888/rest/"
+
+
 
 
 export function loginUser(username, password) {
-    // test
-    return {match: 1, role: "company_admin"}
-    //not test
-    return axios.post('/users/login')
-    .then(response => {
-        return { asd: "asd"}
-        // TODO decide which type of response we will use depending on the back implementation
-        
-        // response.data
-        
-        // {
-        //     match: response.data["match"],
-        //     role: response.data["role"]
-        // }
+
+    return axios.post('http://localhost:8888/rest/users/login', {
+        "username": username,
+        "password": password
     })
 }
+
+// export function getUserByName(name) {
+// return axios.get(url + 'findUserByUserName?userName='+name)
+// 		.then(response => {
+//             console.log(resopnse.data)
+// 			return response.data
+// 			})
+// 		.catch(function (error) {
+// 			console.log(error);
+// 			});
+// }
 
 
 // function postUser(namePar, emailPar, rolePar) {
@@ -45,15 +48,7 @@ export function loginUser(username, password) {
 // 			});
 // }
 
-// function getUserByName(name) {
-// return axios.get(url+'findUserByUserName?userName='+name)
-// 		.then(response => {
-// 			return response.data
-// 			})
-// 		.catch(function (error) {
-// 			console.log(error);
-// 			});
-// }
+
 
 // function getrepresentativeByEmail(emailAddress) {
 // return axios.get(url+'findUserByEmailAddress?role=companyRepresentative&emailAddress='+emailAddress)
