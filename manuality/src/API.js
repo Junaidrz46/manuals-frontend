@@ -8,12 +8,20 @@ var url = "http://localhost:8888/rest/"
 
 
 export function loginUser(username, password) {
-
     return axios.post('http://localhost:8888/rest/users/login', {
         "username": username,
         "password": password
     })
 }
+
+export function addRepresentative(username, email, password, companyname) {
+    return axios.post('http://localhost:8888/rest/users/saveCompanyRepresentative', {
+        "username": username,
+        "emailaddress": email,
+        "companyname": companyname,
+        "password": password
+    })
+} 
 
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)

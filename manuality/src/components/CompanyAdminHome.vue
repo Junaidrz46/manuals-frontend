@@ -4,18 +4,54 @@
             <form>
                 <h2>Add Representatives</h2>
                 <p>Username</p>
-                <input type="text" name="" placeholder="Type username...">
+                <input type="text" ref="username" name="" placeholder="Type username...">
                 <p>E-mail</p>
-                <input type="text" name="" placeholder="Type e-mail...">
+                <input type="text" ref="email" name="" placeholder="Type e-mail...">
                 <p>Password</p>
-                <input type="password" name="" placeholder="*******">
+                <input type="password" ref="pass" name="" placeholder="*******">
                 <p>Confirm Password</p>
-                <input type="password" name="" placeholder="*******">
-                <input type="Submit" name="" value="Sign Up">
+                <input type="password" ref="confirmPass" name="" placeholder="*******">
+                <input type="Submit" name="" value="Add representative" v-on:click="createRepresentative">
             </form>
         </div>
     </div>
 </template>
+
+<script>
+import {addRepresentative} from '../API'
+import router from '../router/index'
+
+export default {
+	
+	methods: {
+		createRepresentative: function() {
+			
+			var pass = this.$refs.pass.value;
+			var confirmPass = this.$refs.confirmPass.value;
+
+			if (pass === confirmPass) {
+
+				var companyname = localStorage.getItem("current_companyname");
+				console.log(companyname)
+
+				addRepresentative(
+					this.$refs.username.value,
+					this.$refs.email.value,
+					this.$refs.pass.value,
+					companyname
+				)
+				.then(response => {
+					console.log(response);
+				})
+				alert("Representative added!");
+			} else {
+				alert("PASSWORD DON NOT MATCH");
+			}
+
+		}
+	}
+}
+</script>
 
 
 <style>

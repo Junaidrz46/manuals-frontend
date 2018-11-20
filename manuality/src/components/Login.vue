@@ -33,10 +33,11 @@ export default {
 				if (response.data.loginstatus === "login-success") {
 					var redirectToHomeMap = {
 						"consumer": "/todo",
-						"representative": "/todo",
+						"companyRepresentative": "/company_rep_home",
 						"companyAdmin": "/company_admin_home"
 					};
 					this.$router.push( redirectToHomeMap[response.data.user.role] );
+					localStorage.setItem("current_companyname", response.data.user.companyname);
 				}
 				else{
 					//TODO show ERROR Message
