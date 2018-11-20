@@ -5,11 +5,15 @@
             <form>
                 <h2>Login</h2>
                 <p>Username</p>
-                <input type="text" ref="username" name="" placeholder="Type your username...">
+                <input type="text" ref="username" name="username" placeholder="Type your username...">
                 <p>Password</p>
                 <input type="password" ref="pass" name="" placeholder="*****">
-                <input type="Submit" name="" value="Sign In" v-on:click="login">
-				<p class="login-error" ref="error">Your username and password don`t match</p>
+                <input type="button" class="submitbutton" value="Sign In" v-on:click="login">
+					<div class="login-error" id="error" v-if="seen">
+						<p class="message">
+							Invalid creditentials!
+						</p>
+					</div>
             </form>
         </div>
     </div>
@@ -20,16 +24,23 @@ import {loginUser} from '../API'
 import router from '../router/index'
 
 export default {
-	
+	data () {
+		return{
+			seen: false
+		}
+	},
 	methods: {
 		login: function() {
 				
+			if (this.$refs.username.value === "" || !this.$refs.pass.value === ""){
+					this.seen = true;
+			} else{ 	
 			loginUser(
 				this.$refs.username.value,
 				this.$refs.pass.value
 			)
 			.then(response => {
-        		console.log(response.data)
+				console.log(response.data)
 				if (response.data.loginstatus === "login-success") {
 					var redirectToHomeMap = {
 						"consumer": "/todo",
@@ -37,16 +48,18 @@ export default {
 						"companyAdmin": "/company_admin_home"
 					};
 					this.$router.push( redirectToHomeMap[response.data.user.role] );
+					localStorage.setItem("currentUser", response.data.user.username);
 					localStorage.setItem("current_companyname", response.data.user.companyname);
+					console.log(localStorage.getItem("currentUser"));
 				}
 				else{
 					//TODO show ERROR Message
-					this.$refs.error.display = block;
-					alert(response.data.message);
+					//alert(response.data.message);
+					this.seen = true;
+					
 			}
 			})
-
-			// console.log("DONE");
+			}
 		}
 	}
 }
@@ -123,7 +136,7 @@ h2
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     
 }
-.loginBox input[type="Submit"]
+.loginBox input[type="button"]
 {
     margin-top: 45px;
 	border:none;
@@ -136,7 +149,7 @@ h2
     border-radius:20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-.loginBox input[type="Submit"]:hover
+.loginBox input[type="button"]:hover
 {
 	background:#FFFFFF;
 	color:#262626;
@@ -149,9 +162,13 @@ font-weight:bold;
 text-decoration:none;
 }
 
-.login-error {
-	/*display: none;*/
+.login-error p {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: red;
+	text-align: center;
+	margin-top: 30px;
 	
 }
+
 </style>
 
