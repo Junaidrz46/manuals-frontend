@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import CompanyAdminHome from '@/components/CompanyAdminHome'
 import RepresentativeHome from '@/components/RepresentativeHome'
+import ConsumerHome from '@/components/ConsumerHome'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ const router  = new Router({
       path: '/company_rep_home',
       name: 'CompanyRepresentativeHome',
       component: RepresentativeHome
+    },
+    {
+      path: '/consumer_home',
+      name: 'ConsumerHome',
+      component: ConsumerHome
     }
   ]
 })

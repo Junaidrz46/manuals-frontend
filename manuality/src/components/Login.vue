@@ -43,7 +43,7 @@ export default {
 					console.log(response.data)
 					if (response.data.loginstatus === "login-success") {
 						var redirectToHomeMap = {
-							"consumer": "/todo",
+							"consumer": "/consumer_home",
 							"companyRepresentative": "/company_rep_home",
 							"companyAdmin": "/company_admin_home"
 						};
