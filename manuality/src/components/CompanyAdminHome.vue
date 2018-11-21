@@ -47,7 +47,7 @@ export default {
 				this.seen = true;
 
 			}else if(this.checkEmail(this.$refs.email.value) === false){
-				this.message = 'Enter valid e-mail address!'
+				this.message = 'Enter a valid e-mail address!'
 			}else {
 
 				var pass = this.$refs.pass.value;
@@ -154,6 +154,7 @@ h2
 	background:#708090;
 	cursor:pointer;
 	border-radius:20px;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .signup input[type="button"]:hover
 {
@@ -163,7 +164,7 @@ h2
 
 .addrep-error p {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	color: red;
+	color:  #FF4C4C;
 	text-align: center;
 	margin-top: 30px;
 	

@@ -43,7 +43,7 @@ export default {
 					console.log(response.data)
 					if (response.data.loginstatus === "login-success") {
 						var redirectToHomeMap = {
-							"consumer": "/consumer_home",
+							"customer": "/consumer_home",
 							"companyRepresentative": "/company_rep_home",
 							"companyAdmin": "/company_admin_home"
 						};
@@ -78,7 +78,7 @@ export default {
     background-size:border-box;
     opacity: 0.7;
     margin-top: 70px;
-    margin-left: 600px;
+    /* margin-left: 600px; */
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	border-radius: 6px;
 	
@@ -161,7 +161,7 @@ text-decoration:none;
 
 .login-error p {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	color: red;
+	color: #FF4C4C;
 	text-align: center;
 	margin-top: 30px;
 	
