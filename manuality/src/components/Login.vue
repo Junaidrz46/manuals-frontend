@@ -40,7 +40,7 @@ export default {
 					this.$refs.pass.value
 				)
 				.then(response => {
-					console.log(response.data)
+					//console.log(response.data)
 					if (response.data.loginstatus === "login-success") {
 						var redirectToHomeMap = {
 							"customer": "/consumer_home",
@@ -78,7 +78,7 @@ export default {
     background-size:border-box;
     opacity: 0.7;
     margin-top: 70px;
-    /* margin-left: 600px; */
+    margin-left: 600px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	border-radius: 6px;
 	

@@ -68,6 +68,7 @@ export default {
 						console.log(response);
 					})
 					this.seen = false;
+					alert("A new representative added!")
 				} else {
 					this.message = 'Passwords do not match!'
 					this.seen = true;
