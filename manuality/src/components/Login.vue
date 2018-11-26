@@ -1,21 +1,5 @@
 <template>
-    <div id="login">
-		<img src="../assets/logo.png">
-        <div class="loginBox">
-            <form>
-                <h2>Login</h2>
-                <p>Username</p>
-                <input type="text" ref="username" name="username" placeholder="Type your username...">
-                <p>Password</p>
-                <input type="password" ref="pass" name="" placeholder="*****">
-                <input type="button" class="submitbutton" value="Sign In" v-on:click="login">
-					<div class="login-error" id="error" v-if="seen">
-						<p class="message">
-							Invalid creditentials!
-						</p>
-					</div>
-            </form>
-        </div>	
+    <div id="login" style="z-index: 5;">
     </div>
 </template>
 
@@ -81,6 +65,7 @@ export default {
     margin-left: 600px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	border-radius: 6px;
+	visibility: hidden;
 	
 }
 .user
