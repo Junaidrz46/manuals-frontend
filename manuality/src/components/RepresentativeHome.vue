@@ -17,7 +17,7 @@
                         {{ category.name }}
                     </option>
                 </select>
-                <input type="button" value="Save product" v-on:click="addProduct">
+                <input id="submit1" type="button" value="Save product" v-on:click="addProduct">
             </form>
             <div class="box">
                 <form id="myForm" method="post" enctype="multipart/form-data">
@@ -92,25 +92,29 @@ export default {
 
                 })
 
+                document.getElementById("submit1").disabled = true;
+                console.log("PLUS");
+
             }
         },
 
         addManuals: function (){
 
-            if(this.$refs.file.value === null){
+            if(this.$refs.file.value == null){
                 this.message = 'Add a file please!';
                 this.seen = true; 
             }else{
 
                 var prod = localStorage.getItem("latestAddedProduct");
 
+                var path = this.$refs.file.value.replace( /C:\\fakepath\\/i, "" );
 
-                addProduct(
-                    this.$refs.file.value,
-                    this.prod
-                );
 
-                console.log("DONE");
+                console.log(path);
+                // addManuals(
+                //     this.path,
+                //     this.prod
+                // );
             }
         }
     }  
