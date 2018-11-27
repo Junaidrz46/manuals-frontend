@@ -1,0 +1,30 @@
+<!doctype html>
+<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="companyadminstyle.css" />
+	</head>
+<body>
+<div id="company_admin_home">
+        <div class="signup">
+            <form>
+                <h2>Add Representatives</h2>
+		<h4>First Name</h4>
+		<input type="text" ref="fname" name="" placeholder="Type firstname...">
+		<h4>Last Name</h4>
+		<input type="text" ref="lname" name="" placeholder="Type lastname...">
+                <h4>Username</h4>
+                <input type="text" ref="username" name="" placeholder="Type username...">
+                <h4>E-mail</h4>
+             	<input type="text" ref="email" name="" placeholder="Type e-mail.....">
+		<h4 contenteditable="false">Company</h4>			
+		<input type="text" ref="company" name="" readonly>
+                <h4>Password</h4>		
+                <input type="password" ref="pass" name="" placeholder="*******">
+                <h4>Confirm Password</h4>
+                <input type="password" ref="confirmPass" name="" placeholder="*******">
+                <input type="button" class="submitbutton" value="Add representative" v-on:click="createRepresentative">		
+            </form>
+        </div>
+    </div>
+</body>
+</html>
