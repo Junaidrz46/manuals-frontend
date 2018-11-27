@@ -4,9 +4,6 @@ import axios from 'axios'
 
 var url = "http://localhost:8888/rest/"
 
-
-
-
 export function loginUser(username, password) {
     return axios.post('http://localhost:8888/rest/users/login', {
         "username": username,
@@ -14,14 +11,40 @@ export function loginUser(username, password) {
     })
 }
 
-export function addRepresentative(username, email, password, companyname) {
+export function addRepresentative(firstname, lastName, username, email, password, companyname) {
     return axios.post('http://localhost:8888/rest/users/saveCompanyRepresentative', {
+        "firstname": firstname,
+        "lastName": lastName,
         "username": username,
         "emailaddress": email,
         "companyname": companyname,
         "password": password
     })
 } 
+
+export function getAllCategories() {
+    return axios.get('http://localhost:8888/rest/categories/findAllCategories')
+        .then(response => {
+            return response.data
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
+
+export function addProduct(categoryId, name, description, brand) {
+    return axios.post('http://localhost:8888/rest/categories/saveProductByCatergoryId', {
+        "categoryId": categoryId,
+        "product": {"name": name, "description": description, "brand": brand}
+    })
+}
+
+export function addManuals(file, ProductId){
+    return axios.post('http://localhost:8888/rest/file/uploadFile', {
+        "file": file,
+        "ProductId": ProductId
+    })
+}
 
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
@@ -67,6 +90,3 @@ export function addRepresentative(username, email, password, companyname) {
 // 			console.log(error);
 // 			});
 // }
-
-
-//export default {postUser, getUserByEmail, getUserByName, getrepresentativeByEmail};

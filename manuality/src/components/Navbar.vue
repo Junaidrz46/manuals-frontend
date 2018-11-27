@@ -20,9 +20,9 @@
          </b-nav-form>
        -->
 
-        <b-button v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> {{ user }} </b-button>
+        <b-button v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> OPTIONS </b-button>
          <b-button-group size="lg" v-if="isLogged === false">
-           <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign Up</b-button>
+           <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign up</b-button>
            <b-dropdown style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Log In" size="lg">
 
                 <div>
@@ -59,10 +59,7 @@ import bus from '../bus'
 export default {
 
   //loggedIn: localStorage.getItem("loginStatus"),
-  name: 'Navbar',
-  computed: {
-
-  }, 
+  name: 'Navbar', 
   data () {
         return{
             seen: false,
@@ -93,10 +90,11 @@ export default {
 					if (response.data.loginstatus === "login-success") {
 
                         // Handle "session"
-                        localStorage.setItem("loginstatus", response.data.loginstatus)
+                        localStorage.setItem("loginstatus", response.data.loginstatus);
                         localStorage.setItem("currentUser", response.data.user.username);
                         localStorage.setItem("current_companyname", response.data.user.companyname);
-                        this.user = localStorage.getItem("currentUser");
+                        localStorage.setItem("fname", response.data.user.firstname);
+                        localStorage.setItem("lname", response.data.user.lastName);
                         console.log(this.user);
 
                         // Redirect

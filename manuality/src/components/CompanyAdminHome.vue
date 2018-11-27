@@ -1,23 +1,24 @@
 <template>
     <div id="company_admin_home">
+		<h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2>
         <div class="signup">
             <form>
                 <h3>Add Representatives to {{ companyname }}</h3>
 				<div class="firstname">
 					<p>First Name</p>
-					<input type="text" ref="fname" name="" placeholder="Type firstname...">
+					<input type="text" ref="fname" name="" placeholder="First name...">
 				</div>
 				<div class="lastname">
 					<p>Last Name</p>
-					<input type="text" ref="lname" name="" placeholder="Type lastname...">
+					<input type="text" ref="lname" name="" placeholder="Last name...">
 				</div>
 				<div class="uname">
 					<p>Username</p>
-					<input type="text" ref="username" name="" placeholder="Type username...">
+					<input type="text" ref="username" name="" placeholder="Username...">
 				</div>
 				<div class="mail">
 					<p>E-mail</p>
-					<input type="text" ref="email" name="" placeholder="Type e-mail.....">
+					<input type="text" ref="email" name="" placeholder="E-mail.....">
 				</div>
 				<div class="pwd">
 					<p>Password</p>		
@@ -53,7 +54,9 @@ export default {
 			seen: false,
 			seenSuccess: false,
 			message: '',
-			companyname: localStorage.getItem("current_companyname")
+			companyname: localStorage.getItem("current_companyname"),
+			fname: localStorage.getItem("fname"),
+			lname: localStorage.getItem("lname")
 		}
 	},
 	methods: {
@@ -79,6 +82,8 @@ export default {
 					this.companyname = localStorage.getItem("current_companyname");
 
 					addRepresentative(
+						this.$refs.fname.value,
+						this.$refs.lname.value,
 						this.$refs.username.value,
 						this.$refs.email.value,
 						this.$refs.pass.value,
@@ -103,6 +108,14 @@ export default {
 
 
 <style>
+
+.greeting-message{
+	color: #262626;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	float: left;
+	margin-top: 30px;
+	margin-left: 50px;
+}
     
 .signup
 {
@@ -111,7 +124,7 @@ export default {
 	left:50%;
 	transform:translate(-50%,-50%);
 	width:600px;
-	height:700px;
+	height:660px;
 	padding:50px 40px;
 	box-sizing:cover;
     background:white;
@@ -119,6 +132,7 @@ export default {
     border: 1px solid black;
     border-radius: 6px;
     background-size:border-box;
+	margin-top: 20px;
 	
 }
 .firstname{
@@ -228,13 +242,13 @@ p{
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	color:  #FF4C4C;
 	text-align: center;
-	margin-top: 30px;
+	margin-top: 0px;
 }
 .addrep-success p {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	color:  green;
 	text-align: center;
-	margin-top: 30px;
+	margin-top: 0px;
 }
 </style>
  
