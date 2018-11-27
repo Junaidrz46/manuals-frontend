@@ -8,21 +8,23 @@
         <div class="signup">
             <form>
                 <h2>Add Representatives</h2>
-		<h4>First Name</h4>
+		<div class="firstname"><h4>First Name</h4>
 		<input type="text" ref="fname" name="" placeholder="Type firstname...">
-		<h4>Last Name</h4>
+		</div>
+		<div class="lastname"><h4>Last Name</h4>
 		<input type="text" ref="lname" name="" placeholder="Type lastname...">
-                <h4>Username</h4>
-                <input type="text" ref="username" name="" placeholder="Type username...">
-                <h4>E-mail</h4>
-             	<input type="text" ref="email" name="" placeholder="Type e-mail.....">
-		<h4 contenteditable="false">Company</h4>			
-		<input type="text" ref="company" name="" readonly>
-                <h4>Password</h4>		
-                <input type="password" ref="pass" name="" placeholder="*******">
-                <h4>Confirm Password</h4>
-                <input type="password" ref="confirmPass" name="" placeholder="*******">
-                <input type="button" class="submitbutton" value="Add representative" v-on:click="createRepresentative">		
+		</div>
+                <div class="uname"><h4>Username</h4>
+                <input type="text" ref="username" name="" placeholder="Type username..."></div>
+                <div class="mail"><h4>E-mail</h4>
+             	<input type="text" ref="email" name="" placeholder="Type e-mail....."></div>
+		<div class="cname"><h4 contenteditable="false">Company</h4>			
+		<input type="text" ref="company" name="" readonly></div>
+                <div class="pwd"><h4>Password</h4>		
+                <input type="password" ref="pass" name="" placeholder="*******"></div>
+                <div class="cpwd"><h4>Confirm Password</h4>
+                <input type="password" ref="confirmPass" name="" placeholder="*******"></div>
+                <div class="btn"><input type="button" class="submitbutton" value="Add representative" v-on:click="createRepresentative" align="middle"></div>		
             </form>
         </div>
     </div>
