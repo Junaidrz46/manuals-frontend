@@ -20,7 +20,7 @@
          </b-nav-form>
        -->
 
-        <b-button v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> USER NAME </b-button>
+        <b-button v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> {{ user }} </b-button>
          <b-button-group size="lg" v-if="isLogged === false">
            <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign Up</b-button>
            <b-dropdown style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Log In" size="lg">
@@ -66,7 +66,8 @@ export default {
   data () {
         return{
             seen: false,
-            isLogged: this.checkIfIsLogged()
+            isLogged: this.checkIfIsLogged(),
+            user: localStorage.getItem("currentUser")
 		}
     },
     beforeRouteUpdate (to,from,next) {
@@ -95,8 +96,8 @@ export default {
                         localStorage.setItem("loginstatus", response.data.loginstatus)
                         localStorage.setItem("currentUser", response.data.user.username);
                         localStorage.setItem("current_companyname", response.data.user.companyname);
-                        console.log(localStorage.getItem("currentUser"));
-                        console.log(this.isLogged);
+                        this.user = localStorage.getItem("currentUser");
+                        console.log(this.user);
 
                         // Redirect
 						var redirectToHomeMap = {
