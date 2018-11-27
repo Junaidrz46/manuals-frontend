@@ -12,6 +12,8 @@ Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 
+Vue.prototype.$eventHub = new Vue(); // Global event bus
+
 
 
 /* eslint-disable no-new */

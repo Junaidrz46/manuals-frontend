@@ -20,8 +20,8 @@
          </b-nav-form>
        -->
 
-        <b-button v-if="logged" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> USER NAME </b-button>
-         <b-button-group size="lg" v-if="!logged">
+        <b-button v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> USER NAME </b-button>
+         <b-button-group size="lg" v-if="isLogged === false">
            <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign Up</b-button>
            <b-dropdown style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Log In" size="lg">
 
@@ -54,17 +54,28 @@
 import Login from './Login'
 import {loginUser} from '../API'
 import router from '../router/index'
-
+import bus from '../bus'
 
 export default {
+
+  //loggedIn: localStorage.getItem("loginStatus"),
   name: 'Navbar',
+  computed: {
+
+  }, 
   data () {
-        
         return{
             seen: false,
-            logged: localStorage.getItem("loginStatus")
+            isLogged: this.checkIfIsLogged()
 		}
-	},
+    },
+    beforeRouteUpdate (to,from,next) {
+         this.$eventHub.$on('logged', () => {
+            this.isLogged = this.checkIfIsLogged()
+        })
+        console.log("HERE");
+        next()
+    },
 	methods: {
 		login: function() {
 				
@@ -80,18 +91,12 @@ export default {
                     
 					if (response.data.loginstatus === "login-success") {
 
-                         // Magic. Do not touch
-                        //$forceUpdate();
-                       
-                       // Handle "session"
-                        localStorage.setItem("loginStatus", true);
+                        // Handle "session"
+                        localStorage.setItem("loginstatus", response.data.loginstatus)
                         localStorage.setItem("currentUser", response.data.user.username);
                         localStorage.setItem("current_companyname", response.data.user.companyname);
                         console.log(localStorage.getItem("currentUser"));
-
-
-                        // Switch login buttons
-                        this.showLoginButtons = false;
+                        console.log(this.isLogged);
 
                         // Redirect
 						var redirectToHomeMap = {
@@ -101,6 +106,8 @@ export default {
 						};
                         this.$router.push( redirectToHomeMap[response.data.user.role] );
                         
+                        // HOLY LINE OF CODE
+                        location.reload();
                        
 					}
 					else{
@@ -109,10 +116,14 @@ export default {
 				})
 			}
         },
-        
-        // is_user_logged: function() {
-        //     this.logged = localStorage.getItem("loginStatus") != null;
-        // }
+        checkIfIsLogged : function() {
+            let status = localStorage.getItem("loginstatus")
+            if (status === "login-success") {
+                return true
+            } else {
+                return false
+        }
+    }
 	}
 }
 </script>
