@@ -20,7 +20,11 @@ export function addRepresentative(firstname, lastName, username, email, password
         "companyname": companyname,
         "password": password
     })
-} 
+}
+
+export function getAllCategories() {
+    return axios.get('http://localhost:8888/rest/categories/findAllCategories')
+}
 
 export function getAllCategories() {
     return axios.get('http://localhost:8888/rest/categories/findAllCategories')

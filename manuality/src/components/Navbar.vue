@@ -134,7 +134,7 @@ export default {
 
 <style lang="css">
 
-.btn {
+.btn-navbar {
     width: 100px;
     border: #FFFFFF;
     border-radius: 6px;
