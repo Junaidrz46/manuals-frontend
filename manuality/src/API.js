@@ -42,7 +42,10 @@ export function addProduct(categoryId, name, description, brand) {
 export function addManuals(file, ProductId){
     return axios.post('http://localhost:8888/rest/file/uploadFile', {
         "file": file,
-        "ProductId": ProductId
+        "ProductId": ProductId,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
     })
 }
 

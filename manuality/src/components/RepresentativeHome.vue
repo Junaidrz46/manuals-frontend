@@ -100,21 +100,19 @@ export default {
 
         addManuals: function (){
 
-            if(this.$refs.file.value == null){
+            if(this.$refs.file.value === ''){
                 this.message = 'Add a file please!';
                 this.seen = true; 
             }else{
 
                 var prod = localStorage.getItem("latestAddedProduct");
 
-                var path = this.$refs.file.value.replace( /C:\\fakepath\\/i, "" );
+                console.log(this.$refs.file.value);
 
-
-                console.log(path);
-                // addManuals(
-                //     this.path,
-                //     this.prod
-                // );
+                addManuals(
+                    this.$refs.file.value,
+                    this.prod
+                );
             }
         }
     }  
