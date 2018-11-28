@@ -32,10 +32,10 @@ export function getAllCategories() {
         });
 }
 
-export function addProduct(categoryId, name, description, brand) {
+export function addProduct(categoryId, name, description) {
     return axios.post('http://localhost:8888/rest/categories/saveProductByCatergoryId', {
         "categoryId": categoryId,
-        "product": {"name": name, "description": description, "brand": brand}
+        "brand": {"name": name, "description": description}
     })
 }
 
@@ -44,8 +44,8 @@ export function addManuals(file, ProductId){
         "file": file,
         "ProductId": ProductId,
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
+            'Content-Type': 'multipart/form-data'
+        }
     })
 }
 

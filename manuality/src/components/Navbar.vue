@@ -20,7 +20,7 @@
          </b-nav-form>
        -->
 
-        <b-button v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> OPTIONS </b-button>
+        <b-button v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="logout"> Sign out </b-button>
          <b-button-group size="lg" v-if="isLogged === false">
            <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign up</b-button>
            <b-dropdown style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Log In" size="lg">
@@ -64,7 +64,7 @@ export default {
         return{
             seen: false,
             isLogged: this.checkIfIsLogged(),
-            user: localStorage.getItem("currentUser")
+            companyname: localStorage.getItem("current_companyname")
 		}
     },
     beforeRouteUpdate (to,from,next) {
@@ -114,6 +114,11 @@ export default {
 					}
 				})
 			}
+        },
+        logout : function() {
+            localStorage.clear();
+            location.reload();
+            this.$router.push({path: '/'});
         },
         checkIfIsLogged : function() {
             let status = localStorage.getItem("loginstatus")

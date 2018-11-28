@@ -1,5 +1,6 @@
 <template>
     <div id="RepresentativeHome">
+        <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2>
         <div class="body">
         <div class="product">
             <form>
@@ -20,9 +21,9 @@
                 <input id="submit1" type="button" value="Save product" v-on:click="addProduct">
             </form>
             <div class="box">
-                <form id="myForm" method="post" enctype="multipart/form-data">
+                <form @submit.prevent="sendFile" enctype="multipart/form-data">
                     <strong class="desc">Upload file: </strong> 
-                    <input ref="file" type="file" id="files" name="types" multiple/>
+                    <input type="file" id="file" ref="file" @change="handleFileUpload()"/>
                     <div id="selectedFiles"></div>
                     <input type="button" value="Add file" v-on:click="addManuals">
                  </form>
@@ -39,14 +40,19 @@
 import {getAllCategories} from '../API'
 import {addProduct} from '../API'
 import {addManuals} from '../API'
+import axios from 'axios'
+
 
 export default {
     name: 'RepresentativeHome',
     data () {
         return{
+            file: '',
             selected: null,
             categories: [],
-            companyname: localStorage.getItem("current_companyname"),
+            fname: localStorage.getItem("fname"),
+            lname: localStorage.getItem("lname"),
+            companyname : localStorage.getItem("current_companyname"),
             message: '',
             seen: false
 		}
@@ -57,9 +63,9 @@ export default {
                 response.forEach(element => {
                     this.categories.push(element)
                 });
-                console.log(this.categories)
 
             })
+            localStorage.setItem("latestAddedProduct", '5bfd83619110f2297fc7de38');
         },
     methods: {
         getCategories : function(){
@@ -98,22 +104,32 @@ export default {
             }
         },
 
-        addManuals: function (){
+        addManuals: async function (){
+
+            var prod = '5bfd83619110f2297fc7de38';
+            var product = prod.toString();
 
             if(this.$refs.file.value === ''){
                 this.message = 'Add a file please!';
                 this.seen = true; 
             }else{
+                const formData = new FormData();
+                formData.append('file', this.file);
 
-                var prod = localStorage.getItem("latestAddedProduct");
-
-                console.log(this.$refs.file.value);
-
-                addManuals(
-                    this.$refs.file.value,
-                    this.prod
-                );
+                try{
+                    await axios.post('http://localhost:8888/rest/file/uploadFile', {
+                        
+                        "file" : formData,
+                        "ProductId" : product  /* => PROBLEM: productId is not added as a key by default (check Postman and uploadFile POST request) */
+                        
+                    })
+                } catch(err){
+                    console.log(err);
+                }
             }
+        },
+        handleFileUpload: function(){
+            this.file = this.$refs.file.files[0];
         }
     }  
 }
@@ -128,6 +144,14 @@ background-size:cover;
 font-family:sans-serif;
 background-color:white;
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.greeting-message{
+	color: #262626;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	float: left;
+	margin-top: 30px;
+	margin-left: 50px;
 }
 
 .product
