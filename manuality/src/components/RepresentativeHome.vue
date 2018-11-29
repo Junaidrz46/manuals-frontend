@@ -132,7 +132,7 @@ export default {
 
                 document.getElementById("submit1").disabled = true;
                 this.seen = false;
-                this.messageSuccess = 'Representative successfully added! Reloading...'
+                this.messageSuccess = 'Product successfully added! Reloading...'
                 this.seenSuccess = true;
                 this.waitFunc();
 
