@@ -1,6 +1,6 @@
 <template>
     <div id="company_admin_home">
-		<h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2>
+		<!-- <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2> -->
         <div class="signup">
             <form>
                 <h3>Add Representatives to {{ companyname }}</h3>

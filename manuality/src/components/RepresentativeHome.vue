@@ -1,6 +1,6 @@
 <template>
     <div id="RepresentativeHome">
-        <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2>
+        <!-- <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2> -->
         <div class="body">
         <div class="product">
             <form>
