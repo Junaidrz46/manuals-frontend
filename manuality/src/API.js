@@ -32,10 +32,10 @@ export function getAllCategories() {
         });
 }
 
-export function addProduct(categoryId, name, description) {
-    return axios.post('http://localhost:8888/rest/categories/saveProductByCatergoryId', {
-        "categoryId": categoryId,
-        "brand": {"name": name, "description": description}
+export function addProduct(brandId, name, description, brand) {
+    return axios.post('http://localhost:8888/rest/categories/saveProductByBrandId', {
+        "brandId": brandId,
+        "product": {"name": name, "description": description, "brand": brand}
     })
 }
 
@@ -46,6 +46,12 @@ export function addManuals(file, ProductId){
         headers: {
             'Content-Type': 'multipart/form-data'
         }
+    })
+}
+
+export function findBrandByCat(categoryId){
+    return axios.get("http://localhost:8888/rest/categories/findBrandByCategoryId?cateogryId="+categoryId, {
+        "categoryId": categoryId
     })
 }
 

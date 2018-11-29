@@ -5,32 +5,40 @@
         <div class="product">
             <form>
                 <h2>Create Product</h2>
+                <p class="err" v-if="seen">
+                    {{ message }}
+                </p>
                 <h6 class="desc">Product Name</h6>
                 <input type="text" ref="name" name="" placeholder="Product name....">
-                <h6 class="desc">Brand</h6>
-                <input type="text" ref="brand" name="" placeholder="Brand..." v-model="companyname">
                 <h6 class="desc">Description</h6>
                 <input type="text" ref="desc" name="" placeholder="Description...">
                 <h6 class="desc">Catergory</h6>
-                <select v-model="selected">
+                <select v-model="selected" @change="handleChange">
                     <option :value="null">Choose a category</option>
                     <option :value="category.id" v-for="category in categories" v-bind:key="category.id">
                         {{ category.name }}
                     </option>
                 </select>
+                <h6 class="desc">Brand</h6>
+                <select v-model="selected2">
+                    <option :value="null">Choose a brands</option>
+                    <option :value="brand.id" v-for="brand in brands" v-bind:key="brand.id">
+                        {{ brand.name }}
+                    </option>
+                </select>
                 <input id="submit1" type="button" value="Save product" v-on:click="addProduct">
             </form>
-            <div class="box">
-                <form @submit.prevent="sendFile" enctype="multipart/form-data">
+            <p class="succ" v-if="seenSuccess">
+                {{ messageSuccess }}
+            </p>
+            <!-- <div class="box">
+                <form method="post" @submit.prevent="sendFile" enctype="multipart/form-data">
                     <strong class="desc">Upload file: </strong> 
-                    <input type="file" id="file" ref="file" @change="handleFileUpload()"/>
+                    <input type="file" id="file" ref="file"/>
                     <div id="selectedFiles"></div>
                     <input type="button" value="Add file" v-on:click="addManuals">
                  </form>
-            </div>
-            <p class="err" v-if="seen">
-                {{ message }}
-            </p>
+            </div> -->
             </div>
         </div>
     </div>
@@ -40,7 +48,10 @@
 import {getAllCategories} from '../API'
 import {addProduct} from '../API'
 import {addManuals} from '../API'
+import {findBrandByCat} from '../API'
 import axios from 'axios'
+import jQuery from 'jquery'
+
 
 
 export default {
@@ -49,12 +60,16 @@ export default {
         return{
             file: '',
             selected: null,
+            selected2: null,
             categories: [],
+            brands: [],
             fname: localStorage.getItem("fname"),
             lname: localStorage.getItem("lname"),
             companyname : localStorage.getItem("current_companyname"),
             message: '',
-            seen: false
+            messageSuccess: '',
+            seen: false,
+            seenSuccess: false
 		}
     },
     beforeMount: function() {
@@ -64,33 +79,50 @@ export default {
                     this.categories.push(element)
                 });
 
+                console.log(this.selected)
+
             })
             localStorage.setItem("latestAddedProduct", '5bfd83619110f2297fc7de38');
         },
     methods: {
-        getCategories : function(){
-            getAllCategories().then(response => {
+        // getCategories : function(){
+        //     getAllCategories().then(response => {
                 
-                response.forEach(element => {
-                    this.cat.push(element)
-                });
-                console.log(this.cat)
+        //         response.forEach(element => {
+        //             this.cat.push(element)
+        //         });
+        //         console.log(this.cat)
 
-            })
+        //     })
+        // },
+
+        handleChange: function(){
+
+            this.brands = [];
+
+            findBrandByCat(this.selected).then(response => {
+
+                response.data.forEach(element => {
+                    this.brands.push(element)
+                });
+
+                console.log(this.brands)
+            });
         },
 
         addProduct: function (){
-            if (this.$refs.name.value === "" || this.$refs.brand.value === "" || this.$refs.desc.value === "" || this.selected === null){
+            if (this.$refs.name.value === "" || this.selected2 === null || this.$refs.desc.value === "" || this.selected === null){
                 this.message = 'Please fill all the fields!'
                 this.seen = true
             }else{
 
                 console.log(this.selected)
+                console.log(this.selected2)
                 addProduct(
-                    this.selected,
+                    this.selected2,
                     this.$refs.name.value,
                     this.$refs.desc.value,
-                    this.$refs.brand.value
+                    this.companyname
                 )
                 .then(response => {
 
@@ -99,6 +131,11 @@ export default {
                 })
 
                 document.getElementById("submit1").disabled = true;
+                this.seen = false;
+                this.messageSuccess = 'Representative successfully added! Reloading...'
+                this.seenSuccess = true;
+                this.waitFunc();
+
                 console.log("PLUS");
 
             }
@@ -106,30 +143,55 @@ export default {
 
         addManuals: async function (){
 
-            var prod = '5bfd83619110f2297fc7de38';
+            var prod = '5bfd909f9110f2524aa85877';
             var product = prod.toString();
 
             if(this.$refs.file.value === ''){
                 this.message = 'Add a file please!';
                 this.seen = true; 
             }else{
+                this.file = this.$refs.file.value;
                 const formData = new FormData();
-                formData.append('file', this.file);
+                
+                formData.append("file", this.file);
+                formData.append("ProductId", "5bfd928b9110f2524aa85879");
+                
 
-                try{
-                    await axios.post('http://localhost:8888/rest/file/uploadFile', {
-                        
-                        "file" : formData,
-                        "ProductId" : product  /* => PROBLEM: productId is not added as a key by default (check Postman and uploadFile POST request) */
-                        
-                    })
-                } catch(err){
-                    console.log(err);
-                }
+                
+                    
+                    var settings = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "http://localhost:8888/rest/file/uploadFile",
+                        "method": "POST",
+                        "headers": {
+                            "cache-control": "no-cache",
+                            "Postman-Token": "b4eecc05-25b1-4b72-8aa9-58a8b09ff450"
+                        },
+                        "processData": false,
+                        "contentType": false,
+                        "mimeType": "multipart/form-data",
+                        "data": formData
+                        }
+
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': 'QFFdAgHJqppdFywYNWL9bicEOk5A6BGm0x9tyRNe'
+                            }
+                        });
+
+                        $.ajax(settings).done(function (response) {
+                        console.log(response);
+                        });
             }
         },
         handleFileUpload: function(){
             this.file = this.$refs.file.files[0];
+        },
+        waitFunc: function(){
+           
+            setTimeout(function(){ location.reload(); }, 2000);
+
         }
     }  
 }
@@ -243,6 +305,17 @@ h2
 {
 	background:black;
 	color:white;
+}
+.succ {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: green;
+	text-align: center;
+}
+
+.err {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: #FF4C4C;
+	text-align: center;
 }
 </style>
 

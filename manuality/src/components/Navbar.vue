@@ -7,12 +7,13 @@
          <a href="/">
            <img src="../assets/logo_white.png" class="d-inline-block align-top" style="height: 40px" alt="BV">
          </a>
+         <p style="color: white; font-size: 19px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-if="isLogged">{{ fname}} {{ lname }} representing {{ companyname }}</p>
      </b-navbar-brand>
 
      <b-collapse is-nav id="nav_collapse">
-
        <!-- Right aligned nav items -->
        <b-navbar-nav class="ml-auto">
+           
        <!-- search bar
          <b-nav-form>
            <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
@@ -64,7 +65,9 @@ export default {
         return{
             seen: false,
             isLogged: this.checkIfIsLogged(),
-            companyname: localStorage.getItem("current_companyname")
+            companyname: localStorage.getItem("current_companyname"),
+            fname: localStorage.getItem("fname"),
+            lname: localStorage.getItem("lname"),
 		}
     },
     beforeRouteUpdate (to,from,next) {
@@ -95,6 +98,9 @@ export default {
                         localStorage.setItem("current_companyname", response.data.user.companyname);
                         localStorage.setItem("fname", response.data.user.firstname);
                         localStorage.setItem("lname", response.data.user.lastName);
+                        this.fname = localStorage.getItem("fname");
+                        this.lname = localStorage.getItem("lname");
+                        this. greetingSeen = true;
                         console.log(this.user);
 
                         // Redirect
@@ -117,8 +123,8 @@ export default {
         },
         logout : function() {
             localStorage.clear();
-            location.reload();
             this.$router.push({path: '/'});
+            location.reload();
         },
         checkIfIsLogged : function() {
             let status = localStorage.getItem("loginstatus")
