@@ -2,7 +2,14 @@
   <div id="app" style="margin-top: 0px;">
     <Navbar />
     <router-view/>
-    <Sidebar />
+    <b-container class="container-no-margin" fluid>
+      <b-row align-v="center" class="column-no-margin">
+        <b-col sm="6" md="4" lg="3" class="column-no-margin">
+          <Sidebar />
+        </b-col>
+
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -49,5 +56,22 @@ h2
 	color:#FFF8DC;
 	text-align:center;
 } 
+
+.container-no-margin
+{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.column-no-margin
+{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
 
 </style>
