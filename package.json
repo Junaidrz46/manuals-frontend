@@ -1,0 +1,24 @@
+{
+  "name": "manuals-frontend",
+  "version": "1.0.0",
+  "description": "This is front end part of Manual project. # manuals-frontend",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "vue": "^2.5.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test_manuality"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Junaidrz46/manuals-frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Junaidrz46/manuals-frontend/issues"
+  },
+  "homepage": "https://github.com/Junaidrz46/manuals-frontend#readme"
+}
