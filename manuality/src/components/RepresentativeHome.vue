@@ -21,7 +21,7 @@
                 </select>
                 <h6 class="desc">Brand</h6>
                 <select v-model="selected2">
-                    <option :value="null">Choose a brands</option>
+                    <option :value="null">Choose a brand</option>
                     <option :value="brand.id" v-for="brand in brands" v-bind:key="brand.id">
                         {{ brand.name }}
                     </option>
@@ -31,14 +31,20 @@
             <p class="succ" v-if="seenSuccess">
                 {{ messageSuccess }}
             </p>
-            <!-- <div class="box">
-                <form method="post" @submit.prevent="sendFile" enctype="multipart/form-data">
+            <div class="box">
+                <form id="uploadForm" method="post" @submit.prevent="sendFile" enctype="multipart/form-data">
                     <strong class="desc">Upload file: </strong> 
                     <input type="file" id="file" ref="file"/>
                     <div id="selectedFiles"></div>
                     <input type="button" value="Add file" v-on:click="addManuals">
+                    <p class="succ" v-if="seenFileSuccess">
+                        {{ messageFile }}
+                    </p>
+                    <p class="err" v-if="seenFile">
+                        {{ messageFile }}
+                    </p>
                  </form>
-            </div> -->
+            </div>
             </div>
         </div>
     </div>
@@ -58,7 +64,7 @@ export default {
     name: 'RepresentativeHome',
     data () {
         return{
-            file: '',
+            fileInput: '',
             selected: null,
             selected2: null,
             categories: [],
@@ -69,7 +75,10 @@ export default {
             message: '',
             messageSuccess: '',
             seen: false,
-            seenSuccess: false
+            seenSuccess: false,
+            seenFile: false,
+            seenFileSuccess: false,
+            messageFile: ''
 		}
     },
     beforeMount: function() {
@@ -136,58 +145,31 @@ export default {
                 this.seenSuccess = true;
                 this.waitFunc();
 
-                console.log("PLUS");
-
             }
         },
 
         addManuals: async function (){
 
-            var prod = '5bfd909f9110f2524aa85877';
-            var product = prod.toString();
+            var product = localStorage.getItem("latestAddedProduct");
 
             if(this.$refs.file.value === ''){
-                this.message = 'Add a file please!';
-                this.seen = true; 
+                this.messageFile = 'Add a file please!';
+                this.seenFile = true; 
             }else{
-                this.file = this.$refs.file.value;
-                const formData = new FormData();
-                
-                formData.append("file", this.file);
-                formData.append("ProductId", "5bfd928b9110f2524aa85879");
-                
 
-                
-                    
-                    var settings = {
-                        "async": true,
-                        "crossDomain": true,
-                        "url": "http://localhost:8888/rest/file/uploadFile",
-                        "method": "POST",
-                        "headers": {
-                            "cache-control": "no-cache",
-                            "Postman-Token": "b4eecc05-25b1-4b72-8aa9-58a8b09ff450"
-                        },
-                        "processData": false,
-                        "contentType": false,
-                        "mimeType": "multipart/form-data",
-                        "data": formData
-                        }
+                addManuals(this.$refs.file.files[0], product);
+                this.messageFile = 'Successfully added file! Reloading...'
+                this.seen = false;
+                this.seenFileSuccess = true;
+                this.waitFunc();
 
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': 'QFFdAgHJqppdFywYNWL9bicEOk5A6BGm0x9tyRNe'
-                            }
-                        });
-
-                        $.ajax(settings).done(function (response) {
-                        console.log(response);
-                        });
             }
         },
+
         handleFileUpload: function(){
             this.file = this.$refs.file.files[0];
         },
+
         waitFunc: function(){
            
             setTimeout(function(){ location.reload(); }, 2000);

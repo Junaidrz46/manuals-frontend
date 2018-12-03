@@ -4,7 +4,7 @@
     <router-view/>
     <b-container class="container-no-margin" fluid>
       <b-row align-v="center" class="column-no-margin">
-        <b-col sm="6" md="4" lg="3" class="column-no-margin">
+        <b-col sm="6" md="4" lg="2" class="column-no-margin">
           <Sidebar />
         </b-col>
 

@@ -40,13 +40,25 @@ export function addProduct(brandId, name, description, brand) {
 }
 
 export function addManuals(file, ProductId){
-    return axios.post('http://localhost:8888/rest/file/uploadFile', {
-        "file": file,
-        "ProductId": ProductId,
-        headers: {
-            'Content-Type': 'multipart/form-data'
+    var dataForm = new FormData();
+    dataForm.append('ProductId', ProductId);
+    dataForm.append('file', file);
+
+    $.ajax({
+        url: 'http://localhost:8888/rest/file/uploadFile',
+        type: "POST",
+        data: dataForm,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function () {
+            console.log("SUCCESS");
+        },
+        error: function () {
+            console.log("FAIL");
         }
-    })
+    });
 }
 
 export function findBrandByCat(categoryId){
