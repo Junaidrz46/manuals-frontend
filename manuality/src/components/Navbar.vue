@@ -52,7 +52,6 @@
 </template>
 
 <script>
-// import Login from './Login'
 import {loginUser} from '../API'
 import router from '../router/index'
 import bus from '../bus'
