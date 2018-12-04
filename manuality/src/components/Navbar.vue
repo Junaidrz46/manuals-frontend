@@ -102,14 +102,25 @@ export default {
                         this. greetingSeen = true;
                         console.log(this.user);
 
+                        // Permissons
+                        var permissions = {
+                            "companyAdmin" : 'company_admin',
+                            "companyRepresentative" : 'company_representative',
+                            "customer" : 'consumer'
+                        }
+                          // For redirection
+                        this.$acl.change( permissions[response.data.user.role] )
+                          // For session
+                        localStorage.setItem("permissions", permissions[response.data.user.role])
+
                         // Redirect
 						var redirectToHomeMap = {
 							"customer": "/consumer_home",
 							"companyRepresentative": "/company_rep_home",
 							"companyAdmin": "/company_admin_home"
 						};
-                        this.$router.push( redirectToHomeMap[response.data.user.role] );
-                        
+                        this.$router.push( redirectToHomeMap[response.data.user.role] )
+
                         // HOLY LINE OF CODE
                         location.reload();
                        
@@ -133,7 +144,7 @@ export default {
                 return false
         }
     }
-	}
+  }
 }
 </script>
 

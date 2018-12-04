@@ -1,15 +1,26 @@
 <template>
   <div id="app" style="margin-top: 0px;">
+    
     <Navbar />
-    <router-view/>
+
     <b-container class="container-no-margin" fluid>
       <b-row align-v="center" class="column-no-margin">
         <b-col sm="6" md="4" lg="2" class="column-no-margin">
           <Sidebar />
         </b-col>
-
+        
+        <!-- TEST -->
+        <b-col sm="6" md="4" lg="2" class="column-no-margin">
+          <router-view/>
+        </b-col>
+        <!-- END TEST -->
       </b-row>
     </b-container>
+
+    <!-- TEST -->
+     <h1>Current permission: {{ $acl.get }}</h1>
+     <!-- END TEST -->
+
   </div>
 </template>
 
@@ -24,6 +35,7 @@ export default {
     Sidebar
   }
 }
+
 </script>
 
 <style>
