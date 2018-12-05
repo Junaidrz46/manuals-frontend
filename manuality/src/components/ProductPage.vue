@@ -1,28 +1,55 @@
 <template>
-    <div id="product">
+
+	<div id="product">
         <div class="body">
-        <form>
-		<h1>Specific product name</h1>
-		<div class="productdetails">	
-			<h3>Product Brand</h3>
-			<h3>Product Name</h3>
-			<h3>Product ID</h3>
-		</div>
-		<div class="materaildetails">
-			<fieldset>
-				<legend>Materails (manuals)</legend>
-				<div class="matname">Material 1 (Name and description)</div>
-				<button type="button" class="matbtn">Download/View</button>
-				<div class="space">
-				<div class="matname1">Material 2 (Name and description)</div>
-				<button type="button" class="matbtn1">Download/View</button>
-                </div>
-			</fieldset>
-		</div>
-		</form>
+			<form>
+				<h1>Specific product name</h1>				
+				<div class="productdetails">	
+					<h3><!-- Product Brand -->{{product.brand}}</h3>
+					<h3><!-- Product Name -->{{product.name}}</h3>
+					<h3><!-- Product ID -->{{product.number}}</h3>
+				</div>
+				<div >
+					<fieldset>
+						<legend>Materails (manuals)</legend>
+						<div v-bind:key="material" v-for="material in product.materials">
+							<div class="matname">Material 1 (Name and description){{material.name}}</div>
+							<button type="button" class="matbtn">Download/View {{material.fileDownloadUri}}</button>
+							<div class="space"/>
+						</div>
+					</fieldset>
+				</div>
+			</form>
         </div>
     </div>
+
 </template>
+
+
+
+<script>
+import {findProductById} from '../API'
+export default {
+  name: 'ProductPage',
+  //props: ['product', 'brand'],
+  data () {
+    return {
+		productId: "5c0007759b30313659811b31",
+		product:{},/* product: this.product,//product: {name: 'product 1', number: 'id111', materials:[{downloadLink: 'link1'}, {downloadLink: 'link2'}]},
+		/* brand: this.brand */brand: {name: 'brandName'}
+    }
+  },
+  beforeMount: function() {
+            findProductById(this.productId).then(response => {
+                
+				this.product=response;
+				
+            })
+		},
+}
+</script>
+
+
 
 <style>
 h1
@@ -31,21 +58,36 @@ h1
 	text-align:center;
 	color:#101010;
 }
-
 .body
 {
-	margin:0;
+	margin-left:580px;
+	margin-top:-200px;
 	padding:0;
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
+	height: 500px;
+	width: 850px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
 
+}
 .productdetails
 {	
 	width:300px;
 	height:150px;
+	position: relative;
+	left:150px;
+	top:50px;
+	padding-top:10px;
+	background-color:#C0C0C0;
+	border-radius:20px;
+	padding-left:20px;
+	font:bold 18px;
+}
+.materaildetails
+{	
+	width:auto;
+	height:auto;
 	position: relative;
 	left:250px;
 	top:50px;
@@ -55,19 +97,16 @@ h1
 	padding-left:20px;
 	font:bold 18px;
 }
-
 fieldset
 {
 	width:550px;
-	height:auto;
+	height:	auto;
 	position: relative;
-	left:250px;
+	left:150px;
 	top:100px;
 	background-color:#C0C0C0;
 	border-radius:20px;
 	padding-left:20px;
-
-	
 }
 .matname
 {
@@ -82,7 +121,6 @@ fieldset
 	color:white;
 	border-radius:4px;
 	border:2px #696969;
-	
 }
 .matbtn:hover
 {
@@ -107,5 +145,9 @@ fieldset
 {
 	background-color:black;	
 }
+.space{
+    width:15px;
+    height:auto;
+    display:inline-block;
+}
 </style>
-

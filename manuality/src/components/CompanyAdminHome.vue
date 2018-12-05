@@ -1,3 +1,4 @@
+
 <template>
     <div id="company_admin_home">
 		<!-- <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2> -->
@@ -47,16 +48,15 @@
 <script>
 import {addRepresentative} from '../API'
 import router from '../router/index'
-
 export default {
 	data () {
 		return{
 			seen: false,
 			seenSuccess: false,
 			message: '',
-			companyname: localStorage.getItem("current_companyname"),
-			fname: localStorage.getItem("fname"),
-			lname: localStorage.getItem("lname")
+			company: '',
+			fname: '',
+			lname: ''
 		}
 	},
 	methods: {
@@ -65,29 +65,23 @@ export default {
   			return emailTest.test(email);	
 		},
 		createRepresentative: function() {
-
 			if (this.$refs.username.value === "" || this.$refs.pass.value === "" || this.$refs.email.value === "" || this.$refs.confirmPass.value === "" || this.$refs.fname.value === "" || this.$refs.lname.value === ""){
 				this.message = 'Please complete all fields!'
 				this.seen = true;
-
 			}else if(this.checkEmail(this.$refs.email.value) === false){
 				this.message = 'Enter a valid e-mail address!'
 			}else {
-
 				var pass = this.$refs.pass.value;
 				var confirmPass = this.$refs.confirmPass.value;
-
 				if (pass === confirmPass) {
-
-					this.companyname = localStorage.getItem("current_companyname");
-
+					this.company = localStorage.getItem("company");
 					addRepresentative(
 						this.$refs.fname.value,
 						this.$refs.lname.value,
 						this.$refs.username.value,
 						this.$refs.email.value,
 						this.$refs.pass.value,
-						this.companyname
+						this.company
 					)
 					.then(response => {
 						console.log(response);
@@ -101,7 +95,6 @@ export default {
 					this.seen = true;
 				}
 			}
-
 		},
 		waitFunc: function(){   
             setTimeout(function(){ location.reload(); }, 2000);
@@ -112,7 +105,6 @@ export default {
 
 
 <style>
-
 .greeting-message{
 	color: #262626;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -160,11 +152,9 @@ export default {
 .cpwd{
 	float:right;
 }
-
 .comp {
 	position: relative;
 }
-
 .user
 {
 	width:100px;
@@ -223,7 +213,6 @@ p{
 }
 .signup input[type="button"]
 {
-
 	border:none;
 	align:center;
 	outline:none;
@@ -255,4 +244,3 @@ p{
 	margin-top: 0px;
 }
 </style>
- 

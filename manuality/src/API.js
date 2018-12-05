@@ -11,13 +11,13 @@ export function loginUser(username, password) {
     })
 }
 
-export function addRepresentative(firstname, lastName, username, email, password, companyname) {
+export function addRepresentative(firstname, lastName, username, email, password, companyId) {
     return axios.post('http://localhost:8888/rest/users/saveCompanyRepresentative', {
         "firstname": firstname,
         "lastName": lastName,
         "username": username,
         "emailaddress": email,
-        "companyname": companyname,
+        "companyId": companyId,
         "password": password
     })
 }
@@ -32,10 +32,11 @@ export function getAllCategories() {
         });
 }
 
-export function addProduct(brandId, name, description, brand) {
-    return axios.post('http://localhost:8888/rest/categories/saveProductByBrandId', {
-        "brandId": brandId,
-        "product": {"name": name, "description": description, "brand": brand}
+export function addProduct(categoryId, companyId, name, description, number) {
+    return axios.post('http://localhost:8888/rest/categories//saveProductByCategroyAndCompany', {
+        "categoryId": categoryId,
+        "companyId": companyId,
+        "product": {"name": name, "description": description, "productNumber": number, "companyId": companyId}
     })
 }
 
@@ -61,10 +62,16 @@ export function addManuals(file, ProductId){
     });
 }
 
-export function findBrandByCat(categoryId){
-    return axios.get("http://localhost:8888/rest/categories/findBrandByCategoryId?cateogryId="+categoryId, {
-        "categoryId": categoryId
+export function findCompanyById(companyId){
+    return axios.get('http://localhost:8888/rest/categories/findCompanyById?CompanyId='+companyId, {
+        "companyId": companyId
     })
+        .then(response => {
+            return response.data
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 }
 
 // export function getUserByName(name) {

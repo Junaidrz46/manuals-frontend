@@ -7,7 +7,7 @@
          <a href="/">
            <img src="../assets/logo_white.png" class="d-inline-block align-top" style="height: 40px" alt="BV">
          </a>
-         <p style="color: white; font-size: 19px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-if="isLogged">{{ fname}} {{ lname }} representing {{ companyname }}</p>
+         <p style="color: white; font-size: 19px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-if="isLogged">{{ fname}} {{ lname }} representing {{ companyName }}</p>
      </b-navbar-brand>
 
      <b-collapse is-nav id="nav_collapse">
@@ -52,9 +52,11 @@
 </template>
 
 <script>
+//import Login from './Login'
 import {loginUser} from '../API'
 import router from '../router/index'
 import bus from '../bus'
+import {findCompanyById} from '../API'
 
 export default {
 
@@ -64,9 +66,10 @@ export default {
         return{
             seen: false,
             isLogged: this.checkIfIsLogged(),
-            companyname: localStorage.getItem("current_companyname"),
+            company: '',
+            companyName: '',
             fname: localStorage.getItem("fname"),
-            lname: localStorage.getItem("lname"),
+            lname: localStorage.getItem("lname")
 		}
     },
     beforeRouteUpdate (to,from,next) {
@@ -75,6 +78,12 @@ export default {
         })
         console.log("HERE");
         next()
+    },
+    created : function(){
+        findCompanyById(localStorage.getItem("company")).then(response => {
+            this.companyName = response.name
+            console.log(this.companyName)
+        })
     },
 	methods: {
 		login: function() {
@@ -94,12 +103,14 @@ export default {
                         // Handle "session"
                         localStorage.setItem("loginstatus", response.data.loginstatus);
                         localStorage.setItem("currentUser", response.data.user.username);
-                        localStorage.setItem("current_companyname", response.data.user.companyname);
+                        localStorage.setItem("company", response.data.user.companyId);
                         localStorage.setItem("fname", response.data.user.firstname);
                         localStorage.setItem("lname", response.data.user.lastName);
+
                         this.fname = localStorage.getItem("fname");
                         this.lname = localStorage.getItem("lname");
                         this. greetingSeen = true;
+                        this.company = localStorage.getItem("company");
                         console.log(this.user);
 
                         // Permissons

@@ -3,33 +3,28 @@
         <!-- <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2> -->
         <div class="body">
         <div class="product">
-            <form>
+            <form id="myForm" readonly>
+                <fieldset id="fs">
                 <h2>Create Product</h2>
-                <p class="err" v-if="seen">
-                    {{ message }}
-                </p>
                 <h6 class="desc">Product Name</h6>
-                <input type="text" ref="name" name="" placeholder="Product name....">
+                <input type="text" ref="name" name="" placeholder="Product name...">
+                <h6 class="desc">Product Number</h6>
+                <input type="text" ref="number" name="" placeholder="Product number...">
                 <h6 class="desc">Description</h6>
                 <input type="text" ref="desc" name="" placeholder="Description...">
                 <h6 class="desc">Catergory</h6>
-                <select v-model="selected" @change="handleChange">
+                <select v-model="selected">
                     <option :value="null">Choose a category</option>
                     <option :value="category.id" v-for="category in categories" v-bind:key="category.id">
                         {{ category.name }}
                     </option>
                 </select>
-                <h6 class="desc">Brand</h6>
-                <select v-model="selected2">
-                    <option :value="null">Choose a brand</option>
-                    <option :value="brand.id" v-for="brand in brands" v-bind:key="brand.id">
-                        {{ brand.name }}
-                    </option>
-                </select>
+                
                 <input id="submit1" type="button" value="Save product" v-on:click="addProduct">
+                </fieldset>
             </form>
-            <p class="succ" v-if="seenSuccess">
-                {{ messageSuccess }}
+            <p id="message1" v-bind:class="[classA, isB ? classB: '']" v-if="seen">
+                {{ message }}
             </p>
             <div class="box">
                 <form id="uploadForm" method="post" @submit.prevent="sendFile" enctype="multipart/form-data">
@@ -37,10 +32,7 @@
                     <input type="file" id="file" ref="file"/>
                     <div id="selectedFiles"></div>
                     <input type="button" value="Add file" v-on:click="addManuals">
-                    <p class="succ" v-if="seenFileSuccess">
-                        {{ messageFile }}
-                    </p>
-                    <p class="err" v-if="seenFile">
+                    <p id="message2" v-bind:class="[classA, isB ? classB: '']" v-if="seenFile">
                         {{ messageFile }}
                     </p>
                  </form>
@@ -49,7 +41,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import {getAllCategories} from '../API'
 import {addProduct} from '../API'
@@ -57,28 +48,24 @@ import {addManuals} from '../API'
 import {findBrandByCat} from '../API'
 import axios from 'axios'
 import jQuery from 'jquery'
-
-
-
+import {findCompanyById} from '../API'
 export default {
     name: 'RepresentativeHome',
     data () {
         return{
+            classA: 'class-a',
+            classB: 'class-b',
+            isB: false,
             fileInput: '',
             selected: null,
-            selected2: null,
             categories: [],
-            brands: [],
             fname: localStorage.getItem("fname"),
             lname: localStorage.getItem("lname"),
-            companyname : localStorage.getItem("current_companyname"),
+            company: '',
             message: '',
-            messageSuccess: '',
+            messageFile: '',
             seen: false,
-            seenSuccess: false,
-            seenFile: false,
-            seenFileSuccess: false,
-            messageFile: ''
+            seenFile: false
 		}
     },
     beforeMount: function() {
@@ -87,99 +74,66 @@ export default {
                 response.forEach(element => {
                     this.categories.push(element)
                 });
-
                 console.log(this.selected)
-
+                
             })
-            localStorage.setItem("latestAddedProduct", '5bfd83619110f2297fc7de38');
+            localStorage.removeItem("latestAddedProduct");
         },
     methods: {
-        // getCategories : function(){
-        //     getAllCategories().then(response => {
-                
-        //         response.forEach(element => {
-        //             this.cat.push(element)
-        //         });
-        //         console.log(this.cat)
-
-        //     })
-        // },
-
-        handleChange: function(){
-
-            this.brands = [];
-
-            findBrandByCat(this.selected).then(response => {
-
-                response.data.forEach(element => {
-                    this.brands.push(element)
-                });
-
-                console.log(this.brands)
-            });
-        },
-
         addProduct: function (){
-            if (this.$refs.name.value === "" || this.selected2 === null || this.$refs.desc.value === "" || this.selected === null){
+            if (this.$refs.name.value === "" || this.$refs.desc.value === "" || this.selected === null || this.$refs.number.value === ""){
                 this.message = 'Please fill all the fields!'
                 this.seen = true
             }else{
-
                 console.log(this.selected)
-                console.log(this.selected2)
+                var company = localStorage.getItem("company");
                 addProduct(
-                    this.selected2,
+                    this.selected,
+                    company,
                     this.$refs.name.value,
                     this.$refs.desc.value,
-                    this.companyname
+                    this.$refs.number.value,
                 )
                 .then(response => {
-
                     localStorage.setItem("latestAddedProduct", response.data.id);
-
                 })
-
                 document.getElementById("submit1").disabled = true;
-                this.seen = false;
-                this.messageSuccess = 'Product successfully added! Reloading...'
-                this.seenSuccess = true;
-                this.waitFunc();
-
+                this.isB = true;
+                this.message = 'Product successfully added! Please add manuals for it...'
+                this.seen = true;
             }
         },
-
         addManuals: async function (){
-
             var product = localStorage.getItem("latestAddedProduct");
-
             if(this.$refs.file.value === ''){
+                this.isB = false;
                 this.messageFile = 'Add a file please!';
                 this.seenFile = true; 
+            }else if(localStorage.getItem("latestAddedProduct") === null){
+                this.isB = false;
+                this.messageFile = 'You need to add a product first!'
+                this.seenFile = true;
             }else{
-
                 addManuals(this.$refs.file.files[0], product);
-                this.messageFile = 'Successfully added file! Reloading...'
-                this.seen = false;
-                this.seenFileSuccess = true;
+                this.isB = true;
+                this.messageFile = 'Manuals added! Reloading...'
+                this.seenFile = true;
                 this.waitFunc();
-
             }
         },
-
         handleFileUpload: function(){
             this.file = this.$refs.file.files[0];
         },
-
+        // hideAfter : function(boolean){
+        //     setTimeout(function(){ this.boolean = false; }, 2000);
+        // },
         waitFunc: function(){
            
             setTimeout(function(){ location.reload(); }, 2000);
-
         }
     }  
 }
 </script>
-
-
 <style>
 .body{
 margin:0px;
@@ -189,7 +143,6 @@ font-family:sans-serif;
 background-color:white;
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
 .greeting-message{
 	color: #262626;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -197,14 +150,14 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 	margin-top: 30px;
 	margin-left: 50px;
 }
-
 .product
 {
 	width:600px;
-    height: 700px;
+    height: 780px;
     background: #F0F0F0;
     border: 1px solid #CCC;
     margin: 20px auto;
+    margin-top: 50px;
 	position:absolute;
 	top:50%;
 	left:50%;
@@ -212,10 +165,8 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 	padding:80px 40px;
 	background:#FFFFFF;
 	border-radius:10px;
-
 	
 }
-
 h2
 {
 	padding:20px;
@@ -223,7 +174,6 @@ h2
 	color:black;
 	text-align:center;
     margin-top: -50px;
-
 }
 .desc
 {
@@ -231,8 +181,6 @@ h2
     float: left;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
-
 .product select
 {
 	border:none;
@@ -288,16 +236,14 @@ h2
 	background:black;
 	color:white;
 }
-.succ {
+.class-a {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	color: green;
 	text-align: center;
+    color: red;
 }
-
-.err {
+.class-b {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	color: #FF4C4C;
 	text-align: center;
+    color: green;
 }
 </style>
-
