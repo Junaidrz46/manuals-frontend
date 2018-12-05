@@ -79,6 +79,7 @@ export default {
         console.log("HERE");
         next()
     },
+    // TODO fix providing copmany name when it`s needed only
     created : function(){
         findCompanyById(localStorage.getItem("company")).then(response => {
             this.companyName = response.name

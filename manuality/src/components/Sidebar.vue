@@ -15,26 +15,21 @@
                 </b-card-header>
                 <b-collapse :id="category_entry" accordion="my-accordion" role="tabpanel">
                   <b-card-body >
-                        
-                            <div role="tablist">
-                                <b-card v-bind:key="brand_entry" v-for="brand_entry in category_entry.brands" style="border: 0px!important; border-radius: 0px; margin-bottom: -1px!important; " no-body class="mb-1">
-                                  <b-card-header header-tag="header" class="p-1" role="tab" style="border-bottom: 0px; background-color: rgba(0,0,0,0.0)">
-                                    <b-btn block href="#" v-b-toggle="brand_entry" class="brand-btn" size="md">{{brand_entry.name}}</b-btn>
-                                  </b-card-header>
-                                  
-                                      <b-collapse :id="brand_entry" accordion="my-accordion1" class="mt-2">
-                                        <b-card style="border: 0px!important;">
-                                          <b-btn
-                                            v-bind:key="product_entry"
-                                            block href="#"
-                                            class="prod-btn"
-                                            size="sm"
-                                            v-for="product_entry in brand_entry.products"> {{product_entry.name}} </b-btn>
-                                        </b-card>
-                                      </b-collapse>
-                                </b-card>
-                            </div>
-    
+                      
+                        <b-card style="border: 0px!important;">
+                          <b-btn
+                            v-bind:key="product_entry"
+                            
+                            class="prod-btn"
+                            size="sm"
+                            v-for="product_entry in category_entry.products"
+                            
+                            v-on:click="redirectToProduct(product_entry)"
+                            >
+                              {{product_entry.name}}
+                            </b-btn>
+                        </b-card>
+                      
                   </b-card-body>
                 </b-collapse>
               </b-card>
@@ -48,12 +43,14 @@
 <script>
 
 import {getAllCategories} from '../API'
+import {findProductByCategoryId} from '../API'
 
 export default {
   name: 'Sidebar',
   data () {
     return {
-      categories: []
+      categories: [],
+      products:[]
       /* categories: [
         {
           category: 'cat1',
@@ -109,12 +106,9 @@ export default {
                     this.categories.push(element)
                     
                 });
-
-
-                console.log(response.element.Object)
-            })
-            //localStorage.setItem("latestAddedProduct", '5bfd83619110f2297fc7de38');
-        },
+                console.log(this.categories[0].id)
+            });
+      },
 
   methods: {
     populateSidebar: function() {
@@ -125,6 +119,10 @@ export default {
             console.log(this.cat)
           }
       )
+    },
+    redirectToProduct: function (product_entry) {
+      localStorage.setItem("lastViewedProduct", product_entry.id)
+      this.$router.push( '/products/' + product_entry.id )
     }
   } 
 }

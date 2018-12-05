@@ -74,6 +74,23 @@ export function findCompanyById(companyId){
         });
 }
 
+export function findProductByCategoryId(categoryId){
+    return axios.get('http://localhost:8888/rest/categories/findProductByCategoryId?CategoryId='+categoryId, {
+        "CategoryId": categoryId
+    })
+        .then(response => {
+            return response.data
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
+
+export function findProductById(ProductId){
+    return axios.get('http://localhost:8888/rest/categories/findProductById?ProductId='+ProductId, {
+        "ProductId": ProductId
+    })
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

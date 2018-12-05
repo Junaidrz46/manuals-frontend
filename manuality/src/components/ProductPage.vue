@@ -3,18 +3,22 @@
 	<div id="product">
         <div class="body">
 			<form>
-				<h1>Specific product name</h1>				
+				<h1>{{product.name}}</h1>				
 				<div class="productdetails">	
-					<h3><!-- Product Brand -->{{product.brand}}</h3>
-					<h3><!-- Product Name -->{{product.name}}</h3>
-					<h3><!-- Product ID -->{{product.number}}</h3>
+					<h3>Product: {{product.name}}</h3>
+					<h3>Number: {{product.productNumber}}</h3>
 				</div>
+				
 				<div >
 					<fieldset>
 						<legend>Materails (manuals)</legend>
 						<div v-bind:key="material" v-for="material in product.materials">
-							<div class="matname">Material 1 (Name and description){{material.name}}</div>
-							<button type="button" class="matbtn">Download/View {{material.fileDownloadUri}}</button>
+							<div class="matname">{{material.name}}</div>
+							<button type="button" class="matbtn"> 
+								<a :href=material.fileDownloadUri>
+									Download/View
+								</a>
+							</button>
 							<div class="space"/>
 						</div>
 					</fieldset>
@@ -31,21 +35,17 @@
 import {findProductById} from '../API'
 export default {
   name: 'ProductPage',
-  //props: ['product', 'brand'],
   data () {
     return {
-		productId: "5c0007759b30313659811b31",
-		product:{},/* product: this.product,//product: {name: 'product 1', number: 'id111', materials:[{downloadLink: 'link1'}, {downloadLink: 'link2'}]},
-		/* brand: this.brand */brand: {name: 'brandName'}
+		product:[]
     }
   },
-  beforeMount: function() {
-            findProductById(this.productId).then(response => {
-                
-				this.product=response;
-				
-            })
-		},
+  beforeMount: function () {
+		findProductById(localStorage.getItem("lastViewedProduct"))
+		.then(response => {
+			this.product=response.data;
+		})
+	},
 }
 </script>
 
