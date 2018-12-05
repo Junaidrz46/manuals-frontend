@@ -144,6 +144,7 @@ export default {
         },
         logout : function() {
             localStorage.clear();
+            this.$acl.change( 'public' );
             this.$router.push({path: '/'});
             location.reload();
         },

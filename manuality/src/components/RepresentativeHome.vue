@@ -5,7 +5,7 @@
         <div class="product">
             <form id="myForm" readonly>
                 <fieldset id="fs">
-                <h2>Create Product</h2>
+                <h3>Create Product</h3>
                 <h6 class="desc">Product Name</h6>
                 <input type="text" ref="name" name="" placeholder="Product name...">
                 <h6 class="desc">Product Number</h6>
@@ -153,9 +153,9 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 .product
 {
 	width:600px;
-    height: 780px;
+    height: 775px;
     background: #F0F0F0;
-    border: 1px solid #CCC;
+    border: 1px solid #000;
     margin: 20px auto;
     margin-top: 50px;
 	position:absolute;
@@ -167,7 +167,7 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 	border-radius:10px;
 	
 }
-h2
+h3
 {
 	padding:20px;
 	padding-top:0px;

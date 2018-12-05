@@ -60,9 +60,12 @@ h1
 }
 .body
 {
+	position:absolute;
 	margin-left:580px;
 	margin-top:-200px;
+	border: 1px solid black;
 	padding:0;
+	border-radius: 6px;
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;

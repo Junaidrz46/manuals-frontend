@@ -64,7 +64,7 @@ export function addManuals(file, ProductId){
 
 export function findCompanyById(companyId){
     return axios.get('http://localhost:8888/rest/categories/findCompanyById?CompanyId='+companyId, {
-        "companyId": companyId
+        "CompanyId": companyId
     })
         .then(response => {
             return response.data
