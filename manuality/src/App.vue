@@ -11,14 +11,13 @@
         
         <!-- TEST -->
         <b-col sm="6" md="4" lg="2" class="column-no-margin">
-          <router-view/>
         </b-col>
         <!-- END TEST -->
       </b-row>
     </b-container>
 
     <!-- TEST -->
-     <h1>Current permission: {{ $acl.get }}</h1>
+    <router-view/>
      <!-- END TEST -->
 
   </div>

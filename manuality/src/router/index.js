@@ -18,15 +18,12 @@ Vue.use(Router)
 
 const router  = new Router({
   routes: [
-    { path: '/', meta: { rule: 'isPublic' }, //component: RecentProducts
-
-      children: [
-        { path: 'company_admin_home', component: CompanyAdminHome  , meta: { rule: 'isCompanyAdmin' }         , name: 'CompanyAdminHome' },
-        { path: 'company_rep_home'  , component: RepresentativeHome, meta: { rule: 'isCompanyRepresentative' }, name: 'CompanyRepresentativeHome' },
-        { path: 'consumer_home'     , component: ConsumerHome      , meta: { rule: 'isConsumer' }             , name: 'ConsumerHome' },
-        { path: 'products/:id'      , component: ProductPage       , meta: { rule: 'isPublic' }               , name: 'ProductPage' }
-      ]
-    }
+    { path: '/', meta: { rule: 'isPublic' }}, //component: RecentProducts
+    { path: '/company_admin_home', component: CompanyAdminHome  , meta: { rule: 'isCompanyAdmin' }         , name: 'CompanyAdminHome' },
+    { path: '/company_rep_home'  , component: RepresentativeHome, meta: { rule: 'isCompanyRepresentative' }, name: 'CompanyRepresentativeHome' },
+    { path: '/consumer_home'     , component: ConsumerHome      , meta: { rule: 'isConsumer' }             , name: 'ConsumerHome' },
+    { path: '/products/:id'      , component: ProductPage       , meta: { rule: 'isPublic' }               , name: 'ProductPage' }
+    
   ]
 })
 
