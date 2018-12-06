@@ -1,5 +1,4 @@
 <template>
-
 	<div id="product">
         <div class="body">
 			<form>
@@ -14,11 +13,11 @@
 						<legend>Materails (manuals)</legend>
 						<div v-bind:key="material" v-for="material in product.materials">
 							<div class="matname">{{material.name}}</div>
-							<button type="button" class="matbtn"> 
+							
 								<a :href=material.fileDownloadUri>
 									Download/View
 								</a>
-							</button>
+						
 							<div class="space"/>
 						</div>
 					</fieldset>
@@ -26,10 +25,7 @@
 			</form>
         </div>
     </div>
-
 </template>
-
-
 
 <script>
 import {findProductById} from '../API'
@@ -48,8 +44,6 @@ export default {
 	},
 }
 </script>
-
-
 
 <style>
 h1

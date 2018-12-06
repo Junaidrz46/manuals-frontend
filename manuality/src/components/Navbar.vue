@@ -14,14 +14,14 @@
        <!-- Right aligned nav items -->
        <b-navbar-nav class="ml-auto">
            
-       <!-- search bar
-         <b-nav-form>
-           <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-           <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+       <!-- Search bar -->
+         <b-nav-form style="margin-right: 650px;">
+           <b-form-input size="lg" class="mr-sm-2" type="text" placeholder="Search"/>
+           <b-button size="lg" class="my-2 my-sm-0" type="submit">Search</b-button>
          </b-nav-form>
-       -->
+      
 
-        <b-button v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="logout"> Sign out </b-button>
+        <b-button size="lg" v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="logout"> Sign out </b-button>
          <b-button-group size="lg" v-if="isLogged === false">
            <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign up</b-button>
            <b-dropdown style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Log In" size="lg">
@@ -52,15 +52,13 @@
 </template>
 
 <script>
-//import Login from './Login'
+
 import {loginUser} from '../API'
 import router from '../router/index'
-import bus from '../bus'
 import {findCompanyById} from '../API'
 
 export default {
 
-  //loggedIn: localStorage.getItem("loginStatus"),
   name: 'Navbar', 
   data () {
         return{
@@ -72,14 +70,6 @@ export default {
             lname: localStorage.getItem("lname")
 		}
     },
-    beforeRouteUpdate (to,from,next) {
-         this.$eventHub.$on('logged', () => {
-            this.isLogged = this.checkIfIsLogged()
-        })
-        console.log("HERE");
-        next()
-    },
-    // TODO fix providing copmany name when it`s needed only
     created : function(){
         findCompanyById(localStorage.getItem("company")).then(response => {
             this.companyName = response.name
@@ -97,11 +87,10 @@ export default {
 					this.$refs.pass.value
 				)
 				.then(response => {
-                    //console.log(response.data)
                     
 					if (response.data.loginstatus === "login-success") {
 
-                        // Handle "session"
+                        //Sessions
                         localStorage.setItem("loginstatus", response.data.loginstatus);
                         localStorage.setItem("currentUser", response.data.user.username);
                         localStorage.setItem("company", response.data.user.companyId);
@@ -120,9 +109,11 @@ export default {
                             "companyRepresentative" : 'company_representative',
                             "customer" : 'consumer'
                         }
-                          // For redirection
+
+                        // For redirection
                         this.$acl.change( permissions[response.data.user.role] )
-                          // For session
+                        
+                        // For session
                         localStorage.setItem("permissions", permissions[response.data.user.role])
 
                         // Redirect
@@ -132,8 +123,6 @@ export default {
 							"companyAdmin": "/company_admin_home"
 						};
                         this.$router.push( redirectToHomeMap[response.data.user.role] )
-
-                        // HOLY LINE OF CODE
                         location.reload();
                        
 					}
@@ -177,21 +166,10 @@ export default {
 
 .loginBox
 {
-	/* position: auto; */
-	/* top:50%;
-	left:50%; */
-    /* transform:translate(-50%,-50%); */
 	width:350px;
-	/* height:420px; */
 	padding:80px 40px;
-	/* box-sizing:cover; */
 	background:white;
-    /* background-size:border-box; */
-    /* margin-top: 173px; */
-    /* margin-right: 0px; */
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	/* border-radius: 6px; */
-	
 }
 
 h2

@@ -73,9 +73,7 @@ export default {
                 
                 response.forEach(element => {
                     this.categories.push(element)
-                });
-                console.log(this.selected)
-                
+                });  
             })
             localStorage.removeItem("latestAddedProduct");
         },
@@ -85,7 +83,6 @@ export default {
                 this.message = 'Please fill all the fields!'
                 this.seen = true
             }else{
-                console.log(this.selected)
                 var company = localStorage.getItem("company");
                 addProduct(
                     this.selected,
@@ -124,9 +121,6 @@ export default {
         handleFileUpload: function(){
             this.file = this.$refs.file.files[0];
         },
-        // hideAfter : function(boolean){
-        //     setTimeout(function(){ this.boolean = false; }, 2000);
-        // },
         waitFunc: function(){
            
             setTimeout(function(){ location.reload(); }, 2000);

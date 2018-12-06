@@ -51,52 +51,6 @@ export default {
     return {
       categories: [],
       products:[]
-      /* categories: [
-        {
-          category: 'cat1',
-          brands :[
-            {
-              brand: 'brand1-cat1',
-              products: [
-                  {product: 'product1-brand1-cat1'},
-                  {product: 'product2-brand1-cat1'},
-                  {product: 'product3-brand1-cat1'}
-              ],
-            },
-            {
-              brand: 'brand2-cat1',
-              products: [
-                  {product: 'product1-brand2-cat1'},
-                  {product: 'product2-brand2-cat1'},
-                  {product: 'product3-brand2-cat1'}
-              ],
-            }
-          ]
-        },
-
-        {
-          category: 'cat2',
-          brands :[
-            {
-              brand: 'brand1-cat2',
-              products: [
-                  {product: 'product1-brand1-cat2'},
-                  {product: 'product2-brand1-cat2'},
-                  {product: 'product3-brand1-cat2'}
-              ],
-            },
-            {
-              brand: 'brand2-cat2',
-              products: [
-                  {product: 'product1-brand2-cat2'},
-                  {product: 'product2-brand2-cat2'},
-                  {product: 'product3-brand2-cat2'}
-              ],
-            }
-          ]
-        }
-      
-      ]  */
     }
   },
   beforeMount: function() {
@@ -109,7 +63,6 @@ export default {
                 console.log(this.categories[0].id)
             });
       },
-
   methods: {
     populateSidebar: function() {
       getAllCategories().then(response => {
@@ -123,6 +76,7 @@ export default {
     redirectToProduct: function (product_entry) {
       localStorage.setItem("lastViewedProduct", product_entry.id)
       this.$router.push( '/products/' + product_entry.id )
+      location.reload();
     }
   } 
 }

@@ -1,10 +1,9 @@
 
 <template>
     <div id="company_admin_home">
-		<!-- <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2> -->
         <div class="signup">
             <form>
-                <h3>Add Representatives to {{ companyname }}</h3>
+                <h3>Add Representatives</h3>
 				<div class="firstname">
 					<p>First Name</p>
 					<input type="text" ref="fname" name="" placeholder="First name...">
@@ -112,7 +111,6 @@ export default {
 	margin-top: 30px;
 	margin-left: 50px;
 }
-    
 .signup
 {
 	position:absolute;
