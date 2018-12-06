@@ -7,22 +7,23 @@
          <a href="/">
            <img src="../assets/logo_white.png" class="d-inline-block align-top" style="height: 40px" alt="BV">
          </a>
+         <p style="color: white; font-size: 19px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-if="isLogged">{{ fname}} {{ lname }} representing {{ companyName }}</p>
      </b-navbar-brand>
 
      <b-collapse is-nav id="nav_collapse">
-
        <!-- Right aligned nav items -->
        <b-navbar-nav class="ml-auto">
-       <!-- search bar
-         <b-nav-form>
-           <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-           <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+           
+       <!-- Search bar -->
+         <b-nav-form style="margin-right: 650px;">
+           <b-form-input size="lg" class="mr-sm-2" type="text" placeholder="Search"/>
+           <b-button size="lg" class="my-2 my-sm-0" type="submit">Search</b-button>
          </b-nav-form>
-       -->
+      
 
-        <b-button v-if="logged" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> USER NAME </b-button>
-         <b-button-group size="lg" v-if="!logged">
-           <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign Up</b-button>
+        <b-button size="lg" v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="logout"> Sign out </b-button>
+         <b-button-group size="lg" v-if="isLogged === false">
+           <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign up</b-button>
            <b-dropdown style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Log In" size="lg">
 
                 <div>
@@ -51,20 +52,30 @@
 </template>
 
 <script>
-import Login from './Login'
+
 import {loginUser} from '../API'
 import router from '../router/index'
-
+import {findCompanyById} from '../API'
 
 export default {
-  name: 'Navbar',
+
+  name: 'Navbar', 
   data () {
-        
         return{
             seen: false,
-            logged: localStorage.getItem("loginStatus")
+            isLogged: this.checkIfIsLogged(),
+            company: '',
+            companyName: '',
+            fname: localStorage.getItem("fname"),
+            lname: localStorage.getItem("lname")
 		}
-	},
+    },
+    created : function(){
+        findCompanyById(localStorage.getItem("company")).then(response => {
+            this.companyName = response.name
+            console.log(this.companyName)
+        })
+    },
 	methods: {
 		login: function() {
 				
@@ -76,22 +87,34 @@ export default {
 					this.$refs.pass.value
 				)
 				.then(response => {
-                    //console.log(response.data)
                     
 					if (response.data.loginstatus === "login-success") {
 
-                         // Magic. Do not touch
-                        //$forceUpdate();
-                       
-                       // Handle "session"
-                        localStorage.setItem("loginStatus", true);
+                        //Sessions
+                        localStorage.setItem("loginstatus", response.data.loginstatus);
                         localStorage.setItem("currentUser", response.data.user.username);
-                        localStorage.setItem("current_companyname", response.data.user.companyname);
-                        console.log(localStorage.getItem("currentUser"));
+                        localStorage.setItem("company", response.data.user.companyId);
+                        localStorage.setItem("fname", response.data.user.firstname);
+                        localStorage.setItem("lname", response.data.user.lastName);
 
+                        this.fname = localStorage.getItem("fname");
+                        this.lname = localStorage.getItem("lname");
+                        this. greetingSeen = true;
+                        this.company = localStorage.getItem("company");
+                        console.log(this.user);
 
-                        // Switch login buttons
-                        this.showLoginButtons = false;
+                        // Permissons
+                        var permissions = {
+                            "companyAdmin" : 'company_admin',
+                            "companyRepresentative" : 'company_representative',
+                            "customer" : 'consumer'
+                        }
+
+                        // For redirection
+                        this.$acl.change( permissions[response.data.user.role] )
+                        
+                        // For session
+                        localStorage.setItem("permissions", permissions[response.data.user.role])
 
                         // Redirect
 						var redirectToHomeMap = {
@@ -99,8 +122,8 @@ export default {
 							"companyRepresentative": "/company_rep_home",
 							"companyAdmin": "/company_admin_home"
 						};
-                        this.$router.push( redirectToHomeMap[response.data.user.role] );
-                        
+                        this.$router.push( redirectToHomeMap[response.data.user.role] )
+                        location.reload();
                        
 					}
 					else{
@@ -109,17 +132,27 @@ export default {
 				})
 			}
         },
-        
-        // is_user_logged: function() {
-        //     this.logged = localStorage.getItem("loginStatus") != null;
-        // }
-	}
+        logout : function() {
+            localStorage.clear();
+            this.$acl.change( 'public' );
+            this.$router.push({path: '/'});
+            location.reload();
+        },
+        checkIfIsLogged : function() {
+            let status = localStorage.getItem("loginstatus")
+            if (status === "login-success") {
+                return true
+            } else {
+                return false
+        }
+    }
+  }
 }
 </script>
 
 <style lang="css">
 
-.btn {
+.btn-navbar {
     width: 100px;
     border: #FFFFFF;
     border-radius: 6px;
@@ -133,21 +166,10 @@ export default {
 
 .loginBox
 {
-	/* position: auto; */
-	/* top:50%;
-	left:50%; */
-    /* transform:translate(-50%,-50%); */
 	width:350px;
-	/* height:420px; */
 	padding:80px 40px;
-	/* box-sizing:cover; */
 	background:white;
-    /* background-size:border-box; */
-    /* margin-top: 173px; */
-    /* margin-right: 0px; */
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	/* border-radius: 6px; */
-	
 }
 
 h2

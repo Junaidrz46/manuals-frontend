@@ -4,20 +4,23 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
+import axios from 'axios'
+import 'jquery/dist/jquery.min.js'
+import acl from './acl'
 
- import 'bootstrap-vue/dist/bootstrap-vue.css'
- import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
+global.jQuery = require('jquery');
+var $ = global.jQuery;
+window.$ = $;
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 
-
-
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
+  acl,
   components: { App },
   template: '<App/>'
-})
+}).$mount('#app')

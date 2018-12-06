@@ -4,9 +4,6 @@ import axios from 'axios'
 
 var url = "http://localhost:8888/rest/"
 
-
-
-
 export function loginUser(username, password) {
     return axios.post('http://localhost:8888/rest/users/login', {
         "username": username,
@@ -14,15 +11,86 @@ export function loginUser(username, password) {
     })
 }
 
-export function addRepresentative(username, email, password, companyname) {
+export function addRepresentative(firstname, lastName, username, email, password, companyId) {
     return axios.post('http://localhost:8888/rest/users/saveCompanyRepresentative', {
+        "firstname": firstname,
+        "lastName": lastName,
         "username": username,
         "emailaddress": email,
-        "companyname": companyname,
+        "companyId": companyId,
         "password": password
     })
-} 
+}
 
+export function getAllCategories() {
+    return axios.get('http://localhost:8888/rest/categories/findAllCategories')
+        .then(response => {
+            return response.data
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
+
+export function addProduct(categoryId, companyId, name, description, number) {
+    return axios.post('http://localhost:8888/rest/categories//saveProductByCategroyAndCompany', {
+        "categoryId": categoryId,
+        "companyId": companyId,
+        "product": {"name": name, "description": description, "productNumber": number, "companyId": companyId}
+    })
+}
+
+export function addManuals(file, ProductId){
+    var dataForm = new FormData();
+    dataForm.append('ProductId', ProductId);
+    dataForm.append('file', file);
+
+    $.ajax({
+        url: 'http://localhost:8888/rest/file/uploadFile',
+        type: "POST",
+        data: dataForm,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function () {
+            console.log("SUCCESS");
+        },
+        error: function () {
+            console.log("FAIL");
+        }
+    });
+}
+
+export function findCompanyById(companyId){
+    return axios.get('http://localhost:8888/rest/categories/findCompanyById?CompanyId='+companyId, {
+        "CompanyId": companyId
+    })
+        .then(response => {
+            return response.data
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
+
+export function findProductByCategoryId(categoryId){
+    return axios.get('http://localhost:8888/rest/categories/findProductByCategoryId?CategoryId='+categoryId, {
+        "CategoryId": categoryId
+    })
+        .then(response => {
+            return response.data
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
+
+export function findProductById(ProductId){
+    return axios.get('http://localhost:8888/rest/categories/findProductById?ProductId='+ProductId, {
+        "ProductId": ProductId
+    })
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {
@@ -67,6 +135,3 @@ export function addRepresentative(username, email, password, companyname) {
 // 			console.log(error);
 // 			});
 // }
-
-
-//export default {postUser, getUserByEmail, getUserByName, getrepresentativeByEmail};

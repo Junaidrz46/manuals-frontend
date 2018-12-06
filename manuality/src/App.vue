@@ -1,19 +1,40 @@
 <template>
   <div id="app" style="margin-top: 0px;">
+    
     <Navbar />
+
+    <b-container class="container-no-margin" fluid>
+      <b-row align-v="center" class="column-no-margin">
+        <b-col sm="6" md="4" lg="2" class="column-no-margin">
+          <Sidebar />
+        </b-col>
+        
+        <!-- TEST -->
+        <b-col sm="6" md="4" lg="2" class="column-no-margin">
+        </b-col>
+        <!-- END TEST -->
+      </b-row>
+    </b-container>
+
+    <!-- TEST -->
     <router-view/>
+     <!-- END TEST -->
+
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
+    Sidebar
   }
 }
+
 </script>
 
 <style>
@@ -46,5 +67,22 @@ h2
 	color:#FFF8DC;
 	text-align:center;
 } 
+
+.container-no-margin
+{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.column-no-margin
+{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
 
 </style>
