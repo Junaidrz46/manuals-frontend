@@ -2,7 +2,11 @@
 	<div id="product">
         <div class="body">
 			<form>
-				<h1>{{product.name}}</h1>				
+				<h1>{{product.name}}</h1>
+				<div>
+					<!-- Need to add product image from the DB here -->
+					<img class="productImg" src="https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg" alt="productImg">
+				</div>				
 				<div class="productdetails">	
 					<h3>Product: {{product.name}}</h3>
 					<h3>Number: {{product.productNumber}}</h3>
@@ -13,6 +17,7 @@
 								{{material.name}}
 							</div>
 							<ul>
+								<!-- Need to add material descriptive name from the DB here -->
 								<li><a :href=material.fileDownloadUri>Download/View <img class="smallImg" src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png"></a></li>
 							</ul>
 							<div/>
@@ -57,6 +62,10 @@ h3{
 	height: 20px;
 	width: 20px;
 }
+.productImg{
+	width: 350px;
+	height: 250px;
+}
 
 .body
 {
@@ -69,7 +78,7 @@ h3{
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 500px;
+	height: 700px;
 	width: 850px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
@@ -77,10 +86,10 @@ h3{
 .productdetails
 {	
 	width:90%;
-	height:200px;
+	height:250px;
 	position: static;
 	margin-left: 40px;
-	margin-top: 40px;
+	margin-top: 20px;
 	/* left:150px; */
 	/* top:50px; */
 	padding-top:10px;

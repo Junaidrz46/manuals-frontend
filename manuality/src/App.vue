@@ -8,16 +8,16 @@
         <b-col sm="6" md="4" lg="2" class="column-no-margin">
           <Sidebar />
         </b-col>
-        
-        <!-- TEST -->
+
         <b-col sm="6" md="4" lg="2" class="column-no-margin">
+                  <router-view/>
         </b-col>
-        <!-- END TEST -->
+
       </b-row>
     </b-container>
 
     <!-- TEST -->
-    <router-view/>
+    
      <!-- END TEST -->
 
   </div>
