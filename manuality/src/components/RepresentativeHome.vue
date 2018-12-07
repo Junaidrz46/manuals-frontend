@@ -6,13 +6,13 @@
             <form id="myForm" readonly>
                 <fieldset id="fs">
                 <h3>Create Product</h3>
-                <h6 class="desc">Product Name</h6>
+                <h6 class="desc">Product Name*</h6>
                 <input type="text" ref="name" name="" placeholder="Product name...">
-                <h6 class="desc">Product Number</h6>
+                <h6 class="desc">Product Number*</h6>
                 <input type="text" ref="number" name="" placeholder="Product number...">
-                <h6 class="desc">Description</h6>
+                <h6 class="desc">Description*</h6>
                 <input type="text" ref="desc" name="" placeholder="Description...">
-                <h6 class="desc">Catergory</h6>
+                <h6 class="desc">Catergory*</h6>
                 <select v-model="selected">
                     <option :value="null">Choose a category</option>
                     <option :value="category.id" v-for="category in categories" v-bind:key="category.id">
@@ -26,16 +26,24 @@
             <p id="message1" v-bind:class="[classA, isB ? classB: '']" v-if="seen">
                 {{ message }}
             </p>
-            <div class="box">
+            <div class="box" v-if="seenImgUpload">
+                <form id="uploadImgForm" method="post" enctype="multipart/form-data">
+                    <strong class="desc">Product image: </strong> 
+                    <input type="file" id="file" ref="file"/>
+                    <div id="selectedFiles"></div>
+                    <input type="button" value="Add image" v-on:click="addManuals">
+                 </form>
+            </div>
+            <div class="box" v-if="seenImgUpload">
                 <form id="uploadForm" method="post" @submit.prevent="sendFile" enctype="multipart/form-data">
                     <strong class="desc">Upload file: </strong> 
                     <input type="file" id="file" ref="file"/>
                     <div id="selectedFiles"></div>
-                    <input type="button" value="Add file" v-on:click="addManuals">
-                    <p id="message2" v-bind:class="[classA, isB ? classB: '']" v-if="seenFile">
-                        {{ messageFile }}
-                    </p>
+                    <input type="button" value="Add file">
                  </form>
+                <p id="message2" v-bind:class="[classA, isB ? classB: '']" v-if="seenFile">
+                        {{ messageFile }}
+                </p>
             </div>
             </div>
         </div>
@@ -65,7 +73,8 @@ export default {
             message: '',
             messageFile: '',
             seen: false,
-            seenFile: false
+            seenFile: false,
+            seenImgUpload: false
 		}
     },
     beforeMount: function() {
@@ -96,8 +105,9 @@ export default {
                 })
                 document.getElementById("submit1").disabled = true;
                 this.isB = true;
-                this.message = 'Product successfully added! Please add manuals for it...'
+                this.message = 'Product successfully added! Please add manuals and image for it...'
                 this.seen = true;
+                this.seenImgUpload = true;
             }
         },
         addManuals: async function (){
@@ -147,11 +157,11 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 .product
 {
 	width:600px;
-    height: 775px;
+    height: 800px;
     background: #F0F0F0;
     border: 1px solid #000;
     margin: 20px auto;
-    margin-top: 50px;
+    margin-top: 30px;
 	position:absolute;
 	top:50%;
 	left:50%;
@@ -167,7 +177,7 @@ h3
 	padding-top:0px;
 	color:black;
 	text-align:center;
-    margin-top: -50px;
+    margin-top: -60px;
 }
 .desc
 {
@@ -192,8 +202,7 @@ h3
 {
 	padding:10px;
 	width:100%;
-	margin-bottom:25px;
-    /* margin-top: 10px; */
+	margin-bottom:9px;
 }
 .product input[type="text"], .product input[type="text"], .product input[type="text"]
 {
@@ -208,13 +217,13 @@ h3
 }
 ::placeholder
 {
-	margin-bottom:10px;
+	margin-bottom:0px;
 	color:light-gray;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .product input[type="button"]
 {
-	margin-top:20px;
+	margin-top:0px;
 	border:none;
 	outline:none;
 	height:40px;
