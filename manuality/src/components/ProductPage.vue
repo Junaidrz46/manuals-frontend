@@ -6,22 +6,20 @@
 				<div class="productdetails">	
 					<h3>Product: {{product.name}}</h3>
 					<h3>Number: {{product.productNumber}}</h3>
+					<div >
+						<h3>Materials (manuals):</h3>
+						<div v-bind:key="material" v-for="material in product.materials">
+							<div class="matname">
+								{{material.name}}
+							</div>
+							<ul>
+								<li><a :href=material.fileDownloadUri>Download/View <img class="smallImg" src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png"></a></li>
+							</ul>
+							<div/>
+						</div>
+				</div>
 				</div>
 				
-				<div >
-					<fieldset>
-						<legend>Materails (manuals)</legend>
-						<div v-bind:key="material" v-for="material in product.materials">
-							<div class="matname">{{material.name}}</div>
-							
-								<a :href=material.fileDownloadUri>
-									Download/View
-								</a>
-						
-							<div class="space"/>
-						</div>
-					</fieldset>
-				</div>
 			</form>
         </div>
     </div>
@@ -52,6 +50,14 @@ h1
 	text-align:center;
 	color:#101010;
 }
+h3{
+	text-align: left;
+}
+.smallImg{
+	height: 20px;
+	width: 20px;
+}
+
 .body
 {
 	position:absolute;
@@ -70,11 +76,13 @@ h1
 }
 .productdetails
 {	
-	width:300px;
-	height:150px;
-	position: relative;
-	left:150px;
-	top:50px;
+	width:90%;
+	height:200px;
+	position: static;
+	margin-left: 40px;
+	margin-top: 40px;
+	/* left:150px; */
+	/* top:50px; */
 	padding-top:10px;
 	background-color:#C0C0C0;
 	border-radius:20px;
@@ -85,7 +93,7 @@ h1
 {	
 	width:auto;
 	height:auto;
-	position: relative;
+	position: inherit;
 	left:250px;
 	top:50px;
 	padding-top:10px;
@@ -97,17 +105,20 @@ h1
 fieldset
 {
 	width:550px;
-	height:	auto;
+	height:	100px;
 	position: relative;
-	left:150px;
-	top:100px;
+	left:40px;
+	top:50px;
 	background-color:#C0C0C0;
 	border-radius:20px;
-	padding-left:20px;
+	/* padding-left:20px; */
 }
 .matname
 {
 	float:left;
+}
+li{
+	text-align: left
 }
 .matbtn
 {
