@@ -1,26 +1,67 @@
 <template>
-    
+
+    <b-container fluid>
+    <!-- <b-alert show>{{items}}</b-alert> -->
 
 
-
-
-
+    <b-table hover
+             :items="items"
+             :fields="fields" 
+             @row-clicked="redirectToProduct"
+              style = "cursor: pointer"
+             >
+             <!-- :current-page="currentPage"
+             :per-page="perPage" --> >   
+      <template slot="name" slot-scope="data"> {{data.value}} </template>
+      <template slot="productNumber" slot-scope="data"> {{data.value}} </template>
+      <template slot="profileImage" slot-scope="data">
+        <b-img thumbnail fluid width="100" height="100" v-bind:src="data.value" alt="Thumbnail" />
+      </template>
+      <!-- <template slot="view" slot-scope="data">  
+        <b-button size="sm" @click.stop="redirectToProduct(data.items.id)">
+          View
+        </b-button>
+      </template> -->
+     
+    </b-table>
+<!--
+    <b-row>
+      <b-col>
+        <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
+      </b-col>
+    </b-row>
+-->
+  </b-container> 
 </template>
 
 <script>
 
 import {getAllCategories} from '../API'
 import {findProductByCategoryId} from '../API'
+//const items=[{name: 'default name', productNumber: 'default num', profileImage: 'default img' }]
 
 export default {
   name: 'ProductList',
+  props: ['listOfProducts'],
   data () {
     return {
-      categories: [],
-      products:[]
+      
+      /*categories: [],
+      products:[], */
+      items: this.listOfProducts,
+      /* items: [{name: 'name3', productNumber: 'num111', profileImage: 'i1' },
+              {name: 'name2', productNumber: 'num111', profileImage: 'i2' }], */
+      fields: [
+         { key: 'name', label: 'Product'},
+         { key: 'productNumber', label: 'Number'},
+         { key: 'profileImage', label: ' '}
+      ],
+      /* currentPage: 1,
+      perPage: 10,
+      totalRows: items.length */
     }
   },
-  beforeMount: function() {
+  /* beforeMount: function() {
             getAllCategories().then(response => {
                 
                 response.forEach(element => {
@@ -29,20 +70,12 @@ export default {
                 });
                 console.log(this.categories[0].id)
             });
-      },
+            
+      }, */
   methods: {
-    populateSidebar: function() {
-      getAllCategories().then(response => {
-            response.forEach(element => {
-                this.categories.push(element)
-            });
-            console.log(this.cat)
-          }
-      )
-    },
-    redirectToProduct: function (product_entry) {
-      localStorage.setItem("lastViewedProduct", product_entry.id)
-      this.$router.push( '/products/' + product_entry.id )
+    redirectToProduct: function (product, index) {
+      localStorage.setItem("lastViewedProduct", product.id)
+      this.$router.push( '/products/' + product.id )
       location.reload();
     }
   } 
