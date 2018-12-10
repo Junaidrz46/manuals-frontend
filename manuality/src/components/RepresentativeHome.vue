@@ -26,20 +26,21 @@
             <p id="message1" v-bind:class="[classA, isB ? classB: '']" v-if="seen">
                 {{ message }}
             </p>
-            <div class="box" v-if="seenImgUpload">
+            <div class="box" >
                 <form id="uploadImgForm" method="post" enctype="multipart/form-data">
                     <strong class="desc">Product image: </strong> 
-                    <input type="file" id="file" ref="file"/>
+                    <input type="file" id="file" ref="img"/>
                     <div id="selectedFiles"></div>
-                    <input type="button" value="Add image" v-on:click="addManuals">
+                    <input type="button" value="Add image" v-on:click="addImage">
                  </form>
             </div>
-            <div class="box" v-if="seenImgUpload">
+            <div class="box" >
                 <form id="uploadForm" method="post" @submit.prevent="sendFile" enctype="multipart/form-data">
                     <strong class="desc">Upload file: </strong> 
+                    <input type="text" ref="materialDesc" name="" placeholder="Material description...">
                     <input type="file" id="file" ref="file"/>
                     <div id="selectedFiles"></div>
-                    <input type="button" value="Add file">
+                    <input type="button" value="Add file" v-on:click="addManuals">
                  </form>
                 <p id="message2" v-bind:class="[classA, isB ? classB: '']" v-if="seenFile">
                         {{ messageFile }}
@@ -53,6 +54,7 @@
 import {getAllCategories} from '../API'
 import {addProduct} from '../API'
 import {addManuals} from '../API'
+import {addImage} from '../API'
 import {findBrandByCat} from '../API'
 import axios from 'axios'
 import jQuery from 'jquery'
@@ -72,7 +74,7 @@ export default {
             company: '',
             message: '',
             messageFile: '',
-            seen: false,
+            seen: true,
             seenFile: false,
             seenImgUpload: false
 		}
@@ -108,6 +110,19 @@ export default {
                 this.message = 'Product successfully added! Please add manuals and image for it...'
                 this.seen = true;
                 this.seenImgUpload = true;
+            }
+        },
+        addImage: async function(){
+            var product = localStorage.getItem("latestAddedProduct");
+            if(this.$refs.img.value === ''){
+                this.isB = false;
+                this.messageFile = 'Add an image please!';
+                this.seenFile = true; 
+            }else{
+                addImage(this.$refs.img.files[0], product);
+                this.isB = true;
+                this.messageFile = 'Image added!'
+                this.seenFile = true;
             }
         },
         addManuals: async function (){
