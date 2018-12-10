@@ -70,17 +70,17 @@ h3{
 .body
 {
 	position:absolute;
-	margin-left:580px;
-	margin-top:-200px;
 	border: 1px solid black;
 	padding:0;
 	border-radius: 6px;
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 700px;
+	height: 650px;
 	width: 850px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	margin-left: 17%;
+	margin-top: 4%; 
 
 }
 .productdetails
@@ -90,8 +90,6 @@ h3{
 	position: static;
 	margin-left: 40px;
 	margin-top: 20px;
-	/* left:150px; */
-	/* top:50px; */
 	padding-top:10px;
 	background-color:#C0C0C0;
 	border-radius:20px;

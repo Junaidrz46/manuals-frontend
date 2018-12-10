@@ -114,9 +114,6 @@ export default {
 .signup
 {
 	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translate(-50%,-50%);
 	width:600px;
 	height:660px;
 	padding:50px 40px;
@@ -126,7 +123,8 @@ export default {
     border: 1px solid black;
     border-radius: 6px;
     background-size:border-box;
-	margin-top: 20px;
+	margin-left: 20%;
+	margin-top: 4%; 
 	
 }
 .firstname{

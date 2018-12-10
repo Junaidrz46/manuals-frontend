@@ -4,15 +4,11 @@
     <Navbar />
 
     <b-container class="container-no-margin" fluid>
-      <b-row align-v="center" class="column-no-margin">
+      <b-row>
         <b-col sm="6" md="4" lg="2" class="column-no-margin">
           <Sidebar />
         </b-col>
-
-        <b-col sm="6" md="4" lg="2" class="column-no-margin">
-                  <router-view/>
-        </b-col>
-
+        <router-view/>
       </b-row>
     </b-container>
 

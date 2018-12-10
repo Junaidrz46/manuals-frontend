@@ -150,15 +150,12 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
     height: 775px;
     background: #F0F0F0;
     border: 1px solid #000;
-    margin: 20px auto;
-    margin-top: 50px;
 	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translate(-50%,-50%);
 	padding:80px 40px;
 	background:#FFFFFF;
 	border-radius:10px;
+    margin-left: 20%;
+	margin-top: 35px; 
 	
 }
 h3
