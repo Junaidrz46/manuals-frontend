@@ -13,12 +13,9 @@
 					<div >
 						<h3>Materials (manuals):</h3>
 						<div v-bind:key="material" v-for="material in product.materials">
-							<div class="matname">
-								{{material.name}}
-							</div>
 							<ul>
 								<!-- Need to add material descriptive name from the DB here -->
-								<li><a :href=material.fileDownloadUri>Download/View <img class="smallImg" src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png"></a></li>
+								<li><a :href=material.fileDownloadUri>{{material.fileName}} <img v-bind:src="icon" class="smallImg"></a></li>
 							</ul>
 							<div/>
 						</div>
@@ -36,14 +33,27 @@ export default {
   name: 'ProductPage',
   data () {
     return {
-		product:[]
+		product:[],
+		isPdf: false,
+		isImage: false,
+		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg'
     }
   },
   beforeMount: function () {
 		findProductById(localStorage.getItem("lastViewedProduct"))
 		.then(response => {
-			this.product=response.data;
-		})
+			this.product = response.data;
+		}),
+
+		product.materials.forEach(element => {
+			if(element.fileType === "application/pdf"){
+				this.isPdf = true;
+			}else if(element.fileType === "image/jpeg" || element.fileType === "image/png"){
+				this.isImage = true;
+			}
+		});
+
+		
 	},
 }
 </script>
