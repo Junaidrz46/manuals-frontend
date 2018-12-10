@@ -113,6 +113,10 @@ export function addImage(file, ProductId){
         }
     });
 }
+
+export function findMaterialById(){
+    
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

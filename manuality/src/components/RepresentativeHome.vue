@@ -172,7 +172,7 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 .product
 {
 	width:600px;
-    height: 775px;
+    height: 800px;
     background: #F0F0F0;
     border: 1px solid #000;
 	position:absolute;
@@ -180,7 +180,7 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 	background:#FFFFFF;
 	border-radius:10px;
     margin-left: 20%;
-	margin-top: 35px; 
+	margin-top: 20px; 
 	
 }
 h3
@@ -214,7 +214,7 @@ h3
 {
 	padding:10px;
 	width:100%;
-	margin-bottom:25px;
+	margin-bottom:8px;
     /* margin-top: 10px; */
 }
 .product input[type="text"], .product input[type="text"], .product input[type="text"]
@@ -236,7 +236,7 @@ h3
 }
 .product input[type="button"]
 {
-	margin-top:20px;
+	margin-top:0px;
 	border:none;
 	outline:none;
 	height:40px;
