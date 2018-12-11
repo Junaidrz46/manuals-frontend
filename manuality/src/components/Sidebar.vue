@@ -14,16 +14,17 @@
                   <b-btn block href="#" v-b-toggle="category_entry"  class="cat-btn" size="lg">{{category_entry.name}}</b-btn>
                 </b-card-header>
                 <b-collapse :id="category_entry" accordion="my-accordion" role="tabpanel">
-                  <b-card-body >
+                  <b-card-body>
                       
-                        <b-card style="border: 0px!important;">
+                        <b-card
+                          v-bind:key="product_entry"
+                          v-for="product_entry in category_entry.products"
+                          
+                          style="border: 0px!important;">
+                          
                           <b-btn
-                            v-bind:key="product_entry"
-                            
                             class="prod-btn"
                             size="sm"
-                            v-for="product_entry in category_entry.products"
-                            
                             v-on:click="redirectToProduct(product_entry)"
                             >
                               {{product_entry.name}}
@@ -120,6 +121,10 @@ export default {
   font-weight: bold;
   color: rgb(52,58,64);
   margin-left: 0px !important;
+}
+
+.card-body {
+  padding: 5px!important;
 }
 
 .card
