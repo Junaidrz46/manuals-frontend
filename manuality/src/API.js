@@ -117,6 +117,12 @@ export function addImage(file, ProductId){
 export function findMaterialById(){
     
 }
+
+export function search(query){
+    return axios.get("localhost:8888/rest/categories/findProductsByCombinedCondition?condition=" + query,{
+        "condition":query
+    })
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

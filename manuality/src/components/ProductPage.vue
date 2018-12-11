@@ -5,7 +5,7 @@
 				<h1>{{product.name}}</h1>
 				<div>
 					<!-- Need to add product image from the DB here -->
-					<img class="productImg" src="https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg" alt="productImg">
+					<img class="productImg" v-bind:src="image" alt="productImg">
 				</div>				
 				<div class="productdetails">	
 					<h3>Product: {{product.name}}</h3>
@@ -36,13 +36,15 @@ export default {
 		product:[],
 		isPdf: false,
 		isImage: false,
-		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg'
+		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg',
+		image: ''
     }
   },
   beforeMount: function () {
 		findProductById(localStorage.getItem("lastViewedProduct"))
 		.then(response => {
 			this.product = response.data;
+
 		}),
 
 		product.materials.forEach(element => {
@@ -52,6 +54,7 @@ export default {
 				this.isImage = true;
 			}
 		});
+
 
 		
 	},
