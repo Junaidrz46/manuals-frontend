@@ -2,26 +2,26 @@
 	<div id="product">
         <div class="body">
 			<form>
-				<h1>{{product.name}}</h1>				
+				<h1>{{product.name}}</h1>
+				<div>
+					<!-- Need to add product image from the DB here -->
+					<img class="productImg" src="https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg" alt="productImg">
+				</div>				
 				<div class="productdetails">	
 					<h3>Product: {{product.name}}</h3>
 					<h3>Number: {{product.productNumber}}</h3>
+					<div >
+						<h3>Materials (manuals):</h3>
+						<div v-bind:key="material" v-for="material in product.materials">
+							<ul>
+								<!-- Need to add material descriptive name from the DB here -->
+								<li><a :href=material.fileDownloadUri>{{material.fileName}} <img v-bind:src="icon" class="smallImg"></a></li>
+							</ul>
+							<div/>
+						</div>
+				</div>
 				</div>
 				
-				<div >
-					<fieldset>
-						<legend>Materails (manuals)</legend>
-						<div v-bind:key="material" v-for="material in product.materials">
-							<div class="matname">{{material.name}}</div>
-							
-								<a :href=material.fileDownloadUri>
-									Download/View
-								</a>
-						
-							<div class="space"/>
-						</div>
-					</fieldset>
-				</div>
 			</form>
         </div>
     </div>
@@ -33,14 +33,27 @@ export default {
   name: 'ProductPage',
   data () {
     return {
-		product:[]
+		product:[],
+		isPdf: false,
+		isImage: false,
+		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg'
     }
   },
   beforeMount: function () {
 		findProductById(localStorage.getItem("lastViewedProduct"))
 		.then(response => {
-			this.product=response.data;
-		})
+			this.product = response.data;
+		}),
+
+		product.materials.forEach(element => {
+			if(element.fileType === "application/pdf"){
+				this.isPdf = true;
+			}else if(element.fileType === "image/jpeg" || element.fileType === "image/png"){
+				this.isImage = true;
+			}
+		});
+
+		
 	},
 }
 </script>
@@ -52,29 +65,41 @@ h1
 	text-align:center;
 	color:#101010;
 }
+h3{
+	text-align: left;
+}
+.smallImg{
+	height: 20px;
+	width: 20px;
+}
+.productImg{
+	width: 350px;
+	height: 250px;
+}
+
 .body
 {
 	position:absolute;
-	margin-left:580px;
-	margin-top:-200px;
 	border: 1px solid black;
 	padding:0;
 	border-radius: 6px;
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 500px;
+	height: 650px;
 	width: 850px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	margin-left: 17%;
+	margin-top: 4%; 
 
 }
 .productdetails
 {	
-	width:300px;
-	height:150px;
-	position: relative;
-	left:150px;
-	top:50px;
+	width:90%;
+	height:250px;
+	position: static;
+	margin-left: 40px;
+	margin-top: 20px;
 	padding-top:10px;
 	background-color:#C0C0C0;
 	border-radius:20px;
@@ -85,7 +110,7 @@ h1
 {	
 	width:auto;
 	height:auto;
-	position: relative;
+	position: inherit;
 	left:250px;
 	top:50px;
 	padding-top:10px;
@@ -97,17 +122,20 @@ h1
 fieldset
 {
 	width:550px;
-	height:	auto;
+	height:	100px;
 	position: relative;
-	left:150px;
-	top:100px;
+	left:40px;
+	top:50px;
 	background-color:#C0C0C0;
 	border-radius:20px;
-	padding-left:20px;
+	/* padding-left:20px; */
 }
 .matname
 {
 	float:left;
+}
+li{
+	text-align: left
 }
 .matbtn
 {

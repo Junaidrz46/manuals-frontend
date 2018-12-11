@@ -91,6 +91,32 @@ export function findProductById(ProductId){
         "ProductId": ProductId
     })
 }
+
+export function addImage(file, ProductId){
+    var dataForm = new FormData();
+    dataForm.append('ProductId', ProductId);
+    dataForm.append('file', file);
+
+    $.ajax({
+        url: 'http://localhost:8888/rest/file/uploadProfileImage',
+        type: "POST",
+        data: dataForm,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function () {
+            console.log("SUCCESS");
+        },
+        error: function () {
+            console.log("FAIL");
+        }
+    });
+}
+
+export function findMaterialById(){
+    
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {
