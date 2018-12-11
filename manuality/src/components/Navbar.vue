@@ -16,8 +16,8 @@
            
        <!-- Search bar -->
          <b-nav-form style="margin-right: 650px;">
-           <b-form-input size="lg" class="mr-sm-2" type="text" placeholder="Search"/>
-           <b-button size="lg" style="margin-left:0px;" type="submit">Search</b-button>
+           <b-form-input size="lg" class="mr-sm-2" type="text" placeholder="Search" ref="search"/>
+           <b-button size="lg" style="margin-left:0px;" type="submit" v-on:click="search">Search</b-button>
          </b-nav-form>
       
 
@@ -77,6 +77,17 @@ export default {
         })
     },
 	methods: {
+
+        search : function(){
+
+            var query = this.$refs.search.value;
+
+            if(query){
+                this.$router.push( "/search/" + query )
+            }
+
+        },
+
 		login: function() {
 				
 			if (this.$refs.username.value === "" || !this.$refs.pass.value === ""){
