@@ -119,9 +119,15 @@ export function findMaterialById(){
 }
 
 export function search(query){
-    return axios.get("localhost:8888/rest/categories/findProductsByCombinedCondition?condition=" + query,{
-        "condition":query
+    return axios.get("localhost:8888/rest/categories/findProductsByCombinedCondition?condition=" + query, {
+        "condition": query
     })
+    .then(response => {
+        return response.data
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
 }
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
