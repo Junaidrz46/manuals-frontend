@@ -30,16 +30,15 @@ export default {
   props: ['listOfProducts'],
   data () {
     return {
+
       items: this.listOfProducts,
       fields: [
          { key: 'name', label: 'Product'},
          { key: 'productNumber', label: 'Number'},
          { key: 'profileImage', label: 'Preview'}
-      ],
-      imageUrl: ''
+      ]
     }
   },
-
   methods: {
 
     redirectToProduct: function (product, index) {
