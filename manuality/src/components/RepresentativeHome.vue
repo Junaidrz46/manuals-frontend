@@ -213,14 +213,14 @@ h3
 	color:black;
 	font-size:16px;
     margin-bottom: 20px;
-	
+	margin-top: 10px;
 }
 .product input
 {
 	padding:10px;
 	width:100%;
-	margin-bottom:8px;
-    /* margin-top: 10px; */
+	margin-bottom:15px;
+    margin-top: 10px;
 }
 .product input[type="text"], .product input[type="text"], .product input[type="text"]
 {
@@ -235,13 +235,13 @@ h3
 }
 ::placeholder
 {
-	margin-bottom:10px;
+	margin-bottom:15px;
 	color:light-gray;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .product input[type="button"]
 {
-	margin-top:0px;
+	margin-top:5px;
 	border:none;
 	outline:none;
 	height:40px;
