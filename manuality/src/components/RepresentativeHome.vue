@@ -29,7 +29,7 @@
             <div class="box" v-if="show">
                 <form id="uploadImgForm" method="post" enctype="multipart/form-data">
                     <strong class="desc">Product image: </strong> 
-                    <input type="file" id="file" ref="img"/>
+                    <input accept="image/*" type="file" id="file" ref="img"/>
                     <div id="selectedFiles"></div>
                     <input type="button" value="Add image" v-on:click="addImage">
                  </form>
