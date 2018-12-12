@@ -5,19 +5,17 @@
 				<h1>{{product.name}}</h1>
 				<div>
 					<!-- Need to add product image from the DB here -->
-					<img class="productImg" v-bind:src="image" alt="productImg">
+					<img class="productImg" v-bind:src="imageUrl" alt="productImg">
 				</div>				
 				<div class="productdetails">	
 					<h3>Product: {{product.name}}</h3>
 					<h3>Number: {{product.productNumber}}</h3>
-					<div >
+					<div>
 						<h3>Materials (manuals):</h3>
-						<div v-bind:key="material" v-for="material in product.materials">
-							<ul>
-								<!-- Need to add material descriptive name from the DB here -->
-								<li><a :href=material.fileDownloadUri>{{material.fileName}} <img v-bind:src="icon" class="smallImg"></a></li>
-							</ul>
-							<div/>
+						<div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
+							<!-- Need to add material descriptive name from the DB here -->
+							<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
+							<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
 						</div>
 				</div>
 				</div>
@@ -28,7 +26,8 @@
 </template>
 
 <script>
-import {findProductById} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID} from '../API'
+
 export default {
   name: 'ProductPage',
   data () {
@@ -37,27 +36,41 @@ export default {
 		isPdf: false,
 		isImage: false,
 		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg',
-		image: ''
+		image: '',
+		imageUrl: ''
     }
   },
   beforeMount: function () {
 		findProductById(localStorage.getItem("lastViewedProduct"))
 		.then(response => {
 			this.product = response.data;
+			console.log(this.product.profileImage)
+			console.log(this.product.materials)
+		})
 
-		}),
+		// product.materials.forEach(element => {
+		// 	if(element.fileType === "application/pdf"){
+		// 		this.isPdf = true;
+		// 	}else if(element.fileType === "image/jpeg" || element.fileType === "image/png"){
+		// 		this.isImage = true;
+		// 	}
+		// }),
 
-		product.materials.forEach(element => {
-			if(element.fileType === "application/pdf"){
-				this.isPdf = true;
-			}else if(element.fileType === "image/jpeg" || element.fileType === "image/png"){
-				this.isImage = true;
-			}
-		});
+		this.image = localStorage.getItem("profileImage")
+		this.materials = localStorage.getItem("materials")
 
-
-		
+		findMaterialById(this.image)
+		.then(response => {
+			this.imageUrl = response.fileDownloadUri
+		})		
 	},
+	methods: {
+	    deleteMaterial: function(materialId) {
+	      deleteMaterialByID(materialId).then(response => {
+	        location.reload();
+	      })
+	    }
+	}
 }
 </script>
 
@@ -72,8 +85,8 @@ h3{
 	text-align: left;
 }
 .smallImg{
-	height: 20px;
-	width: 20px;
+	height: 40px;
+	width: 40px;
 }
 .productImg{
 	width: 350px;

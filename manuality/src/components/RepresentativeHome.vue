@@ -126,6 +126,7 @@ export default {
             }
         },
         addManuals: async function (){
+            var desc = this.$refs.materialDesc.value
             var product = localStorage.getItem("latestAddedProduct");
             if(this.$refs.file.value === ''){
                 this.isB = false;
@@ -136,7 +137,7 @@ export default {
                 this.messageFile = 'You need to add a product first!'
                 this.seenFile = true;
             }else{
-                addManuals(this.$refs.file.files[0], product);
+                addManuals(this.$refs.file.files[0], product,desc);
                 this.isB = true;
                 this.messageFile = 'Manuals added! Reloading...'
                 this.seenFile = true;
