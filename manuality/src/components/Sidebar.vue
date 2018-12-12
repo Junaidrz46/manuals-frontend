@@ -61,7 +61,7 @@ export default {
                     this.categories.push(element)
                     
                 });
-                console.log(this.categories[0].id)
+                console.log(this.categories)
             });
       },
   methods: {

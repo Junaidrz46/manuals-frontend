@@ -3,7 +3,7 @@
         <!-- <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2> -->
         <div class="body">
         <div class="product">
-            <form id="myForm" readonly>
+            <form id="myForm" readonly v-if="showProd">
                 <fieldset id="fs">
                 <h3>Create Product</h3>
                 <h6 class="desc">Product Name*</h6>
@@ -26,7 +26,7 @@
             <p id="message1" v-bind:class="[classA, isB ? classB: '']" v-if="seen">
                 {{ message }}
             </p>
-            <div class="box" >
+            <div class="box" v-if="show">
                 <form id="uploadImgForm" method="post" enctype="multipart/form-data">
                     <strong class="desc">Product image: </strong> 
                     <input type="file" id="file" ref="img"/>
@@ -34,7 +34,7 @@
                     <input type="button" value="Add image" v-on:click="addImage">
                  </form>
             </div>
-            <div class="box" >
+            <div class="box" v-if="show">
                 <form id="uploadForm" method="post" @submit.prevent="sendFile" enctype="multipart/form-data">
                     <strong class="desc">Upload file: </strong> 
                     <input type="text" ref="materialDesc" name="" placeholder="Material description...">
@@ -76,7 +76,9 @@ export default {
             messageFile: '',
             seen: true,
             seenFile: false,
-            seenImgUpload: false
+            seenImgUpload: false,
+            show: false,
+            showProd: true
 		}
     },
     beforeMount: function() {
@@ -110,6 +112,8 @@ export default {
                 this.message = 'Product successfully added! Please add manuals and image for it...'
                 this.seen = true;
                 this.seenImgUpload = true;
+                this.show = true;
+                this.showProd = false;
             }
         },
         addImage: async function(){
@@ -173,7 +177,7 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 .product
 {
 	width:600px;
-    height: 800px;
+    height: 600px;
     background: #F0F0F0;
     border: 1px solid #000;
 	position:absolute;
@@ -181,7 +185,7 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 	background:#FFFFFF;
 	border-radius:10px;
     margin-left: 20%;
-	margin-top: 20px; 
+	margin-top: 5%; 
 	
 }
 h3
