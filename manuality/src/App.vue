@@ -8,7 +8,9 @@
         <b-col sm="6" md="4" lg="2" class="column-no-margin">
           <Sidebar />
         </b-col>
-        <router-view/>
+        <b-col>
+          <router-view/>
+        </b-col>
       </b-row>
     </b-container>
 

@@ -129,8 +129,8 @@ export function findMaterialById(material){
     
 }
 
-export function search(query){
-    return axios.get("localhost:8888/rest/categories/findProductsByCombinedCondition?condition=" + query, {
+export function searchProducts(query){
+    return axios.get("http://localhost:8888/rest/categories/findProductsByCombinedCondition?condition=" + query, {
         "condition": query
     })
     .then(response => {

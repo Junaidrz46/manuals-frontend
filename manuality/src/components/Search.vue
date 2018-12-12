@@ -4,7 +4,7 @@
 
 
 <script>
-import {search} from '../API'
+import {searchProducts} from '../API'
 import ProductList from '@/components/ProductList'
 
 
@@ -20,12 +20,14 @@ export default {
   },
   beforeMount: function() {
 
-    search(this.$route.params.search_query).then(response_with_products => {
+    console.log(this.$route.params.search_query )
+
+    searchProducts(this.$route.params.search_query).then(response => {
         
-        console.log(response_with_products)
+        console.log(response)
         
         
-        response_with_products.forEach(element => {
+        response.forEach(element => {
             this.products.push(element)
         });
         console.log(this.products)

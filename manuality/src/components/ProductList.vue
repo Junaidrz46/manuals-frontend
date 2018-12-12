@@ -23,7 +23,7 @@
 <script>
 
 import {getAllCategories} from '../API'
-import {findProductByCategoryId} from '../API'
+import {findMaterialById} from '../API'
 
 export default {
   name: 'ProductList',
@@ -34,12 +34,16 @@ export default {
       fields: [
          { key: 'name', label: 'Product'},
          { key: 'productNumber', label: 'Number'},
-         { key: 'profileImage', label: ' '}
+         { key: 'profileImage', label: 'Preview'}
       ],
+      imageUrl: ''
     }
   },
+
   methods: {
+
     redirectToProduct: function (product, index) {
+      localStorage.setItem("profileImage", product.profileImage)
       localStorage.setItem("lastViewedProduct", product.id)
       this.$router.push( '/products/' + product.id )
       location.reload();
