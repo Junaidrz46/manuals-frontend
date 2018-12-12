@@ -5,7 +5,7 @@
 				<h1>{{product.name}}</h1>
 				<div>
 					<!-- Need to add product image from the DB here -->
-					<img class="productImg" v-bind:src="image" alt="productImg">
+					<img class="productImg" v-bind:src="imageUrl" alt="productImg">
 				</div>				
 				<div class="productdetails">	
 					<h3>Product: {{product.name}}</h3>
@@ -15,7 +15,7 @@
 						<div v-bind:key="material" v-for="material in product.materials">
 							<ul>
 								<!-- Need to add material descriptive name from the DB here -->
-								<li><a :href=material.fileDownloadUri>{{material.fileName}} <img v-bind:src="icon" class="smallImg"></a></li>
+								<li><a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a></li>
 							</ul>
 							<div/>
 						</div>
@@ -29,6 +29,7 @@
 
 <script>
 import {findProductById} from '../API'
+import {findMaterialById} from '../API'
 export default {
   name: 'ProductPage',
   data () {
@@ -37,23 +38,33 @@ export default {
 		isPdf: false,
 		isImage: false,
 		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg',
-		image: ''
+		image: '',
+		imageUrl: ''
     }
   },
   beforeMount: function () {
 		findProductById(localStorage.getItem("lastViewedProduct"))
 		.then(response => {
 			this.product = response.data;
-
+			console.log(this.product.profileImage)
 		}),
 
-		product.materials.forEach(element => {
-			if(element.fileType === "application/pdf"){
-				this.isPdf = true;
-			}else if(element.fileType === "image/jpeg" || element.fileType === "image/png"){
-				this.isImage = true;
-			}
-		});
+		// product.materials.forEach(element => {
+		// 	if(element.fileType === "application/pdf"){
+		// 		this.isPdf = true;
+		// 	}else if(element.fileType === "image/jpeg" || element.fileType === "image/png"){
+		// 		this.isImage = true;
+		// 	}
+		// }),
+
+		this.image = localStorage.getItem("profileImage")
+
+		findMaterialById(this.image)
+		.then(response => {
+
+			console.log(response)
+			this.imageUrl = response.fileDownloadUri
+		})
 
 
 		

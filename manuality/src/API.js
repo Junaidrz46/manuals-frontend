@@ -40,10 +40,11 @@ export function addProduct(categoryId, companyId, name, description, number) {
     })
 }
 
-export function addManuals(file, ProductId){
+export function addManuals(file, ProductId, description){
     var dataForm = new FormData();
     dataForm.append('ProductId', ProductId);
     dataForm.append('file', file);
+    dataForm.append('Description', description);
 
     $.ajax({
         url: 'http://localhost:8888/rest/file/uploadFile',
@@ -114,7 +115,17 @@ export function addImage(file, ProductId){
     });
 }
 
-export function findMaterialById(){
+export function findMaterialById(material){
+
+    return axios.get("http://localhost:8888/rest/categories/findMaterialById?materialId=" + material, {
+        "materialId" : material
+    })
+    .then(response => {
+        return response.data
+    })
+    .catch(function(error){
+        console.log(error);
+    });
     
 }
 

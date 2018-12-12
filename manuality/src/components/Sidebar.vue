@@ -75,6 +75,7 @@ export default {
       )
     },
     redirectToProduct: function (product_entry) {
+       localStorage.setItem("profileImage", product_entry.profileImage)
       localStorage.setItem("lastViewedProduct", product_entry.id)
       this.$router.push( '/products/' + product_entry.id )
       location.reload();
