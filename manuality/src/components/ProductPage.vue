@@ -12,7 +12,7 @@
 					<h3>Number: {{product.productNumber}}</h3>
 					<div >
 						<h3>Materials (manuals):</h3>
-						<div v-bind:key="material" v-for="material in product.materials">
+						<div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
 							<ul>
 								<!-- Need to add material descriptive name from the DB here -->
 								<li><a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a></li>
@@ -47,7 +47,8 @@ export default {
 		.then(response => {
 			this.product = response.data;
 			console.log(this.product.profileImage)
-		}),
+			console.log(this.product.materials)
+		})
 
 		// product.materials.forEach(element => {
 		// 	if(element.fileType === "application/pdf"){
@@ -58,13 +59,14 @@ export default {
 		// }),
 
 		this.image = localStorage.getItem("profileImage")
+		this.materials = localStorage.getItem("materials")
 
 		findMaterialById(this.image)
 		.then(response => {
-
-			console.log(response)
 			this.imageUrl = response.fileDownloadUri
 		})
+
+		
 
 
 		
