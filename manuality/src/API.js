@@ -140,6 +140,22 @@ export function search(query){
         console.log(error);
     });
 }
+
+
+
+export function deleteMaterialByID(materialId) {
+    return axios.delete("http://localhost:8888/rest/file/deleteMaterialById?MaterialId=" + materialId, {
+        "MaterialId" : materialId
+    })
+    .then(response => {
+        console.log(response)
+    })
+    .catch(function(error){
+        console.log("DELETING ERROR!!!")
+        console.log(error)
+    })
+}
+
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

@@ -10,14 +10,12 @@
 				<div class="productdetails">	
 					<h3>Product: {{product.name}}</h3>
 					<h3>Number: {{product.productNumber}}</h3>
-					<div >
+					<div>
 						<h3>Materials (manuals):</h3>
 						<div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
-							<ul>
-								<!-- Need to add material descriptive name from the DB here -->
-								<li><a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a></li>
-							</ul>
-							<div/>
+							<!-- Need to add material descriptive name from the DB here -->
+							<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
+							<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
 						</div>
 				</div>
 				</div>
@@ -28,8 +26,8 @@
 </template>
 
 <script>
-import {findProductById} from '../API'
-import {findMaterialById} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID} from '../API'
+
 export default {
   name: 'ProductPage',
   data () {
@@ -64,13 +62,15 @@ export default {
 		findMaterialById(this.image)
 		.then(response => {
 			this.imageUrl = response.fileDownloadUri
-		})
-
-		
-
-
-		
+		})		
 	},
+	methods: {
+	    deleteMaterial: function(materialId) {
+	      deleteMaterialByID(materialId).then(response => {
+	        location.reload();
+	      })
+	    }
+	}
 }
 </script>
 
@@ -85,8 +85,8 @@ h3{
 	text-align: left;
 }
 .smallImg{
-	height: 20px;
-	width: 20px;
+	height: 40px;
+	width: 40px;
 }
 .productImg{
 	width: 350px;
