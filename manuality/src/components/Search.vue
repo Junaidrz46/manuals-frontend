@@ -25,7 +25,7 @@ export default {
         response.forEach(element => {
           //meysam -start
             findMaterialById(element.profileImage).then((function(result) {
-                  element.profileImage=result.fileDownloadUri}
+                  element.description=result.fileDownloadUri}
             ));
             console.log(element['profileImage'])
           //meysam -end

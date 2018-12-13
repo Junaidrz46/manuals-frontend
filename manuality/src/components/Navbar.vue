@@ -82,6 +82,7 @@ export default {
             var query = document.getElementsByName("SearchInput")[0].value;
             if(query){
                 this.$router.push( "/search/" + query )
+                location.reload();
             }
         },
 
