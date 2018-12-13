@@ -48,14 +48,6 @@ export default {
 			console.log(this.product.materials)
 		})
 
-		// product.materials.forEach(element => {
-		// 	if(element.fileType === "application/pdf"){
-		// 		this.isPdf = true;
-		// 	}else if(element.fileType === "image/jpeg" || element.fileType === "image/png"){
-		// 		this.isImage = true;
-		// 	}
-		// }),
-
 		this.image = localStorage.getItem("profileImage")
 		this.materials = localStorage.getItem("materials")
 
