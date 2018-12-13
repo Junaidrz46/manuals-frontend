@@ -46,6 +46,10 @@ export default {
 			this.product = response.data;
 			console.log(this.product.profileImage)
 			console.log(this.product.materials)
+			history.pushState(null, null, location.href);
+    		window.onpopstate = function () {
+        		history.go(1);
+    		};
 		})
 
 		this.image = localStorage.getItem("profileImage")
