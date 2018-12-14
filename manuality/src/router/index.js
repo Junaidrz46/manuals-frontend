@@ -29,7 +29,7 @@ const router  = new Router({
     { path: '/consumer_home'            , component: ConsumerHome      , meta: { rule: 'isConsumer' }             , name: 'ConsumerHome' },
     { path: '/products/:id'             , component: ProductPage       , meta: { rule: 'isPublic' }               , name: 'ProductPage' },
     { path: '/search/:search_query'     , component: Search            , meta: { rule: 'isPublic' }               , name: 'Search' },
-    { path: '/signup'                   , component: SignUp            , meta: { rule: 'isPublic'}                , name: 'SignUp'}
+    { path: '/signup'                   , component: SignUp            , meta: { rule: 'isNotLogged'}             , name: 'SignUp'}
 
   ]
 })
