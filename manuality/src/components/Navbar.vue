@@ -15,13 +15,20 @@
        <b-navbar-nav class="ml-auto">
            
        <!-- Search bar -->
-         <div style="margin-right: 650px; display: flex;">
+        <div style="margin-right: 650px; display: flex;">
            <b-form-input size="lg" class="mr-sm-2" type="text" placeholder="Search" name="SearchInput" />
            <b-button size="lg" style="margin-left:0px;" type="submit" v-on:click="searchProds">Search</b-button>
-         </div>
+        </div>
       
-
-        <b-button size="lg" v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="logout"> Sign out </b-button>
+        <b-dropdown v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Options" size="lg">
+            <div>
+                <b-dropdown-item-button v-on:click="redirectToPage">{{fname}}</b-dropdown-item-button>
+                <b-dropdown-item-button>Option 2</b-dropdown-item-button>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-item-button v-on:click="logout"><strong>Sign out</strong></b-dropdown-item-button>
+            </div>
+        </b-dropdown>
+        <!-- <b-button size="lg" v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="logout"> Sign out </b-button> -->
          <b-button-group size="lg" v-if="isLogged === false">
            <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="redirectSignUp">Sign up</b-button>
            <b-dropdown style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Log In" size="lg">
@@ -68,7 +75,8 @@ export default {
             companyName: '',
             fname: localStorage.getItem("fname"),
             lname: localStorage.getItem("lname"),
-            isConsumer: false
+            isConsumer: false,
+            role: ''
 		}
     },
     created : function(){
@@ -76,11 +84,29 @@ export default {
             this.companyName = response.name
             console.log(this.companyName)
         })
+
+        this.role = localStorage.getItem("role");
     },
 	methods: {
 
+        redirectToPage: function(){
+            var permissions = {
+                "companyAdmin" : 'company_admin',
+                "companyRepresentative" : 'company_representative', 
+                "customer" : 'consumer'
+            }
+            var redirectToHomeMap = {
+				"customer": "/consumer_home",
+				"companyRepresentative": "/company_rep_home",
+				"companyAdmin": "/company_admin_home"
+			};
+            this.$router.push( redirectToHomeMap[this.role] )
+            location.reload();
+        },
+
         redirectSignUp: function(){
             this.$router.push("/signup");
+            location.reload();
         },
 
         searchProds : function(){
