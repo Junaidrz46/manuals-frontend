@@ -30,6 +30,8 @@ export default new AclCreate({
     
     isPublic: new AclRule('public').or('admin').or('consumer').or('company_admin').or('company_representative').generate(),
 
+    isNotLogged: new AclRule('public').generate(),
+
     isConsumer: new AclRule('consumer').generate(),
     isCompanyAdmin: new AclRule('company_admin').generate(),
     isCompanyRepresentative: new AclRule('company_representative').generate(),
