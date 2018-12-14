@@ -23,7 +23,7 @@
 
         <b-button size="lg" v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="logout"> Sign out </b-button>
          <b-button-group size="lg" v-if="isLogged === false">
-           <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Sign up</b-button>
+           <b-button style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="redirectSignUp">Sign up</b-button>
            <b-dropdown style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Log In" size="lg">
 
                 <div>
@@ -77,6 +77,10 @@ export default {
         })
     },
 	methods: {
+
+        redirectSignUp: function(){
+            this.$router.push("/signup");
+        },
 
         searchProds : function(){
             var query = document.getElementsByName("SearchInput")[0].value;

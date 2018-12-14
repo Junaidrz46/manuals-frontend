@@ -156,6 +156,23 @@ export function deleteMaterialByID(materialId) {
     })
 }
 
+export function createAccount(fname, lname, username, password, email){
+    return axios.post("http://localhost:8888/rest/users/saveConsumer", {
+        "username": username,
+        "emailaddress": email,
+        "firstname": fname,
+        "lastName": lname,
+        "password": password
+    })
+    .then(response => {
+        console.log("SUCCESS!")
+    })
+    .catch(function(error){
+        console.log(error);
+    })
+
+}
+
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

@@ -14,6 +14,8 @@ import ProductPage from '@/components/ProductPage'
 import RecentProducts from '@/components/RecentProducts'
 // Search
 import Search from '@/components/Search'
+//Signup
+import SignUp from '@/components/SignUp'
 
 
 Vue.use(Router)
@@ -26,7 +28,8 @@ const router  = new Router({
     { path: '/company_rep_home'         , component: RepresentativeHome, meta: { rule: 'isCompanyRepresentative' }, name: 'CompanyRepresentativeHome' },
     { path: '/consumer_home'            , component: ConsumerHome      , meta: { rule: 'isConsumer' }             , name: 'ConsumerHome' },
     { path: '/products/:id'             , component: ProductPage       , meta: { rule: 'isPublic' }               , name: 'ProductPage' },
-    { path: '/search/:search_query'     , component: Search            , meta: { rule: 'isPublic' }               , name: 'Search' }
+    { path: '/search/:search_query'     , component: Search            , meta: { rule: 'isPublic' }               , name: 'Search' },
+    { path: '/signup'                   , component: SignUp            , meta: { rule: 'isPublic'}                , name: 'SignUp'}
 
   ]
 })
