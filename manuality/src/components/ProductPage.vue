@@ -1,26 +1,35 @@
 <template>
 	<div id="product">
         <div class="body">
-			<form>
-				<h1>{{product.name}}</h1>
-				<div>
-					<!-- Need to add product image from the DB here -->
-					<img class="productImg" v-bind:src="imageUrl" alt="productImg">
-				</div>				
-				<div class="productdetails">	
-					<h3>Product: {{product.name}}</h3>
-					<h3>Number: {{product.productNumber}}</h3>
-					<div>
-						<h3>Materials (manuals):</h3>
-						<div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
-							<!-- Need to add material descriptive name from the DB here -->
-							<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
-							<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
-						</div>
-				</div>
-				</div>
+
+			<div style="display: flex;">
+
+			<b-card :title="product.name"
+					:img-src="imageUrl"
+					:img-alt="product.name"
+					img-top
+					tag="article"
+					style="max-width: 20rem; border: 0px;"
+					class="mb-2">
+				<p class="card-text">
+					Number: {{product.productNumber}}
+				</p>
 				
-			</form>
+				<b-button href="#" variant="primary">&#9733;</b-button>
+				<b-button href="#" variant="primary">&#9734;</b-button>
+			</b-card>
+
+			<div style="margin-left: 40px;">
+				<h3>Materials (manuals):</h3>
+					<div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
+						<!-- Need to add material descriptive name from the DB here -->
+						<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
+						<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
+					</div>
+
+				</div>
+				</div>
+			
         </div>
     </div>
 </template>
