@@ -7,7 +7,7 @@
          <a href="/">
            <img src="../assets/logo_white.png" class="d-inline-block align-top" style="height: 40px" alt="BV">
          </a>
-         <p style="color: white; font-size: 19px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-if="isLogged">{{ fname}} {{ lname }} representing {{ companyName }}</p>
+         <p style="color: white; font-size: 19px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-if="isLogged && !isConsumer">{{ fname}} {{ lname }} representing {{ companyName }}</p>
      </b-navbar-brand>
 
      <b-collapse is-nav id="nav_collapse">
@@ -67,7 +67,8 @@ export default {
             company: '',
             companyName: '',
             fname: localStorage.getItem("fname"),
-            lname: localStorage.getItem("lname")
+            lname: localStorage.getItem("lname"),
+            isConsumer: false
 		}
     },
     created : function(){
@@ -91,7 +92,7 @@ export default {
         },
 
 		login: function() {
-				
+            
 			if (this.$refs.username.value === "" || !this.$refs.pass.value === ""){
 					this.seen = true;
 			}else{ 	
@@ -109,6 +110,7 @@ export default {
                         localStorage.setItem("company", response.data.user.companyId);
                         localStorage.setItem("fname", response.data.user.firstname);
                         localStorage.setItem("lname", response.data.user.lastName);
+                        localStorage.setItem("role", response.data.user.role);
 
                         this.fname = localStorage.getItem("fname");
                         this.lname = localStorage.getItem("lname");
@@ -137,6 +139,9 @@ export default {
 						};
                         this.$router.push( redirectToHomeMap[response.data.user.role] )
                         location.reload();
+                        // if(localStorage.getItem("role") === "costumer"){
+                            // this.isConsumer = true
+                        // }
                        
 					}
 					else{
