@@ -1,26 +1,74 @@
 <template>
 	<div id="product">
         <div class="body">
-			<form>
-				<h1>{{product.name}}</h1>
-				<div>
-					<!-- Need to add product image from the DB here -->
-					<img class="productImg" v-bind:src="imageUrl" alt="productImg">
-				</div>				
-				<div class="productdetails">	
-					<h3>Product: {{product.name}}</h3>
-					<h3>Number: {{product.productNumber}}</h3>
-					<div>
-						<h3>Materials (manuals):</h3>
-						<div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
-							<!-- Need to add material descriptive name from the DB here -->
-							<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
-							<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
-						</div>
-				</div>
-				</div>
+
+			<div style="display: flex;">
+
+			<b-card :title="product.name"
+					:img-src="imageUrl"
+					:img-alt="product.name"
+					img-top
+					tag="article"
+					style="max-width: 20rem; border: 0px;"
+					class="mb-2">
+				<p class="card-text">
+					Number: {{product.productNumber}}
+				</p>
 				
-			</form>
+				<div id="like" v-if="userIsConsumer">
+					<b-button href="#" variant="primary">&#9733;</b-button>
+					<b-button href="#" variant="primary">&#9734;</b-button>
+				</div>
+			</b-card>
+
+			<div style="margin-left: 40px; margin-top: 30px;">
+					<table style="border: 2px solid; min-width: 450px;">
+						<thead>
+							<th>Download</th>
+							<th>Type</th>
+							<th>Rating</th>
+							<th v-if="userIsRepresentative">Remove</th>
+						</thead>
+						<tbody v-bind:key="material.id" v-for="material in product.materials" v-if="product.profileImage != material.id">
+							<tr style="border: 1px solid;">
+								<td>
+									<a :href=material.fileDownloadUri>{{material.description}}</a>
+								</td>
+								<td>
+									<img v-bind:src="material.fileIcon" class="smallImg">
+								</td>
+								
+								<!-- TODO: v-if="logged_in" -->
+								<td>
+									<div v-if="userIsConsumer"> 
+										<font size="5px">vote:&nbsp;</font>
+										<select name="rating_dropdown" id="rating_dropdown" onchange="alert('Call API with value: '+this.value)" style="width: 40px; font-size:25px;">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+										</select>
+									</div>
+									<div>
+										<font size="5px">DELETEME{{score}}</font>
+									</div>
+								</td>
+								<td v-if="userIsRepresentative">
+									<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
+								</td>
+							</tr>							
+						</tbody>
+					</table>
+
+					<!-- <div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
+						<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
+						<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
+					</div> -->
+
+				</div>
+				</div>
+			
         </div>
     </div>
 </template>
@@ -37,14 +85,14 @@ export default {
 		isImage: false,
 		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg',
 		image: '',
-		imageUrl: ''
+		imageUrl: '',
     }
   },
   beforeMount: function () {
 		findProductById(localStorage.getItem("lastViewedProduct"))
 		.then(response => {
 			this.product = response.data;
-			console.log(this.product.profileImage)
+			console.log(this.product)
 			console.log(this.product.materials)
 			history.pushState(null, null, location.href);
     		window.onpopstate = function () {
@@ -66,6 +114,15 @@ export default {
 	        location.reload();
 	      })
 	    }
+	},
+	computed: {
+		userIsRepresentative: function () {
+			return localStorage.getItem('company') === this.product.companyId 
+		},
+		userIsConsumer: function () {
+			return localStorage.getItem('permissions') === "consumer" 
+		},
+		
 	}
 }
 </script>
@@ -98,7 +155,7 @@ h3{
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 650px;
+	height: 500px;
 	width: 850px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	margin-left: 17%;
