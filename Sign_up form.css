@@ -1,0 +1,122 @@
+body
+{
+	margin:0;
+	padding:0;
+	background-size:cover;
+	font-family:sans-serif;
+	background-color:grey;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.signup
+{
+	position:absolute;
+	width:550px;
+	height:620px;
+	padding:50px 40px;
+	box-sizing:cover;
+	background:white;
+    	border-color: #262626;
+    	border-radius: 10px;
+    	background-size:border-box;
+	margin-left: 20%;
+	margin-top: 4%; 
+	
+}
+.firstname{
+	float:left;
+}
+.lastname{
+	float:right;
+}
+.uname{
+	float:left;
+}
+.mail{
+	float:right;
+}
+.cname{
+	clear:left;
+}
+.pwd{
+	float:left;
+}
+.cpwd{
+	float:right;
+}
+h2	
+{
+	margin:5px;
+	margin-bottom: 50px;
+	padding:20px;
+	padding-top:0px;
+	color:black;
+	text-align:center;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+p{
+	height:10px;
+	margin:0;
+	padding:0 0 20px;
+	color:black;
+	text-align: left;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.signup input
+{
+	width:auto;
+	margin-bottom:40px;
+	height: 50px;
+}
+.signup input[type="text"], .signup input[type="text"], .signup input[type="text"], .signup input[type="text"], .signup input[type="password"], .signup input[type="password"]
+{
+	border:none;
+	border-bottom:1px solid black;
+	background:transparent;
+	outline:none;
+	height:25px;
+	width: 250px;
+	color:black;
+	font-size:16px;
+	margin-top: 30px;
+}
+::placeholder
+{
+	color:darkgray;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.signupbtn{
+	
+	margin-left:180px;
+}
+.signup input[type="button"]
+{
+	border:none;
+	align:center;
+	outline:none;
+	height:40px;
+	width: 200px;
+	color:#fff;
+	font-size:16px;
+	background:black;
+	cursor:pointer;
+	border-radius:20px;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	margin-top: 20px;
+}
+.signup input[type="button"]:hover
+{
+	background:grey;
+}
+.addrep-error p {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color:  #FF4C4C;
+	text-align: center;
+	margin-top: 0px;
+}
+.addrep-success p {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color:  green;
+	text-align: center;
+	margin-top: 0px;
+}
