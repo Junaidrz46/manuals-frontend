@@ -15,10 +15,10 @@
        <b-navbar-nav class="ml-auto">
            
        <!-- Search bar -->
-         <b-nav-form style="margin-right: 650px;">
-           <b-form-input size="lg" class="mr-sm-2" type="text" placeholder="Search"/>
-           <b-button size="lg" class="my-2 my-sm-0" type="submit">Search</b-button>
-         </b-nav-form>
+         <div style="margin-right: 650px; display: flex;">
+           <b-form-input size="lg" class="mr-sm-2" type="text" placeholder="Search" name="SearchInput" />
+           <b-button size="lg" style="margin-left:0px;" type="submit" v-on:click="searchProds">Search</b-button>
+         </div>
       
 
         <b-button size="lg" v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-on:click="logout"> Sign out </b-button>
@@ -77,6 +77,15 @@ export default {
         })
     },
 	methods: {
+
+        searchProds : function(){
+            var query = document.getElementsByName("SearchInput")[0].value;
+            if(query){
+                this.$router.push( "/search/" + query )
+                location.reload();
+            }
+        },
+
 		login: function() {
 				
 			if (this.$refs.username.value === "" || !this.$refs.pass.value === ""){

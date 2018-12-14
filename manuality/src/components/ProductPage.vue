@@ -2,46 +2,71 @@
 	<div id="product">
         <div class="body">
 			<form>
-				<h1>{{product.name}}</h1>				
+				<h1>{{product.name}}</h1>
+				<div>
+					<!-- Need to add product image from the DB here -->
+					<img class="productImg" v-bind:src="imageUrl" alt="productImg">
+				</div>				
 				<div class="productdetails">	
 					<h3>Product: {{product.name}}</h3>
 					<h3>Number: {{product.productNumber}}</h3>
+					<div>
+						<h3>Materials (manuals):</h3>
+						<div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
+							<!-- Need to add material descriptive name from the DB here -->
+							<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
+							<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
+						</div>
+				</div>
 				</div>
 				
-				<div >
-					<fieldset>
-						<legend>Materails (manuals)</legend>
-						<div v-bind:key="material" v-for="material in product.materials">
-							<div class="matname">{{material.name}}</div>
-							
-								<a :href=material.fileDownloadUri>
-									Download/View
-								</a>
-						
-							<div class="space"/>
-						</div>
-					</fieldset>
-				</div>
 			</form>
         </div>
     </div>
 </template>
 
 <script>
-import {findProductById} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID} from '../API'
+
 export default {
   name: 'ProductPage',
   data () {
     return {
-		product:[]
+		product:[],
+		isPdf: false,
+		isImage: false,
+		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg',
+		image: '',
+		imageUrl: ''
     }
   },
   beforeMount: function () {
 		findProductById(localStorage.getItem("lastViewedProduct"))
 		.then(response => {
-			this.product=response.data;
+			this.product = response.data;
+			console.log(this.product.profileImage)
+			console.log(this.product.materials)
+			history.pushState(null, null, location.href);
+    		window.onpopstate = function () {
+        		history.go(1);
+    		};
 		})
+
+		this.image = localStorage.getItem("profileImage")
+		this.materials = localStorage.getItem("materials")
+
+		findMaterialById(this.image)
+		.then(response => {
+			this.imageUrl = response.fileDownloadUri
+		})		
 	},
+	methods: {
+	    deleteMaterial: function(materialId) {
+	      deleteMaterialByID(materialId).then(response => {
+	        location.reload();
+	      })
+	    }
+	}
 }
 </script>
 
@@ -52,29 +77,41 @@ h1
 	text-align:center;
 	color:#101010;
 }
+h3{
+	text-align: left;
+}
+.smallImg{
+	height: 40px;
+	width: 40px;
+}
+.productImg{
+	width: 350px;
+	height: 250px;
+}
+
 .body
 {
 	position:absolute;
-	margin-left:580px;
-	margin-top:-200px;
 	border: 1px solid black;
 	padding:0;
 	border-radius: 6px;
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 500px;
+	height: 650px;
 	width: 850px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	margin-left: 17%;
+	margin-top: 4%; 
 
 }
 .productdetails
 {	
-	width:300px;
-	height:150px;
-	position: relative;
-	left:150px;
-	top:50px;
+	width:90%;
+	height:250px;
+	position: static;
+	margin-left: 40px;
+	margin-top: 20px;
 	padding-top:10px;
 	background-color:#C0C0C0;
 	border-radius:20px;
@@ -85,7 +122,7 @@ h1
 {	
 	width:auto;
 	height:auto;
-	position: relative;
+	position: inherit;
 	left:250px;
 	top:50px;
 	padding-top:10px;
@@ -97,17 +134,20 @@ h1
 fieldset
 {
 	width:550px;
-	height:	auto;
+	height:	100px;
 	position: relative;
-	left:150px;
-	top:100px;
+	left:40px;
+	top:50px;
 	background-color:#C0C0C0;
 	border-radius:20px;
-	padding-left:20px;
+	/* padding-left:20px; */
 }
 .matname
 {
 	float:left;
+}
+li{
+	text-align: left
 }
 .matbtn
 {

@@ -3,16 +3,16 @@
         <!-- <h2 class="greeting-message">Welcome, {{ fname }} {{ lname }} from {{ companyname }}! </h2> -->
         <div class="body">
         <div class="product">
-            <form id="myForm" readonly>
+            <form id="myForm" readonly v-if="showProd">
                 <fieldset id="fs">
                 <h3>Create Product</h3>
-                <h6 class="desc">Product Name</h6>
+                <h6 class="desc">Product Name*</h6>
                 <input type="text" ref="name" name="" placeholder="Product name...">
-                <h6 class="desc">Product Number</h6>
+                <h6 class="desc">Product Number*</h6>
                 <input type="text" ref="number" name="" placeholder="Product number...">
-                <h6 class="desc">Description</h6>
+                <h6 class="desc">Description*</h6>
                 <input type="text" ref="desc" name="" placeholder="Description...">
-                <h6 class="desc">Catergory</h6>
+                <h6 class="desc">Catergory*</h6>
                 <select v-model="selected">
                     <option :value="null">Choose a category</option>
                     <option :value="category.id" v-for="category in categories" v-bind:key="category.id">
@@ -26,16 +26,25 @@
             <p id="message1" v-bind:class="[classA, isB ? classB: '']" v-if="seen">
                 {{ message }}
             </p>
-            <div class="box">
+            <div class="box" v-if="show">
+                <form id="uploadImgForm" method="post" enctype="multipart/form-data">
+                    <strong class="desc">Product image: </strong> 
+                    <input accept="image/*" type="file" id="file" ref="img"/>
+                    <div id="selectedFiles"></div>
+                    <input type="button" value="Add image" v-on:click="addImage">
+                 </form>
+            </div>
+            <div class="box" v-if="show">
                 <form id="uploadForm" method="post" @submit.prevent="sendFile" enctype="multipart/form-data">
                     <strong class="desc">Upload file: </strong> 
+                    <input type="text" ref="materialDesc" name="" placeholder="Material description...">
                     <input type="file" id="file" ref="file"/>
                     <div id="selectedFiles"></div>
                     <input type="button" value="Add file" v-on:click="addManuals">
-                    <p id="message2" v-bind:class="[classA, isB ? classB: '']" v-if="seenFile">
-                        {{ messageFile }}
-                    </p>
                  </form>
+                <p id="message2" v-bind:class="[classA, isB ? classB: '']" v-if="seenFile">
+                        {{ messageFile }}
+                </p>
             </div>
             </div>
         </div>
@@ -45,6 +54,7 @@
 import {getAllCategories} from '../API'
 import {addProduct} from '../API'
 import {addManuals} from '../API'
+import {addImage} from '../API'
 import {findBrandByCat} from '../API'
 import axios from 'axios'
 import jQuery from 'jquery'
@@ -64,8 +74,11 @@ export default {
             company: '',
             message: '',
             messageFile: '',
-            seen: false,
-            seenFile: false
+            seen: true,
+            seenFile: false,
+            seenImgUpload: false,
+            show: false,
+            showProd: true
 		}
     },
     beforeMount: function() {
@@ -96,11 +109,28 @@ export default {
                 })
                 document.getElementById("submit1").disabled = true;
                 this.isB = true;
-                this.message = 'Product successfully added! Please add manuals for it...'
+                this.message = 'Product successfully added! Please add manuals and image for it...'
                 this.seen = true;
+                this.seenImgUpload = true;
+                this.show = true;
+                this.showProd = false;
+            }
+        },
+        addImage: async function(){
+            var product = localStorage.getItem("latestAddedProduct");
+            if(this.$refs.img.value === ''){
+                this.isB = false;
+                this.messageFile = 'Add an image please!';
+                this.seenFile = true; 
+            }else{
+                addImage(this.$refs.img.files[0], product);
+                this.isB = true;
+                this.messageFile = 'Image added!'
+                this.seenFile = true;
             }
         },
         addManuals: async function (){
+            var desc = this.$refs.materialDesc.value
             var product = localStorage.getItem("latestAddedProduct");
             if(this.$refs.file.value === ''){
                 this.isB = false;
@@ -111,7 +141,7 @@ export default {
                 this.messageFile = 'You need to add a product first!'
                 this.seenFile = true;
             }else{
-                addManuals(this.$refs.file.files[0], product);
+                addManuals(this.$refs.file.files[0], product,desc);
                 this.isB = true;
                 this.messageFile = 'Manuals added! Reloading...'
                 this.seenFile = true;
@@ -147,18 +177,15 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 .product
 {
 	width:600px;
-    height: 775px;
+    height: 600px;
     background: #F0F0F0;
     border: 1px solid #000;
-    margin: 20px auto;
-    margin-top: 50px;
 	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translate(-50%,-50%);
 	padding:80px 40px;
 	background:#FFFFFF;
 	border-radius:10px;
+    margin-left: 20%;
+	margin-top: 5%; 
 	
 }
 h3
@@ -186,14 +213,14 @@ h3
 	color:black;
 	font-size:16px;
     margin-bottom: 20px;
-	
+	margin-top: 10px;
 }
 .product input
 {
 	padding:10px;
 	width:100%;
-	margin-bottom:25px;
-    /* margin-top: 10px; */
+	margin-bottom:15px;
+    margin-top: 10px;
 }
 .product input[type="text"], .product input[type="text"], .product input[type="text"]
 {
@@ -208,13 +235,13 @@ h3
 }
 ::placeholder
 {
-	margin-bottom:10px;
+	margin-bottom:15px;
 	color:light-gray;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .product input[type="button"]
 {
-	margin-top:20px;
+	margin-top:5px;
 	border:none;
 	outline:none;
 	height:40px;

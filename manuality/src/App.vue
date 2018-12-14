@@ -4,20 +4,18 @@
     <Navbar />
 
     <b-container class="container-no-margin" fluid>
-      <b-row align-v="center" class="column-no-margin">
+      <b-row>
         <b-col sm="6" md="4" lg="2" class="column-no-margin">
           <Sidebar />
         </b-col>
-        
-        <!-- TEST -->
-        <b-col sm="6" md="4" lg="2" class="column-no-margin">
+        <b-col>
+          <router-view/>
         </b-col>
-        <!-- END TEST -->
       </b-row>
     </b-container>
 
     <!-- TEST -->
-    <router-view/>
+    
      <!-- END TEST -->
 
   </div>

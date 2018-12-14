@@ -12,6 +12,9 @@ import ConsumerHome from '@/components/ConsumerHome'
 import ProductPage from '@/components/ProductPage'
   //Recent products
 import RecentProducts from '@/components/RecentProducts'
+// Search
+import Search from '@/components/Search'
+
 
 Vue.use(Router)
 
@@ -19,11 +22,12 @@ Vue.use(Router)
 const router  = new Router({
   routes: [
     { path: '/', meta: { rule: 'isPublic' }}, //component: RecentProducts
-    { path: '/company_admin_home', component: CompanyAdminHome  , meta: { rule: 'isCompanyAdmin' }         , name: 'CompanyAdminHome' },
-    { path: '/company_rep_home'  , component: RepresentativeHome, meta: { rule: 'isCompanyRepresentative' }, name: 'CompanyRepresentativeHome' },
-    { path: '/consumer_home'     , component: ConsumerHome      , meta: { rule: 'isConsumer' }             , name: 'ConsumerHome' },
-    { path: '/products/:id'      , component: ProductPage       , meta: { rule: 'isPublic' }               , name: 'ProductPage' }
-    
+    { path: '/company_admin_home'       , component: CompanyAdminHome  , meta: { rule: 'isCompanyAdmin' }         , name: 'CompanyAdminHome' },
+    { path: '/company_rep_home'         , component: RepresentativeHome, meta: { rule: 'isCompanyRepresentative' }, name: 'CompanyRepresentativeHome' },
+    { path: '/consumer_home'            , component: ConsumerHome      , meta: { rule: 'isConsumer' }             , name: 'ConsumerHome' },
+    { path: '/products/:id'             , component: ProductPage       , meta: { rule: 'isPublic' }               , name: 'ProductPage' },
+    { path: '/search/:search_query'     , component: Search            , meta: { rule: 'isPublic' }               , name: 'Search' }
+
   ]
 })
 
