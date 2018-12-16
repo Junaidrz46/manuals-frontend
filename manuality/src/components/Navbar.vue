@@ -137,6 +137,7 @@ export default {
                         localStorage.setItem("fname", response.data.user.firstname);
                         localStorage.setItem("lname", response.data.user.lastName);
                         localStorage.setItem("role", response.data.user.role);
+                        localStorage.setItem("email", response.data.user.emailaddress);
 
                         this.fname = localStorage.getItem("fname");
                         this.lname = localStorage.getItem("lname");
