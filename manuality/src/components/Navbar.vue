@@ -7,7 +7,7 @@
          <a href="/">
            <img src="../assets/logo_white.png" class="d-inline-block align-top" style="height: 40px" alt="BV">
          </a>
-         <p style="color: white; font-size: 19px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" v-if="isLogged && !isConsumer">{{ fname}} {{ lname }} representing {{ companyName }}</p>
+         <p style="color: white; font-size: 19px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; text-align: center;" v-if="!isConsumer && isLogged">{{fname}} {{lname}}, {{companyName}}</p>
      </b-navbar-brand>
 
      <b-collapse is-nav id="nav_collapse">
@@ -72,11 +72,11 @@ export default {
             seen: false,
             isLogged: this.checkIfIsLogged(),
             company: '',
-            companyName: '',
+            companyName: localStorage.getItem("companyName"),
             fname: localStorage.getItem("fname"),
             lname: localStorage.getItem("lname"),
             isConsumer: false,
-            role: ''
+            role: localStorage.getItem("role")
 		}
     },
     created : function(){
@@ -84,8 +84,9 @@ export default {
             this.companyName = response.name
             console.log(this.companyName)
         })
-
-        this.role = localStorage.getItem("role");
+        if(localStorage.getItem("permissions") === "consumer"){
+            this.isConsumer = true;
+        }
     },
 	methods: {
 
@@ -131,6 +132,7 @@ export default {
 					if (response.data.loginstatus === "login-success") {
 
                         //Sessions
+                        localStorage.setItem("id", response.data.id);
                         localStorage.setItem("loginstatus", response.data.loginstatus);
                         localStorage.setItem("currentUser", response.data.user.username);
                         localStorage.setItem("company", response.data.user.companyId);
@@ -139,9 +141,8 @@ export default {
                         localStorage.setItem("role", response.data.user.role);
                         localStorage.setItem("email", response.data.user.emailaddress);
 
-                        this.fname = localStorage.getItem("fname");
-                        this.lname = localStorage.getItem("lname");
-                        this. greetingSeen = true;
+                        this.greetingSeen = true;
+                        this.greet = localStorage.getItem("fname") + " " + localStorage.getItem("lname")
                         this.company = localStorage.getItem("company");
                         console.log(this.user);
 
