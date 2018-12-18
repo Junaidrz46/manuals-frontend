@@ -7,10 +7,12 @@
 						<strong>E-mail:</strong> {{email}}
 					</p>
 					<strong><p style="float:left;">Recieve news?</p></strong>
-                    <b-form-radio-group id="reciebeNews" v-model="selected" name="radioSubComponent">
-                        <b-form-radio value="true">Subscribe</b-form-radio>
-                        <b-form-radio value="false" style="margin-left: 20px">Unsubscribe</b-form-radio>
-                    </b-form-radio-group>	
+                    <b-form-radio-group id="recieveNews" v-model="selected" name="radioSubComponent" @change="updateStatus">
+                        <b-form-radio value="0">Subscribe</b-form-radio>
+                        <b-form-radio value="1" style="margin-left: 20px">Unsubscribe</b-form-radio>
+                    </b-form-radio-group>
+					<b-alert v-if="showYes" show variant="info">You are subscribed</b-alert>
+					<b-alert v-if="showNo" show variant="warning">You are unsubscribed</b-alert>	
                 </b-card>
                 <div style= "margin-left: 20px; margin-top: 20px;">
 					<h4 style="text-align: left">My Products</h4>
@@ -24,6 +26,7 @@
 <script>
 import {findUserById} from '../API'
 import {findProductById} from '../API'
+import {saveSubscribeStatus} from '../API'
 export default {
     data() {
         return{
@@ -35,7 +38,9 @@ export default {
 			fields: [
 				{key:'name', label: 'Product name'},
 				{key:'productNumber', label: 'Product#'}
-			]
+			],
+			showYes: false,
+			showNo: false
         }
     },
 
@@ -62,7 +67,19 @@ export default {
       		localStorage.setItem("lastViewedProduct", product.id)
       		this.$router.push( '/products/' + product.id )
       		location.reload();
-    	}
+		},
+		
+		updateStatus: function() {
+			saveSubscribeStatus(localStorage.getItem("id"), this.selected).then(response => {
+				if(this.selected === "0"){
+					this.showYes = true;
+					this.showNo = false;
+				}else{
+					this.showNo = true;
+					this.showYes = false;
+				}
+			})
+		}
 	}
 }
 </script>
@@ -78,7 +95,7 @@ export default {
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 500px;
+	height: 510px;
 	width: 1000px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	margin-left: 17%;
