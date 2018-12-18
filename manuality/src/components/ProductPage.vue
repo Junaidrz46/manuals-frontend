@@ -17,6 +17,25 @@
 							<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
 							<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
 						</div>
+
+
+						<!-- Meysam - material rating -->
+						<div v-if="logged_in">
+							<font size="5px">vote&nbsp;</font>
+							<select name="rating_dropdown" id="rating_dropdown" onchange="alert('Call API with value: '+this.value)" style="width: 40px; font-size:25px;">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</div>
+						<div>
+							<font size="5px">score&nbsp;</font>
+							<font size="5px">{{score}}</font>
+						</div>
+						<!-- Meysam - material rating -->
+
 				</div>
 				</div>
 				
@@ -32,6 +51,9 @@ export default {
   name: 'ProductPage',
   data () {
     return {
+		logged_in: true,//localStorage.getItem("permission"),
+		score: 4,
+
 		product:[],
 		isPdf: false,
 		isImage: false,
