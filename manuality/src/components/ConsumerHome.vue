@@ -17,8 +17,9 @@
 					<b-alert :show="dismissCountDown" dismissible @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged" v-if="showNo" variant="warning">You are unsubscribed</b-alert>	
                 </b-card>
                 <div style= "margin-left: 20px; margin-top: 20px;">
-					<h4 style="text-align: left">My Products</h4>
-                    <b-table v-if="products" responsive hover :items="products" :fields="fields" @row-clicked="redirectToProduct" style="cursor:pointer; width: 650px "></b-table>
+					<h4 v-if="showTable" style="text-align: left">My Products</h4>
+					<h5 v-if="!showTable" style="text-align: left;">You did not like any products</h5>
+                    <b-table v-if="showTable" responsive hover :items="products" :fields="fields" @row-clicked="redirectToProduct" style="cursor:pointer; width: 650px "></b-table>
 				</div>
 			</div>
         </div>
@@ -44,13 +45,16 @@ export default {
 			showYes: false,
 			showNo: false,
 			dismissSecs: 5,
-      		dismissCountDown: 0
+			dismissCountDown: 0,
+			showTable: false
         }
     },
 
 	created: function() {
 
 		findUserById(localStorage.getItem("id")).then(response => {
+			if(response.likedProducts.length > 0){
+				this.showTable = true;
 				response.likedProducts.forEach(element => {
 					
 					findProductById(element).then(response2 => {
@@ -59,9 +63,11 @@ export default {
 					
 					// this.products.push(element)
 				});
-				console.log(response.likedProducts)
+				console.log(this.products)
+			}else{
+				this.showTable = false;
+			}
 			})
-			
 
 	},
 
