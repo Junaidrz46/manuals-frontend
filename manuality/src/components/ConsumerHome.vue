@@ -30,9 +30,7 @@
 </template>
 
 <script>
-
-import {getUserById} from '../API'
-
+import {findUserById} from '../API'
 export default {
     data() {
         return{
@@ -44,18 +42,14 @@ export default {
         }
     },
 
-	beforeMount: function(){
+	created: function() {
 
-		getUserById(localStorage.getItem("id")).then(
-			response => {
+		findUserById(localStorage.getItem("id")).then(response => {
 				response.likedProducts.forEach(element => {
-					this.products.push(element);
+					this.products.push(element)
 				});
-				});
-			
-		
-
-		console.log(this.products);
+				console.log(response.likedProducts)
+            })
 
 	},
 
