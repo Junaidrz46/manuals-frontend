@@ -186,6 +186,21 @@ export function saveLikedProduct(userId, productId){
     })
 }
 
+export function rateMaterial(userId, materialId, rating){
+    return axios.post("localhost:8888/rest/users/saveRatedMaterialByUserId", {
+        "userId":userId,
+        "materialId": materialId,
+        "materiaRate": rating
+    })
+    .then(response => {
+        console.log("Material rating sent!")
+    })
+    .catch(function(error){
+        console.log("Material rate sending ERROR !")
+        console.log(error);
+    })
+
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

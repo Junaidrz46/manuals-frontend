@@ -33,7 +33,7 @@
 							<tr style="border: 1px solid;">
 								<td>
 									<a :href=material.fileDownloadUri>{{material.description}}</a>
-								</td>
+								</td>	
 								<td>
 									<img v-bind:src="material.fileIcon" class="smallImg">
 								</td>
@@ -42,7 +42,8 @@
 								<td>
 									<div v-if="userIsConsumer"> 
 										<font size="5px">vote:&nbsp;</font>
-										<select name="rating_dropdown" id="rating_dropdown" onchange="alert('Call API with value: '+this.value)" style="width: 40px; font-size:25px;">
+										<select name="rating_dropdown" id="rating_dropdown" v-model="rating" @change="rateMaterial(material.id, rating)" style="width: 40px; font-size:25px;">
+											<option disabled value="">Please rate the material</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
 											<option value="3">3</option>
@@ -51,7 +52,7 @@
 										</select>
 									</div>
 									<div>
-										<font size="5px">DELETEME{{score}}</font>
+										<font size="5px">Avg rating: {{material.averageRate}}</font>
 									</div>
 								</td>
 								<td v-if="userIsRepresentative">
@@ -74,7 +75,7 @@
 </template>
 
 <script>
-import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -121,6 +122,12 @@ export default {
 			saveLikedProduct(this.userId, this.prod).then(response => {
 				alert(response);
 			})
+		},
+
+		rateMaterial: function(materialId, rating) {
+			rateMaterial(localStorage.getItem("id"), materialId, rating)/* .then(response => {
+				location.reload();
+			}) */
 		}
 	},
 	computed: {
