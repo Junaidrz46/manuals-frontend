@@ -16,7 +16,7 @@
 				</p>
 				
 				<div id="like" v-if="userIsConsumer">
-					<b-button href="#" variant="primary">&#9733;</b-button>
+					<b-button v-on:click="saveLikedProduct" variant="primary">&#9733;</b-button>
 					<b-button href="#" variant="primary">&#9734;</b-button>
 				</div>
 			</b-card>
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import {findProductById, findMaterialById, deleteMaterialByID} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -86,6 +86,8 @@ export default {
 		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg',
 		image: '',
 		imageUrl: '',
+		userId: localStorage.getItem('id'),
+		prod: localStorage.getItem('lastViewedProduct')
     }
   },
   beforeMount: function () {
@@ -113,7 +115,13 @@ export default {
 	      deleteMaterialByID(materialId).then(response => {
 	        location.reload();
 	      })
-	    }
+		},
+		
+		saveLikedProduct: function(){
+			saveLikedProduct(this.userId, this.prod).then(response => {
+				alert(response);
+			})
+		}
 	},
 	computed: {
 		userIsRepresentative: function () {

@@ -3,17 +3,16 @@
         <div class="body">
             <div style="display: flex;">
                 <b-card :title="name" :img-src="imageUrl"	style="width: 20rem; border: 1px;" class="mb-2">
-                <p class="card-text">
-                    E-mail: {{email}}
-				</p>
-                </b-card>
-                <div style="margin-left: 40px; margin-top: 30px;">
-                    <strong><p style="float:left;">Recieve news?</p></strong>
+					<p class="card-text" style="float: left;">
+						<strong>E-mail:</strong> {{email}}
+					</p>
+					<strong><p style="float:left;">Recieve news?</p></strong>
                     <b-form-radio-group id="reciebeNews" v-model="selected" name="radioSubComponent">
-                        <b-form-radio value="true">I want to recieve news about new products</b-form-radio>
-                        <b-form-radio value="false" style="margin-left: -79px">I don't want to recieve any news</b-form-radio>
-                    </b-form-radio-group>
-                    <br>
+                        <b-form-radio value="true">Subscribe</b-form-radio>
+                        <b-form-radio value="false" style="margin-left: 20px">Unsubscribe</b-form-radio>
+                    </b-form-radio-group>	
+                </b-card>
+                <div style= "margin-left: 20px; margin-top: 20px;">
                     <h4>My Products</h4>
                     <!-- EMBED MEYSAM'S PRODUCT LIST COMPONENT HERE! -->
 				</div>

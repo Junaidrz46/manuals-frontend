@@ -82,7 +82,6 @@ export default {
     created : function(){
         findCompanyById(localStorage.getItem("company")).then(response => {
             this.companyName = response.name
-            console.log(this.companyName)
         })
         if(localStorage.getItem("permissions") === "consumer"){
             this.isConsumer = true;
@@ -132,7 +131,7 @@ export default {
 					if (response.data.loginstatus === "login-success") {
 
                         //Sessions
-                        localStorage.setItem("id", response.data.id);
+                        localStorage.setItem("id", response.data.user.id);
                         localStorage.setItem("loginstatus", response.data.loginstatus);
                         localStorage.setItem("currentUser", response.data.user.username);
                         localStorage.setItem("company", response.data.user.companyId);

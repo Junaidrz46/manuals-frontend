@@ -173,6 +173,19 @@ export function createAccount(fname, lname, username, password, email){
 
 }
 
+export function saveLikedProduct(userId, productId){
+    return axios.post("http://localhost:8888/rest/users/saveLikedProductsByUserId", {
+        "userId": userId,
+        "productId": productId
+    })
+    .then(response => {
+        console.log("PRODUCT LIKED!")
+    })
+    .catch(function(error){
+        console.log(error);
+    })
+}
+
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {
