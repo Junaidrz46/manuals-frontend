@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import {findProductById, findMaterialById, deleteMaterialByID} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID, rateMaterial} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -113,7 +113,12 @@ export default {
 	      deleteMaterialByID(materialId).then(response => {
 	        location.reload();
 	      })
-	    }
+	    },
+		rateMaterial: function(materialId, rating) {
+			rateMaterial(localStorage.getItem("userID"), materialId, rating).then(response => {
+				location.reload();
+			})
+		}
 	},
 	computed: {
 		userIsRepresentative: function () {
