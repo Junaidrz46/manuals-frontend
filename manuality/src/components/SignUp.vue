@@ -81,7 +81,7 @@ export default {
 						this.$refs.username.value,
 						this.$refs.pass.value,
 						this.$refs.email.value
-					).then(respnse => {
+					).then(response => {
 						console.log("New user: " + response);
 					})
 					this.seen = false;
@@ -91,20 +91,22 @@ export default {
 						this.$refs.username.value,
 						this.$refs.pass.value
 					)
-					.then(response => {
+					.then(response2 => {
                     
-					if (response.data.loginstatus === "login-success") {
+					if (response2.data.loginstatus === "login-success") {
 
                         //Sessions
-                        localStorage.setItem("loginstatus", response.data.loginstatus);
-                        localStorage.setItem("currentUser", response.data.user.username);
-                        localStorage.setItem("company", response.data.user.companyId);
-                        localStorage.setItem("fname", response.data.user.firstname);
-                        localStorage.setItem("lname", response.data.user.lastName);
+                        localStorage.setItem("id", response2.data.user.id);
+                        localStorage.setItem("loginstatus", response2.data.loginstatus);
+                        localStorage.setItem("currentUser", response2.data.user.username);
+                        localStorage.setItem("company", response2.data.user.companyId);
+                        localStorage.setItem("fname", response2.data.user.firstname);
+                        localStorage.setItem("lname", response2.data.user.lastName);
+                        localStorage.setItem("role", response2.data.user.role);
+                        localStorage.setItem("email", response2.data.user.emailaddress);
 
-                        this.fname = localStorage.getItem("fname");
-                        this.lname = localStorage.getItem("lname");
-                        this. greetingSeen = true;
+                        this.greetingSeen = true;
+                        this.greet = localStorage.getItem("fname") + " " + localStorage.getItem("lname")
                         this.company = localStorage.getItem("company");
                         console.log(this.user);
 
@@ -116,10 +118,10 @@ export default {
                         }
 
                         // For redirection
-                        this.$acl.change( permissions[response.data.user.role] )
+                        this.$acl.change( permissions[response2.data.user.role] )
                         
                         // For session
-                        localStorage.setItem("permissions", permissions[response.data.user.role])
+                        localStorage.setItem("permissions", permissions[response2.data.user.role])
 
                         // Redirect
 						var redirectToHomeMap = {
@@ -127,8 +129,11 @@ export default {
 							"companyRepresentative": "/company_rep_home",
 							"companyAdmin": "/company_admin_home"
 						};
-                        this.$router.push( redirectToHomeMap[response.data.user.role] )
+                        this.$router.push( redirectToHomeMap[response2.data.user.role] )
                         location.reload();
+                        // if(localStorage.getItem("role") === "costumer"){
+                            // this.isConsumer = true
+                        // }
                        
 					}
 					else{

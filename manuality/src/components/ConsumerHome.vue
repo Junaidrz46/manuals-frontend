@@ -6,6 +6,8 @@
 					<p class="card-text" style="float: left;">
 						<strong>E-mail:</strong> {{email}}
 					</p>
+					<br>
+					<br>
 					<strong><p style="float:left;">Recieve news?</p></strong>
                     <b-form-radio-group id="recieveNews" v-model="selected" name="radioSubComponent" @change="updateStatus">
                         <b-form-radio value="0">Subscribe</b-form-radio>
@@ -106,7 +108,7 @@ export default {
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 510px;
+	height: 515px;
 	width: 1000px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	margin-left: 17%;
