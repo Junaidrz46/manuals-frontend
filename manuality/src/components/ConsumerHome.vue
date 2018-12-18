@@ -11,8 +11,8 @@
                         <b-form-radio value="0">Subscribe</b-form-radio>
                         <b-form-radio value="1" style="margin-left: 20px">Unsubscribe</b-form-radio>
                     </b-form-radio-group>
-					<b-alert v-if="showYes" show variant="info">You are subscribed</b-alert>
-					<b-alert v-if="showNo" show variant="warning">You are unsubscribed</b-alert>	
+					<b-alert :show="dismissCountDown" dismissible @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged" v-if="showYes" variant="info">You are subscribed</b-alert>
+					<b-alert :show="dismissCountDown" dismissible @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged" v-if="showNo" variant="warning">You are unsubscribed</b-alert>	
                 </b-card>
                 <div style= "margin-left: 20px; margin-top: 20px;">
 					<h4 style="text-align: left">My Products</h4>
@@ -40,7 +40,9 @@ export default {
 				{key:'productNumber', label: 'Product#'}
 			],
 			showYes: false,
-			showNo: false
+			showNo: false,
+			dismissSecs: 5,
+      		dismissCountDown: 0
         }
     },
 
@@ -68,15 +70,24 @@ export default {
       		this.$router.push( '/products/' + product.id )
       		location.reload();
 		},
+
+		countDownChanged (dismissCountDown) {
+    	  this.dismissCountDown = dismissCountDown
+    	},
+    	showAlert () {
+    	  this.dismissCountDown = this.dismissSecs
+    	},
 		
 		updateStatus: function() {
 			saveSubscribeStatus(localStorage.getItem("id"), this.selected).then(response => {
 				if(this.selected === "0"){
 					this.showYes = true;
 					this.showNo = false;
+					this.showAlert();
 				}else{
 					this.showNo = true;
 					this.showYes = false;
+					this.showAlert();
 				}
 			})
 		}
