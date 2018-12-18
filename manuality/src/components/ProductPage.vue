@@ -37,12 +37,11 @@
 								<td>
 									<img v-bind:src="material.fileIcon" class="smallImg">
 								</td>
-								
-								<!-- TODO: v-if="logged_in" -->
+							
 								<td>
-									<div v-if="userIsConsumer"> 
+									<div id="vote" v-if="userIsConsumer && !ratedMaterialsByUser.includes(material.id)"> <!--  !isRatedByUser(material.id)"> -->
 										<font size="5px">vote:&nbsp;</font>
-										<select name="rating_dropdown" id="rating_dropdown" v-model="rating" @change="rateMaterial(material.id, rating)" style="width: 40px; font-size:25px;">
+										<select name="rating_dropdown" id="rating_dropdown" v-model="rating" @change="sendMaterialrating(material.id, rating)" style="width: 40px; font-size:25px;">
 											<option disabled value="">Please rate the material</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
@@ -75,7 +74,7 @@
 </template>
 
 <script>
-import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial, isMaterialRatedByUser, getRatedMaterialsByuserId} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -88,7 +87,8 @@ export default {
 		image: '',
 		imageUrl: '',
 		userId: localStorage.getItem('id'),
-		prod: localStorage.getItem('lastViewedProduct')
+		prod: localStorage.getItem('lastViewedProduct'),
+		ratedMaterialsByUser: []
     }
   },
   beforeMount: function () {
@@ -109,7 +109,14 @@ export default {
 		findMaterialById(this.image)
 		.then(response => {
 			this.imageUrl = response.fileDownloadUri
-		})		
+		}),
+		
+		getRatedMaterialsByuserId(localStorage.getItem("id")).then( response => {
+				response.forEach(element => {
+                    this.ratedMaterialsByUser.push(element)
+                });
+			})
+
 	},
 	methods: {
 	    deleteMaterial: function(materialId) {
@@ -124,10 +131,16 @@ export default {
 			})
 		},
 
-		rateMaterial: function(materialId, rating) {
-			rateMaterial(localStorage.getItem("id"), materialId, rating)/* .then(response => {
-				location.reload();
-			}) */
+		sendMaterialrating: function(materialId, rating) {
+			rateMaterial(localStorage.getItem("id"), materialId, rating);
+			location.reload();
+		},
+
+		isRatedByUser: function(materialId) {
+			isMaterialRatedByUser(localStorage.getItem("id"), materialId).then(response => {
+				//console.log(materialId+" "+response)
+				return response;
+			})
 		}
 	},
 	computed: {
