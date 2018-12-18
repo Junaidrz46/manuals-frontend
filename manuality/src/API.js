@@ -197,6 +197,8 @@ export function findUserById(id){
     })
 }
 
+
+
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

@@ -13,16 +13,8 @@
                     </b-form-radio-group>	
                 </b-card>
                 <div style= "margin-left: 20px; margin-top: 20px;">
-                    <h4>My Products</h4>
-                    <table style="border: 2px solid; min-width: 450px;">
-						<tbody v-bind:key="product.id" v-for="product in products">
-							<tr style="border: 1px solid;">
-								<td>
-									<a>{{product}}</a>
-								</td>
-							</tr>							
-						</tbody>
-					</table>
+					<h4 style="text-align: left">My Products</h4>
+                    <b-table v-if="products" responsive hover :items="products" :fields="fields" @row-clicked="redirectToProduct" style="cursor:pointer; width: 650px "></b-table>
 				</div>
 			</div>
         </div>
@@ -31,6 +23,7 @@
 
 <script>
 import {findUserById} from '../API'
+import {findProductById} from '../API'
 export default {
     data() {
         return{
@@ -38,7 +31,11 @@ export default {
             name: localStorage.getItem("fname") + " " + localStorage.getItem("lname"),
             email: localStorage.getItem("email"),
             imageUrl: "https://i.cdn-sc.com/users/default-avatar.jpg",
-			products: []
+			products: [],
+			fields: [
+				{key:'name', label: 'Product name'},
+				{key:'productNumber', label: 'Product#'}
+			]
         }
     },
 
@@ -46,15 +43,26 @@ export default {
 
 		findUserById(localStorage.getItem("id")).then(response => {
 				response.likedProducts.forEach(element => {
-					this.products.push(element)
+					
+					findProductById(element).then(response2 => {
+						this.products.push(response2.data);
+					})
+					
+					// this.products.push(element)
 				});
 				console.log(response.likedProducts)
-            })
+			})
+			
 
 	},
 
 	methods: {
-
+		redirectToProduct: function (product, index) {
+      		localStorage.setItem("profileImage", product.profileImage)
+      		localStorage.setItem("lastViewedProduct", product.id)
+      		this.$router.push( '/products/' + product.id )
+      		location.reload();
+    	}
 	}
 }
 </script>
