@@ -14,7 +14,15 @@
                 </b-card>
                 <div style= "margin-left: 20px; margin-top: 20px;">
                     <h4>My Products</h4>
-                    <!-- EMBED MEYSAM'S PRODUCT LIST COMPONENT HERE! -->
+                    <table style="border: 2px solid; min-width: 450px;">
+						<tbody v-bind:key="product.id" v-for="product in products">
+							<tr style="border: 1px solid;">
+								<td>
+									<a>{{product}}</a>
+								</td>
+							</tr>							
+						</tbody>
+					</table>
 				</div>
 			</div>
         </div>
@@ -22,15 +30,38 @@
 </template>
 
 <script>
+
+import {getUserById} from '../API'
+
 export default {
     data() {
         return{
             selected: null,
             name: localStorage.getItem("fname") + " " + localStorage.getItem("lname"),
             email: localStorage.getItem("email"),
-            imageUrl: "https://i.cdn-sc.com/users/default-avatar.jpg"
+            imageUrl: "https://i.cdn-sc.com/users/default-avatar.jpg",
+			products: []
         }
-    }
+    },
+
+	beforeMount: function(){
+
+		getUserById(localStorage.getItem("id")).then(
+			response => {
+				response.likedProducts.forEach(element => {
+					this.products.push(element);
+				});
+				});
+			
+		
+
+		console.log(this.products);
+
+	},
+
+	methods: {
+
+	}
 }
 </script>
 

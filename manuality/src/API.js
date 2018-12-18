@@ -186,6 +186,18 @@ export function saveLikedProduct(userId, productId){
     })
 }
 
+export function getUserById(id){
+    return axios.get("http://localhost:8888/rest/users/findUsersById?userId=" + id, {
+        "userId": id
+    })
+    .then(response => {
+        return response.data;
+    })
+    .catch(function(error){
+        console.log(error);
+    })
+}
+
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {
