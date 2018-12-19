@@ -186,6 +186,7 @@ export function saveLikedProduct(userId, productId){
     })
 }
 
+<<<<<<< HEAD
 export function findUserById(id){
     return axios.get("http://localhost:8888/rest/users/findUsersById?userId=" + id, {
         "userId": id
@@ -205,6 +206,51 @@ export function saveSubscribeStatus(userId, message){
 }
 
 
+=======
+export function rateMaterial(userId, materialId, rating){
+    return axios.post("http://localhost:8888/rest/users/saveRatedMaterialByUserId", {
+        "userId":userId,
+        "materialId": materialId,
+        "materiaRate": rating
+    })
+    .then(response => {
+        console.log("Material rating sent!")
+    })
+    .catch(function(error){
+        console.log("Material rate sending ERROR !")
+        console.log(error);
+    })
+
+}
+
+export function isMaterialRatedByUser(id, materialId){
+    return axios.get("http://localhost:8888/rest/users/findUsersById?userId=" + id, {
+        "userId":id
+    })
+    .then(response => {
+        return response.data.ratedMaterials.includes(materialId)   
+    })
+    .catch(function(error){
+        console.log("ERROR in isMaterialRatedByUser API!")
+        console.log(error);
+    })
+
+}
+
+export function getRatedMaterialsByuserId(id){
+    return axios.get("http://localhost:8888/rest/users/findUsersById?userId=" + id, {
+        "userId":id
+    })
+    .then(response => {
+        return response.data.ratedMaterials   
+    })
+    .catch(function(error){
+        console.log("ERROR in getRatedMaterialsByuserId API!")
+        console.log(error);
+    })
+
+}
+>>>>>>> new_4488-fil_scoring_with_API
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

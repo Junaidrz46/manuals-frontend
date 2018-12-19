@@ -29,20 +29,20 @@
 							<th>Rating</th>
 							<th v-if="userIsRepresentative">Remove</th>
 						</thead>
-						<tbody v-bind:key="material.id" v-for="material in product.materials" v-if="product.profileImage != material.id">
+						<tbody v-bind:key="material.id" v-for="material in allMaterials" v-if="product.profileImage != material.id">
 							<tr style="border: 1px solid;">
 								<td>
 									<a :href=material.fileDownloadUri>{{material.description}}</a>
-								</td>
+								</td>	
 								<td>
 									<img v-bind:src="material.fileIcon" class="smallImg">
 								</td>
-								
-								<!-- TODO: v-if="logged_in" -->
+							
 								<td>
-									<div v-if="userIsConsumer"> 
+									<div id="vote" v-if="userIsConsumer && !ratedMaterialsByUser.includes(material.id)"> <!--  !isRatedByUser(material.id)"> -->
 										<font size="5px">vote:&nbsp;</font>
-										<select name="rating_dropdown" id="rating_dropdown" onchange="alert('Call API with value: '+this.value)" style="width: 40px; font-size:25px;">
+										<select name="rating_dropdown" id="rating_dropdown" v-model="rating" @change="sendMaterialrating(material.id, rating)" style="width: 40px; font-size:25px;">
+											<option disabled value="">Please rate the material</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
 											<option value="3">3</option>
@@ -51,7 +51,7 @@
 										</select>
 									</div>
 									<div>
-										<font size="5px">DELETEME{{score}}</font>
+										<font size="5px">Avg rating: {{material.averageRate}}</font>
 									</div>
 								</td>
 								<td v-if="userIsRepresentative">
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial, isMaterialRatedByUser, getRatedMaterialsByuserId} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -87,7 +87,9 @@ export default {
 		image: '',
 		imageUrl: '',
 		userId: localStorage.getItem('id'),
-		prod: localStorage.getItem('lastViewedProduct')
+		prod: localStorage.getItem('lastViewedProduct'),
+		ratedMaterialsByUser: [],
+		allMaterials: []
     }
   },
   beforeMount: function () {
@@ -99,7 +101,12 @@ export default {
 			history.pushState(null, null, location.href);
     		window.onpopstate = function () {
         		history.go(1);
-    		};
+			};
+			this.product.materials.forEach(mat => {
+					findMaterialById(mat.id).then(newMat => {
+						this.allMaterials.push(newMat)
+					})
+			});
 		})
 
 		this.image = localStorage.getItem("profileImage")
@@ -108,7 +115,14 @@ export default {
 		findMaterialById(this.image)
 		.then(response => {
 			this.imageUrl = response.fileDownloadUri
-		})		
+		}),
+		
+		getRatedMaterialsByuserId(localStorage.getItem("id")).then( response => {
+				response.forEach(element => {
+                    this.ratedMaterialsByUser.push(element)
+                });
+			})
+
 	},
 	methods: {
 	    deleteMaterial: function(materialId) {
@@ -120,6 +134,18 @@ export default {
 		saveLikedProduct: function(){
 			saveLikedProduct(this.userId, this.prod).then(response => {
 				alert(response);
+			})
+		},
+
+		sendMaterialrating: function(materialId, rating) {
+			rateMaterial(localStorage.getItem("id"), materialId, rating);
+			location.reload();
+		},
+
+		isRatedByUser: function(materialId) {
+			isMaterialRatedByUser(localStorage.getItem("id"), materialId).then(response => {
+				//console.log(materialId+" "+response)
+				return response;
 			})
 		}
 	},
