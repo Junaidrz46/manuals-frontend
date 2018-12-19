@@ -16,8 +16,8 @@
 				</p>
 				
 				<div id="like" v-if="userIsConsumer">
-					<b-button v-on:click="saveLikedProduct" variant="primary">&#9733;</b-button>
-					<b-button href="#" variant="primary">&#9734;</b-button>
+					<b-button v-on:click="saveLikedProduct" @click="showAlert" variant="primary">&#9733;</b-button>
+					<b-button v-on:click="deleteLikedProduct" @click="showAlert" variant="primary">&#9734;</b-button>
 				</div>
 			</b-card>
 
@@ -67,14 +67,17 @@
 					</div> -->
 
 				</div>
-			</div>
-			
-        </div>
-    </div>
+			</div>	
+        </div>	
+		<div>
+			<b-alert :show="dismissCountDown" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged" v-if="added" variant="info" style="width: auto; margin: 30px;">Product added!</b-alert>
+			<b-alert :show="dismissCountDown" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged" v-if="deleted" variant="warning" style="width: auto; margin: 30px;">Product removed!</b-alert>
+		</div>
+	</div>
 </template>
 
 <script>
-import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial, isMaterialRatedByUser, getRatedMaterialsByuserId} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial, isMaterialRatedByUser, getRatedMaterialsByuserId, deleteLikedProduct} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -89,7 +92,11 @@ export default {
 		userId: localStorage.getItem('id'),
 		prod: localStorage.getItem('lastViewedProduct'),
 		ratedMaterialsByUser: [],
-		allMaterials: []
+		allMaterials: [],
+		deleted: false,
+		added: false,
+		dismissSecs: 4,
+		dismissCountDown: 0 
     }
   },
   beforeMount: function () {
@@ -130,15 +137,27 @@ export default {
 	        location.reload();
 	      })
 		},
+
+		countDownChanged (dismissCountDown) {
+    	  this.dismissCountDown = dismissCountDown
+    	},
+    	showAlert () {
+    	  this.dismissCountDown = this.dismissSecs
+    	},
 		
 		saveLikedProduct: function(){
 			saveLikedProduct(this.userId, this.prod).then(response => {
-				alert(response);
+				console.log(response);
+				this.added = true
+				this.deleted = false
 			})
 		},
 
 		deleteLikedProduct: function(){
-				
+			deleteLikedProduct(this.userId, this.prod).then(response => {
+				this.deleted = true
+				this.added = false
+			})
 		},
 
 		sendMaterialrating: function(materialId, rating) {

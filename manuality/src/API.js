@@ -174,6 +174,9 @@ export function createAccount(fname, lname, username, password, email){
 }
 
 export function saveLikedProduct(userId, productId){
+
+    var err;
+
     return axios.post("http://localhost:8888/rest/users/saveLikedProductsByUserId", {
         "userId": userId,
         "productId": productId
@@ -182,7 +185,8 @@ export function saveLikedProduct(userId, productId){
         console.log("PRODUCT LIKED!")
     })
     .catch(function(error){
-        console.log(error);
+        console.log(error.response.data.message);
+        err = error.response.data.message; 
     })
 }
 
@@ -249,7 +253,19 @@ export function getRatedMaterialsByuserId(id){
 
 }
 
-export function deleteLikedMaterial(){
+export function deleteLikedProduct(userId, productId, message){
+
+    return axios.post("http://localhost:8888/rest/users/unlikedProductsByUserId?", {
+        "userId": userId,
+        "productId": productId
+    })
+    .then(response => {
+        console.log(response)
+    })
+    .catch(function(error){
+        message = error.response.data.message;
+        console.log(message)
+    })
     
 }
 // export function getUserByName(name) {
