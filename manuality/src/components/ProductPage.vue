@@ -29,7 +29,7 @@
 							<th>Rating</th>
 							<th v-if="userIsRepresentative">Remove</th>
 						</thead>
-						<tbody v-bind:key="material.id" v-for="material in product.materials" v-if="product.profileImage != material.id">
+						<tbody v-bind:key="material.id" v-for="material in allMaterials" v-if="product.profileImage != material.id">
 							<tr style="border: 1px solid;">
 								<td>
 									<a :href=material.fileDownloadUri>{{material.description}}</a>
@@ -88,7 +88,8 @@ export default {
 		imageUrl: '',
 		userId: localStorage.getItem('id'),
 		prod: localStorage.getItem('lastViewedProduct'),
-		ratedMaterialsByUser: []
+		ratedMaterialsByUser: [],
+		allMaterials: []
     }
   },
   beforeMount: function () {
@@ -100,7 +101,12 @@ export default {
 			history.pushState(null, null, location.href);
     		window.onpopstate = function () {
         		history.go(1);
-    		};
+			};
+			this.product.materials.forEach(mat => {
+					findMaterialById(mat.id).then(newMat => {
+						this.allMaterials.push(newMat)
+					})
+			});
 		})
 
 		this.image = localStorage.getItem("profileImage")
