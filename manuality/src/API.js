@@ -248,6 +248,10 @@ export function getRatedMaterialsByuserId(id){
     })
 
 }
+
+export function deleteLikedMaterial(){
+    
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

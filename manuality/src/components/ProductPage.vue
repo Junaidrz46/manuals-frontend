@@ -137,6 +137,10 @@ export default {
 			})
 		},
 
+		deleteLikedProduct: function(){
+				
+		},
+
 		sendMaterialrating: function(materialId, rating) {
 			rateMaterial(localStorage.getItem("id"), materialId, rating);
 			location.reload();
