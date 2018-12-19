@@ -186,7 +186,6 @@ export function saveLikedProduct(userId, productId){
     })
 }
 
-<<<<<<< HEAD
 export function findUserById(id){
     return axios.get("http://localhost:8888/rest/users/findUsersById?userId=" + id, {
         "userId": id
@@ -206,7 +205,6 @@ export function saveSubscribeStatus(userId, message){
 }
 
 
-=======
 export function rateMaterial(userId, materialId, rating){
     return axios.post("http://localhost:8888/rest/users/saveRatedMaterialByUserId", {
         "userId":userId,
@@ -250,7 +248,6 @@ export function getRatedMaterialsByuserId(id){
     })
 
 }
->>>>>>> new_4488-fil_scoring_with_API
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {

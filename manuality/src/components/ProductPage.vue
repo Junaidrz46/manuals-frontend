@@ -113,7 +113,7 @@ export default {
 		this.materials = localStorage.getItem("materials")
 
 		findMaterialById(this.image)
-		.then(response => {
+		.then(response => {	
 			this.imageUrl = response.fileDownloadUri
 		}),
 		
