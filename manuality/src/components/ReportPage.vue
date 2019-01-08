@@ -7,37 +7,59 @@
 			<b-container>
 			<b-row>
 			<b-col md="6">
-			<div style="margin-left: 20px; margin-top: 30px;">
-					<table style="border: 2px solid; min-width: 450px;">
+				
+			<div style="margin-left: 20px; margin-top: 30px; height: 400px; overflow-y:auto;">
+					<table>
 						<thead>
 							<th>Product</th>
-							<th>Liked Count</th>
+							<th>Liked Counts</th>
 						</thead>
-						<tbody v-bind:key="material.id" v-for="material in allMaterials">
+						<tbody v-bind:key="product.id" v-for="product in products">
 							<tr style="border: 1px solid;">
 								<td>
-									<a :href=material.fileDownloadUri>{{material.description}}</a>
+									{{product.name}}
 								</td>	
 								<td>
-									<img v-bind:src="material.fileIcon" class="smallImg">
+									{{product.likedCounter}}
 								</td>
 							</tr>							
 						</tbody>
 					</table>
-
-					<!-- <div v-bind:key="material" v-for="material in product.materials" v-if="product.profileImage != material.id">
-						<a :href=material.fileDownloadUri>{{material.description}} <img v-bind:src="material.fileIcon" class="smallImg"></a>
-						<img v-on:click="deleteMaterial(material.id)" src="../assets/delete_icon.svg" style="height: 40px">
-					</div> -->
-					</div>
+			</div>
+			<div style="margin-left: 20px; margin-top: 30px;  height: 400px; overflow-y:auto;">
+					<table>
+						<thead>
+							<th>Product</th>
+							<th>Material</th>
+							<th>Access Counts</th>
+						</thead>
+						<tbody v-bind:key="material.id" v-for="material in materials">
+							<tr style="border: 1px solid;">
+								<td>
+									<!-- {{product.name}} -->
+								</td>	
+								<td>
+									{{material.fileName}}
+								</td>
+								<td>
+									{{material.accessCounter}}
+								</td>
+							</tr>
+																			
+						</tbody>
+						
+					</table>
+			</div>
 			</b-col>
-			<b-col>
-				<div  style="margin-left: 20px; margin-top: 50px;">
-					<font size="5px">Email to consumers</font>
-					<br/>
-                	<vue-editor v-model="textAreaContent" :editorToolbar="textAreaToolbar"></vue-editor>
 
+
+			<b-col>
+				<div  style="margin-right: 10px; margin-top: 50px;">
+					
+					<font size="6px">Email to consumers</font>
+                	<vue-editor v-model="textAreaContent" :editorToolbar="textAreaToolbar" style="height: 200px"></vue-editor>
             	</div>
+				<b-btn style="margin-top: 120px;" v-on:click="showAlert" @click="showAlert">Send Email</b-btn>				
 			</b-col>
 			</b-row>
 			</b-container>
@@ -48,7 +70,7 @@
 
 <script>
 import {VueEditor} from 'vue2-editor'
-import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial, isMaterialRatedByUser, getRatedMaterialsByuserId, deleteLikedProduct} from '../API'
+import {findAllProducts, findLikedCounterForProduct} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -70,65 +92,33 @@ export default {
 			['clean']                                
 		],
 
-		product:[],
-		isPdf: false,
-		isImage: false,
-		icon: 'https://i.gadgets360cdn.com/products/large/1519585124_635_samsung_galaxy_s9_blue.jpg',
-		image: '',
-		imageUrl: '',
-		userId: localStorage.getItem('id'),
-		prod: localStorage.getItem('lastViewedProduct'),
-		ratedMaterialsByUser: [],
-		allMaterials: [],
-		deleted: false,
-		added: false,
-		dismissSecs: 4,
-		dismissCountDown: 0 
+		products:[],
+		materials:[],
+		companyId: localStorage.getItem('company')
     }
   },
   beforeMount: function () {
-		findProductById(localStorage.getItem("lastViewedProduct"))
-		.then(response => {
-			this.product = response.data;
-			console.log(this.product)
-			console.log(this.product.materials)
-			history.pushState(null, null, location.href);
-    		window.onpopstate = function () {
-        		history.go(1);
-			};
-			this.product.materials.forEach(mat => {
-					findMaterialById(mat.id).then(newMat => {
-						this.allMaterials.push(newMat)
+		findAllProducts().then(response => {
+			response.forEach(tempProd => {
+				if (tempProd.companyId==this.companyId) {
+					/* findLikedCounterForProduct(tempProd.id).then( product => {
+						this.products.push(product)
+					}) */
+					this.products.push(tempProd)
+					var prodMaterials = tempProd.materials
+					prodMaterials.forEach(material => {
+						if (material!=null) {
+							this.materials.push(material)	
+						}
+						
 					})
+				}
 			});
 		})
-
-		this.image = localStorage.getItem("profileImage")
-		this.materials = localStorage.getItem("materials")
-
-		findMaterialById(this.image)
-		.then(response => {	
-			this.imageUrl = response.fileDownloadUri
-		}),
-		
-		getRatedMaterialsByuserId(localStorage.getItem("id")).then( response => {
-				response.forEach(element => {
-                    this.ratedMaterialsByUser.push(element)
-                });
-			})
-
+		console.log(this.materials)
 	},
 	methods: {
 	    
-	},
-	computed: {
-		userIsRepresentative: function () {
-			return localStorage.getItem('company') === this.product.companyId 
-		},
-		userIsConsumer: function () {
-			return localStorage.getItem('permissions') === "consumer" 
-		},
-		
 	}
 }
 </script>
@@ -161,7 +151,7 @@ h3{
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 500px;
+	height: 900px;
 	width: 1100px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	margin-left: 7%;
@@ -249,5 +239,9 @@ li{
     width:15px;
     height:auto;
     display:inline-block;
+}
+table{
+	border: 2px solid;
+	width: 480px;
 }
 </style>

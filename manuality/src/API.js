@@ -268,6 +268,18 @@ export function deleteLikedProduct(userId, productId, message){
     })
     
 }
+
+export function findAllProducts(){
+    return axios.get("http://localhost:8888/rest/categories/findAllProducts")
+    .then(response => {
+        return response.data   
+    })
+    .catch(function(error){
+        console.log("ERROR in findAllProducts API!")
+        console.log(error);
+    })
+
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {
