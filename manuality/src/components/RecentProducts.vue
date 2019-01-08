@@ -14,10 +14,10 @@
     >
 
       <!-- Text slides with image -->
-      <b-carousel-slide v-bind:key="element" v-for="element in this.arr"
-                        caption="First slide"
-                        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-                        img-src="https://picsum.photos/1024/480/?image=52"
+      <b-carousel-slide v-bind:key="element" v-for="element in this.products"
+                        :caption="element.name"
+                        :text="element.description"
+                        :img-src="element.profileImage"
       ></b-carousel-slide>
 
 
@@ -31,14 +31,36 @@
 </template>
 
 <script>
+
+import {getRecentProducts} from '../API'
+import {findMaterialById} from '../API'
+
 export default {
   data () {
     return {
       slide: 0,
       sliding: null,
-      arr: ["Slide 1", "Slide 2", "Slide 3"]
+      products: [],
+      products2: [],
+      test: ''
     }
   },
+  beforeMount: function(){
+    getRecentProducts().then(response => {
+      response.forEach(element => {
+        this.products.push(element)
+      });
+    //  console.log(this.products)
+    })
+    this.products.forEach(product => {
+      findMaterialById(product.profileImage).then(response => {	
+			  product.profileImage = response.fileDownloadUri
+		  })
+    });
+  console.log(this.products)
+  console.log(this.test)
+  },
+
   methods: {
     onSlideStart (slide) {
       this.sliding = true

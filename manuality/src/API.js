@@ -268,6 +268,19 @@ export function deleteLikedProduct(userId, productId, message){
     })
     
 }
+
+export function getRecentProducts(){
+    return axios.get("http://localhost:8888/rest/categories/getMostRecentlyProducts", {
+
+    })
+    .then(response => {
+        console.log(response.data)
+        return response.data
+    })
+    .catch(function(error){
+        console.log(error)
+    })
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {
