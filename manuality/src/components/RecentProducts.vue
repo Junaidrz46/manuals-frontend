@@ -1,13 +1,10 @@
 <template>
-    <div class="recent" style="width:1024px; height:480px; !important">
-        <b-carousel id="carousel1"
+    <div class="recent">
+        <b-carousel id="carousel1" class=""
             style="text-shadow: 1px 1px 2px #333;"
             controls
-            indicators
             background="#ababab"
             :interval="3000"
-            img-width="1024"
-            img-height="200"
             v-model="slide"
             @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
@@ -64,8 +61,9 @@ export default {
 
 <style>
 .recent{
-    width: auto;
-    height: auto;
+    width: 55%;
+    margin-left: 230px;
+    max-height: 100px;
     margin-right: 20px;
     margin-top: 30px;
 }

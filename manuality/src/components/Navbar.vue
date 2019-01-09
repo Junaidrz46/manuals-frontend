@@ -23,7 +23,7 @@
         <b-dropdown v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Options" size="lg">
             <div>
                 <b-dropdown-item-button v-on:click="redirectToPage">{{fname}}</b-dropdown-item-button>
-                <b-dropdown-item-button>Option 2</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectReport" v-if="isRepresentative">Report</b-dropdown-item-button>
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item-button v-on:click="logout"><strong>Sign out</strong></b-dropdown-item-button>
             </div>
@@ -76,7 +76,8 @@ export default {
             fname: localStorage.getItem("fname"),
             lname: localStorage.getItem("lname"),
             isConsumer: false,
-            role: localStorage.getItem("role")
+            role: localStorage.getItem("role"),
+            isRepresentative: false
 		}
     },
     created : function(){
@@ -86,6 +87,10 @@ export default {
         if(localStorage.getItem("permissions") === "consumer"){
             this.isConsumer = true;
         }
+        if(localStorage.getItem("permissions") === "company_representative"){
+            this.isRepresentative = true;
+        }
+
     },
 	methods: {
 
@@ -100,7 +105,12 @@ export default {
 				"companyRepresentative": "/company_rep_home",
 				"companyAdmin": "/company_admin_home"
 			};
-            this.$router.push( redirectToHomeMap[this.role] )
+            this.$router.push(redirectToHomeMap[this.role] )
+            location.reload();
+        },
+
+        redirectReport: function(){
+            this.$router.push("/report")
             location.reload();
         },
 
