@@ -6,27 +6,37 @@
 
 			<b-container>
 			<b-row>
-			<b-col md="6">
+			<b-col md="7">
 				
-			<div style="margin-left: 20px; margin-top: 30px; height: 400px; overflow-y:auto;">
+			<div style="margin-left: 15px; margin-top: 40px; height: 500px; overflow-y:auto;">
 					<table>
-						<thead>
+						<thead style="border: 1px solid;">
 							<th>Product</th>
 							<th>Liked Counts</th>
+							<th>Material name</th>
+							<th>Access Counts</th>
 						</thead>
 						<tbody v-bind:key="product.id" v-for="product in products">
-							<tr style="border: 1px solid;">
+							<tr>
 								<td>
 									{{product.name}}
 								</td>	
 								<td>
 									{{product.likedCounter}}
 								</td>
-							</tr>							
+								<td></td>
+								<td></td>
+							</tr>
+							<tr v-bind:key="material.id" v-for="material in product.materials" style="border: 1px solid;">
+								<td></td>
+								<td></td>
+								<td> {{material.fileName}} </td>
+								<td> {{material.accessCounter}} </td>
+							</tr>					
 						</tbody>
 					</table>
 			</div>
-			<div style="margin-left: 20px; margin-top: 30px;  height: 400px; overflow-y:auto;">
+			<!-- <div style="margin-left: 20px; margin-top: 30px;  height: 400px; overflow-y:auto;">
 					<table>
 						<thead>
 							<th>Product</th>
@@ -36,7 +46,6 @@
 						<tbody v-bind:key="material.id" v-for="material in materials">
 							<tr style="border: 1px solid;">
 								<td>
-									<!-- {{product.name}} -->
 								</td>	
 								<td>
 									{{material.fileName}}
@@ -49,7 +58,7 @@
 						</tbody>
 						
 					</table>
-			</div>
+			</div> -->
 			</b-col>
 
 
@@ -57,9 +66,9 @@
 				<div  style="margin-right: 10px; margin-top: 50px;">
 					
 					<font size="6px">Email to consumers</font>
-                	<vue-editor v-model="textAreaContent" :editorToolbar="textAreaToolbar" style="height: 200px"></vue-editor>
+                	<vue-editor v-model="textAreaContent" :editorToolbar="textAreaToolbar" style="height: 300px"></vue-editor>
             	</div>
-				<b-btn style="margin-top: 120px;" v-on:click="showAlert" @click="showAlert">Send Email</b-btn>				
+				<b-btn style="margin-top: 120px;" v-on:click="sendEmailToCustomers">Send Email</b-btn>				
 			</b-col>
 			</b-row>
 			</b-container>
@@ -70,7 +79,7 @@
 
 <script>
 import {VueEditor} from 'vue2-editor'
-import {findAllProducts, findLikedCounterForProduct} from '../API'
+import {findAllProducts, getUserByRole, sendEmail, findCompanyById} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -94,6 +103,8 @@ export default {
 
 		products:[],
 		materials:[],
+		emailAddresses : [],
+		companyName: "",
 		companyId: localStorage.getItem('company')
     }
   },
@@ -114,11 +125,23 @@ export default {
 					})
 				}
 			});
-		})
-		console.log(this.materials)
+		});
+		findCompanyById(this.companyId).then(response => {
+					this.companyName = response.name;
+		});
 	},
 	methods: {
-	    
+	    sendEmailToCustomers: function(){
+			this.emailAddresses = [];
+			getUserByRole("customer").then(response => {
+				response.forEach(user => {
+					this.emailAddresses.push(user.emailaddress);
+				})});
+			this.emailSubject = "Message from "+this.companyName+" representative!"
+			this.emailAddresses.push("mm223pr@student.lnu.se");
+
+			sendEmail(this.emailSubject, this.textAreaContent, this.emailAddresses);
+		}
 	}
 }
 </script>
@@ -151,10 +174,10 @@ h3{
 	background-size:cover;
 	font-family:sans-serif;
 	background-color:white;
-	height: 900px;
-	width: 1100px;
+	height: 600px;
+	width: 1200px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	margin-left: 7%;
+	margin-left: 5%;
 	margin-top: 4%; 
 
 }
@@ -242,6 +265,8 @@ li{
 }
 table{
 	border: 2px solid;
-	width: 480px;
+}
+tr{
+	 border: 1px solid;
 }
 </style>

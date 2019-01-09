@@ -280,6 +280,35 @@ export function findAllProducts(){
     })
 
 }
+
+export function sendEmail(subject, emailBody, recipients){
+    return axios.post("http://localhost:8888/rest/users/sendEmailMessage", {
+        "subject":subject,
+        "emailBody": emailBody,
+        "recipients": recipients
+    })
+    .then(response => {
+        console.log("Email sent!")
+    })
+    .catch(function(error){
+        console.log("ERROR in sendEmail API!")
+        console.log(error);
+    })
+    //console.log([subject,emailBody,recipients]);
+}
+
+export function getUserByRole(userRole) {
+    return axios.get("http://localhost:8888/rest/users/findUsersByRole?role=" + userRole, {
+        "role":userRole
+    })
+    .then(response => {
+        return response.data
+    })
+    .catch(function (error) {
+        console.log("ERROR in getUserByRole API!")
+        console.log(error);
+    });
+}
 // export function getUserByName(name) {
 // return axios.get(url + 'findUserByUserName?userName='+name)
 // 		.then(response => {
