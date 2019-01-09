@@ -340,3 +340,9 @@ export function increaseAccessCountMaterial(materialId){
         "materialId": materialId
     })
 }
+
+export function getAllSubscribedUsers(){
+    return axios.get("http://localhost:8888/rest/users/findEmailofSubscribedUsers",{
+
+    })
+}
