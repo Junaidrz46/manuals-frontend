@@ -32,7 +32,7 @@
 						<tbody v-bind:key="material.id" v-for="material in allMaterials" v-if="product.profileImage != material.id">
 							<tr style="border: 1px solid;">
 								<td>
-									<a :href=material.fileDownloadUri>{{material.description}}</a>
+									<a v-on:click="increaseAccessCountMaterial(material.id)" :href=material.fileDownloadUri>{{material.description}}</a>
 								</td>	
 								<td>
 									<img v-bind:src="material.fileIcon" class="smallImg">
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial, isMaterialRatedByUser, getRatedMaterialsByuserId, deleteLikedProduct} from '../API'
+import {findProductById, findMaterialById, deleteMaterialByID, saveLikedProduct, rateMaterial, isMaterialRatedByUser, getRatedMaterialsByuserId, deleteLikedProduct, increaseLikedCounterProduct, decreaseLikedCounterProduct, increaseAccessCountMaterial} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -148,6 +148,7 @@ export default {
 		saveLikedProduct: function(){
 			saveLikedProduct(this.userId, this.prod).then(response => {
 				console.log(response);
+				increaseLikedCounterProduct(this.prod)
 				this.added = true
 				this.deleted = false
 			})
@@ -155,6 +156,7 @@ export default {
 
 		deleteLikedProduct: function(){
 			deleteLikedProduct(this.userId, this.prod).then(response => {
+				decreaseLikedCounterProduct(this.prod)
 				this.deleted = true
 				this.added = false
 			})
@@ -170,6 +172,10 @@ export default {
 				//console.log(materialId+" "+response)
 				return response;
 			})
+		},
+
+		increaseAccessCountMaterial: function(id){
+			increaseAccessCountMaterial(id)
 		}
 	},
 	computed: {

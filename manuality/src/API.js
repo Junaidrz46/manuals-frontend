@@ -322,3 +322,21 @@ export function getRecentProducts(){
         console.log(error)
     })
 }
+
+export function increaseLikedCounterProduct(productId){
+    return axios.get("http://localhost:8888/rest/categories/increaseLikedCounterForProduct?productId=" + productId, {
+        "productId": productId
+    })
+}
+
+export function decreaseLikedCounterProduct(productId){
+    return axios.get("http://localhost:8888/rest/categories/decreaseLikedCounterForProduct?productId=" + productId, {
+        "productId": productId
+    })
+}
+
+export function increaseAccessCountMaterial(materialId){
+    return axios.get("http://localhost:8888/rest/categories/increaseAccessCounterForMaterial?materialId=" + materialId, {
+        "materialId": materialId
+    })
+}
