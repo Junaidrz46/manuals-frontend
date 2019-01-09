@@ -1,13 +1,13 @@
 <template>
-    <div class="recent">
+    <div class="recent" style="width:1024px; height:480px; !important">
         <b-carousel id="carousel1"
             style="text-shadow: 1px 1px 2px #333;"
             controls
             indicators
             background="#ababab"
-            :interval="4000"
+            :interval="3000"
             img-width="1024"
-            img-height="480"
+            img-height="200"
             v-model="slide"
             @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
@@ -22,11 +22,6 @@
 
 
     </b-carousel>
-
-    <p class="mt-4">
-      Slide #: {{ slide }}<br>
-      Sliding: {{ sliding }}
-    </p>
     </div>
 </template>
 
@@ -41,24 +36,19 @@ export default {
       slide: 0,
       sliding: null,
       products: [],
-      products2: [],
-      test: ''
+      test: []
     }
   },
   beforeMount: function(){
     getRecentProducts().then(response => {
+      console.log(response)
       response.forEach(element => {
+        findMaterialById(element.profileImage).then((function(result) {
+          element.profileImage=result.fileDownloadUri}
+        ));
         this.products.push(element)
-      });
-    //  console.log(this.products)
+        });
     })
-    this.products.forEach(product => {
-      findMaterialById(product.profileImage).then(response => {	
-			  product.profileImage = response.fileDownloadUri
-		  })
-    });
-  console.log(this.products)
-  console.log(this.test)
   },
 
   methods: {
