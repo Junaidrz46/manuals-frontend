@@ -138,7 +138,6 @@ export default {
 					this.emailAddresses.push(user.emailaddress);
 				})});
 			this.emailSubject = "Message from "+this.companyName+" representative!"
-			this.emailAddresses.push("mm223pr@student.lnu.se");
 
 			sendEmail(this.emailSubject, this.textAreaContent, this.emailAddresses);
 		}
