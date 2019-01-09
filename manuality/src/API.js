@@ -269,6 +269,47 @@ export function deleteLikedProduct(userId, productId, message){
     
 }
 
+export function findAllProducts(){
+    return axios.get("http://localhost:8888/rest/categories/findAllProducts")
+    .then(response => {
+        return response.data   
+    })
+    .catch(function(error){
+        console.log("ERROR in findAllProducts API!")
+        console.log(error);
+    })
+
+}
+
+export function sendEmail(subject, emailBody, recipients){
+    return axios.post("http://localhost:8888/rest/users/sendEmailMessage", {
+        "subject":subject,
+        "emailBody": emailBody,
+        "recipients": recipients
+    })
+    .then(response => {
+        console.log("Email sent!")
+    })
+    .catch(function(error){
+        console.log("ERROR in sendEmail API!")
+        console.log(error);
+    })
+    //console.log([subject,emailBody,recipients]);
+}
+
+export function getUserByRole(userRole) {
+    return axios.get("http://localhost:8888/rest/users/findUsersByRole?role=" + userRole, {
+        "role":userRole
+    })
+    .then(response => {
+        return response.data
+    })
+    .catch(function (error) {
+        console.log("ERROR in getUserByRole API!")
+        console.log(error);
+    });
+}
+
 export function getRecentProducts(){
     return axios.get("http://localhost:8888/rest/categories/getMostRecentlyProducts", {
 
@@ -281,46 +322,3 @@ export function getRecentProducts(){
         console.log(error)
     })
 }
-// export function getUserByName(name) {
-// return axios.get(url + 'findUserByUserName?userName='+name)
-// 		.then(response => {
-//             console.log(resopnse.data)
-// 			return response.data
-// 			})
-// 		.catch(function (error) {
-// 			console.log(error);
-// 			});
-// }
-
-
-// function postUser(namePar, emailPar, rolePar) {
-// 	return axios.post(url+'saveAdminUser', {
-// 		userName: namePar,
-// 		emailAddress: emailPar,
-// 		role: rolePar
-// 		})
-// 		.catch(function (error) {
-// 		console.log(error);
-// 		});
-// }
-
-// function getUserByEmail(emailAddress) {
-// return axios.get(url+'findUserByEmailAddress?emailAddress='+emailAddress)
-// 		.then(response => {
-// 			return response.data
-// 			})
-// 		.catch(function (error) {
-// 			console.log(error);
-// 			});
-// }
-
-
-
-// function getrepresentativeByEmail(emailAddress) {
-// return axios.get(url+'findUserByEmailAddress?role=companyRepresentative&emailAddress='+emailAddress)
-// 		.then(response => {
-// 			return response.data
-// 			})
-// 		.catch(function (error) {
-// 			console.log(error);
-// 			});

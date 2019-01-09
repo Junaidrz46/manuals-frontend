@@ -16,6 +16,8 @@ import RecentProducts from '@/components/RecentProducts'
 import Search from '@/components/Search'
 //Signup
 import SignUp from '@/components/SignUp'
+//Report
+import ReportPage from '@/components/ReportPage'
 
 
 Vue.use(Router)
@@ -29,7 +31,8 @@ const router  = new Router({
     { path: '/consumer_home'                , component: ConsumerHome       , meta: { rule: 'isConsumer' }             , name: 'ConsumerHome' },
     { path: '/products/:id'                 , component: ProductPage        , meta: { rule: 'isPublic' }               , name: 'ProductPage' },
     { path: '/search/:search_query'         , component: Search             , meta: { rule: 'isPublic' }               , name: 'Search' },
-    { path: '/signup'                       , component: SignUp             , meta: { rule: 'isNotLogged'}             , name: 'SignUp'}
+    { path: '/signup'                       , component: SignUp             , meta: { rule: 'isNotLogged'}             , name: 'SignUp'},
+    { path: '/report'                       , component: ReportPage             , meta: { rule: 'isCompanyRepresentative'}             , name: 'Report'}
 
   ]
 })
