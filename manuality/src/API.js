@@ -205,6 +205,8 @@ export function saveSubscribeStatus(userId, message){
     return axios.post("http://localhost:8888/rest/users/saveAuthorizationByUserId?userId=" + userId + "&receiveMessage=" + message, {
         "userId": userId,
         "receiveMessage": message
+    }).then(response => {
+        console.log(response.data)
     })
 }
 

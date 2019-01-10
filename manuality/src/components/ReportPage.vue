@@ -1,7 +1,6 @@
 <template>
 	<div id="product">
         <div class="body">
-
 			<div style="display: flex;">
 
 			<b-container>
@@ -35,6 +34,7 @@
 							</tr>					
 						</tbody>
 					</table>
+
 			</div>
 			<!-- <div style="margin-left: 20px; margin-top: 30px;  height: 400px; overflow-y:auto;">
 					<table>
@@ -88,7 +88,7 @@ export default {
    },
   data () {
     return {
-		textAreaContent: 'Initial content',
+		textAreaContent: '',
 		textAreaToolbar: [
 			["bold", "italic", "underline"],
 			[{align: ""}, {align: "right"}, {align: "center"}, {align: "justify"}],
@@ -103,7 +103,7 @@ export default {
 
 		products:[],
 		materials:[],
-		emailAddresses : [],
+		emailAddresses: [],
 		companyName: "",
 		companyId: localStorage.getItem('company')
     }
@@ -129,18 +129,22 @@ export default {
 		findCompanyById(this.companyId).then(response => {
 					this.companyName = response.name;
 		});
+		this.emailAddresses = [];
+		getUserByRole("customer").then(response => {
+			response.forEach(user => {
+				this.emailAddresses.push(user.emailaddress);
+			})
+		});
 	},
 	methods: {
 	    sendEmailToCustomers: function(){
-			this.emailAddresses = [];
-			getUserByRole("customer").then(response => {
-				response.forEach(user => {
-					this.emailAddresses.push(user.emailaddress);
-				})});
 			this.emailSubject = "Message from "+this.companyName+" representative!"
-
 			sendEmail(this.emailSubject, this.textAreaContent, this.emailAddresses);
-		}
+			this.waitFunc();
+		},
+		 waitFunc: function(){   
+            setTimeout(function(){ location.reload(); }, 2000);
+        }
 	}
 }
 </script>
