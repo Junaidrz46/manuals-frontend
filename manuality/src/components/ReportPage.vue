@@ -26,7 +26,7 @@
 								<td></td>
 								<td></td>
 							</tr>
-							<tr v-bind:key="material.id" v-for="material in product.materials" style="border: 1px solid;">
+							<tr v-bind:key="material.id"  v-if="product.profileImage != material.id" v-for="material in product.materials" style="border: 1px solid;">
 								<td></td>
 								<td></td>
 								<td> {{material.fileName}} </td>
