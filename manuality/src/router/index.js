@@ -18,7 +18,8 @@ import Search from '@/components/Search'
 import SignUp from '@/components/SignUp'
 //Report
 import ReportPage from '@/components/ReportPage'
-
+//Service provider
+import ServiceProviderHome from '@/components/ServiceProviderHome'
 
 Vue.use(Router)
 
@@ -32,7 +33,8 @@ const router  = new Router({
     { path: '/products/:id'                 , component: ProductPage        , meta: { rule: 'isPublic' }               , name: 'ProductPage' },
     { path: '/search/:search_query'         , component: Search             , meta: { rule: 'isPublic' }               , name: 'Search' },
     { path: '/signup'                       , component: SignUp             , meta: { rule: 'isNotLogged'}             , name: 'SignUp'},
-    { path: '/report'                       , component: ReportPage             , meta: { rule: 'isCompanyRepresentative'}             , name: 'Report'}
+    { path: '/report'                       , component: ReportPage             , meta: { rule: 'isCompanyRepresentative'}             , name: 'Report'},
+    { path: '/service_prov_home'            , component: ServiceProviderHome    , meta: { rule: 'isServiceProvider'}             , name: 'ServiceProviderHome'}
 
   ]
 })

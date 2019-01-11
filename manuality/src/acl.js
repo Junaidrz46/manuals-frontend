@@ -35,5 +35,6 @@ export default new AclCreate({
     isConsumer: new AclRule('consumer').generate(),
     isCompanyAdmin: new AclRule('company_admin').generate(),
     isCompanyRepresentative: new AclRule('company_representative').generate(),
+    isServiceProvider: new AclRule('service_provider').generate()
   }
 })

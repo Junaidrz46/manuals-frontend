@@ -98,12 +98,14 @@ export default {
             var permissions = {
                 "companyAdmin" : 'company_admin',
                 "companyRepresentative" : 'company_representative', 
-                "customer" : 'consumer'
+                "customer" : 'consumer',
+                "serviceProvider": 'service_provider',
             }
             var redirectToHomeMap = {
 				"customer": "/consumer_home",
 				"companyRepresentative": "/company_rep_home",
-				"companyAdmin": "/company_admin_home"
+                "companyAdmin": "/company_admin_home",
+                "serviceProvider": "/service_prov_home",
 			};
             this.$router.push(redirectToHomeMap[this.role] )
             location.reload();
@@ -159,7 +161,8 @@ export default {
                         var permissions = {
                             "companyAdmin" : 'company_admin',
                             "companyRepresentative" : 'company_representative',
-                            "customer" : 'consumer'
+                            "customer" : 'consumer',
+                            "serviceProvider": 'service_provider',
                         }
 
                         // For redirection
@@ -172,7 +175,9 @@ export default {
 						var redirectToHomeMap = {
 							"customer": "/consumer_home",
 							"companyRepresentative": "/company_rep_home",
-							"companyAdmin": "/company_admin_home"
+                            "companyAdmin": "/company_admin_home",
+                            "serviceProvider": "/service_prov_home",
+
 						};
                         this.$router.push( redirectToHomeMap[response.data.user.role] )
                         location.reload();
