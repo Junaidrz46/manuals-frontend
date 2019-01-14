@@ -28,7 +28,7 @@ export default new AclCreate({
   globalRules: {
     isManualityAdmin: new AclRule('admin').generate(),
     
-    isPublic: new AclRule('public').or('admin').or('consumer').or('company_admin').or('company_representative').generate(),
+    isPublic: new AclRule('public').or('admin').or('consumer').or('company_admin').or('company_representative').or('service_provider').generate(),
 
     isNotLogged: new AclRule('public').generate(),
 
