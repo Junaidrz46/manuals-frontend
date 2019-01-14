@@ -29,7 +29,7 @@
 
 <script>
 import {VueEditor} from 'vue2-editor'
-import {findAllProducts, getUserByRole, sendEmail, findCompanyById} from '../API'
+import {findAllProducts, getUserByRole, sendEmailtoOptInUsers, findCompanyById} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -53,7 +53,6 @@ export default {
 
 		products:[],
 		materials:[],
-		emailAddresses: [],
 		companyName: "",
 		companyId: localStorage.getItem('company')
     }
@@ -62,9 +61,6 @@ export default {
 		findAllProducts().then(response => {
 			response.forEach(tempProd => {
 				if (tempProd.companyId==this.companyId) {
-					/* findLikedCounterForProduct(tempProd.id).then( product => {
-						this.products.push(product)
-					}) */
 					this.products.push(tempProd)
 					var prodMaterials = tempProd.materials
 					prodMaterials.forEach(material => {
@@ -79,22 +75,12 @@ export default {
 		findCompanyById(this.companyId).then(response => {
 					this.companyName = response.name;
 		});
-		this.emailAddresses = [];
-		getUserByRole("customer").then(response => {
-			response.forEach(user => {
-				this.emailAddresses.push(user.emailaddress);
-			})
-		});
 	},
 	methods: {
 	    sendEmailToCustomers: function(){
-			this.emailSubject = "Message from "+this.companyName+" representative!"
-			sendEmail(this.emailSubject, this.textAreaContent, this.emailAddresses);
-			this.waitFunc();
-		},
-		 waitFunc: function(){   
-            setTimeout(function(){ location.reload(); }, 2000);
-        }
+			this.emailSubject = "Message from "+this.companyName+" service provider!"
+			sendEmailtoOptInUsers(this.emailSubject, this.textAreaContent);
+		}
 	}
 }
 </script>

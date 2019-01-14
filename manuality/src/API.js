@@ -348,3 +348,17 @@ export function getAllSubscribedUsers(){
 
     })
 }
+
+export function sendEmailtoOptInUsers(subject, emailBody){
+    return axios.post("http://localhost:8888/rest/users/sendEmailtoOptInUsers", {
+        "subject":subject,
+        "emailBody": emailBody
+    })
+    .then(response => {
+        console.log("Email sent!")
+    })
+    .catch(function(error){
+        console.log("ERROR in sendEmailtoOptInUsers API!")
+        console.log(error);
+    })
+}
