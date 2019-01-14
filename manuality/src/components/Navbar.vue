@@ -22,8 +22,11 @@
       
         <b-dropdown v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Options" size="lg">
             <div>
-                <b-dropdown-item-button v-on:click="redirectToPage">{{fname}}</b-dropdown-item-button>
-                <b-dropdown-item-button v-on:click="redirectReport" v-if="isRepresentative">Report</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectToPage" v-if="isConsumer">{{fname}}</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectToPage" v-if="isRepresentative">Add a product</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectToPage" v-if="isCompanyAdmin">Add a representative</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectReport" v-if="isRepresentative">Report & e-mail</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectCreateSP" v-if="isCompanyAdmin">Add a service provider</b-dropdown-item-button>
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item-button v-on:click="logout"><strong>Sign out</strong></b-dropdown-item-button>
             </div>
@@ -77,7 +80,8 @@ export default {
             lname: localStorage.getItem("lname"),
             isConsumer: false,
             role: localStorage.getItem("role"),
-            isRepresentative: false
+            isRepresentative: false,
+            isCompanyAdmin: false
 		}
     },
     created : function(){
@@ -89,6 +93,9 @@ export default {
         }
         if(localStorage.getItem("permissions") === "company_representative"){
             this.isRepresentative = true;
+        }
+        if(localStorage.getItem("permissions") === "company_admin"){
+            this.isCompanyAdmin = true;
         }
 
     },
@@ -118,6 +125,11 @@ export default {
 
         redirectSignUp: function(){
             this.$router.push("/signup");
+            location.reload();
+        },
+
+        redirectCreateSP: function(){
+            this.$router.push("/create_service_prov")
             location.reload();
         },
 

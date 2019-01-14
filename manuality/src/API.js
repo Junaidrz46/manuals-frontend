@@ -362,3 +362,21 @@ export function sendEmailtoOptInUsers(subject, emailBody){
         console.log(error);
     })
 }
+
+export function createServiceProvider(firstname, lastname, username, email, phone, password, companyId){
+    return axios.post("http://localhost:8888/rest/users/saveServiceProvider", {
+        "firstname": firstname,
+        "lastname": lastname,
+        "username": username,
+        "email": email,
+        "phone": phone,
+        "password": password,
+        "companyId": companyId
+    })
+    .then(response => {
+        console.log(response)
+    })
+    .catch(function(error){
+        console.log(error)
+    })
+}
