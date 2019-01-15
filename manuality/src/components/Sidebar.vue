@@ -92,7 +92,7 @@ export default {
   background-color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 25px;
-  color: black;
+  color: #7B6652;
   height: 70px;
   padding-top:15px;
   margin-left: 0px !important;
@@ -100,8 +100,8 @@ export default {
 
 .cat-btn
 {
-  border-color: rgb(52,58,64);
-  background-color: rgb(52,58,64);
+  border-color: #565656;
+  background-color: #565656;
   font-weight: bold;
   margin-left: 0px !important;
 }
@@ -117,10 +117,10 @@ export default {
 
 .prod-btn
 {
-  border-color: rgb(196, 205, 214);
-  background-color: rgb(196, 205, 214);
+  background-color: #76323F;
+  border-color: #76323F;
   font-weight: bold;
-  color: rgb(52,58,64);
+  color: #FFFFFF;
   margin-left: 0px !important;
 }
 

@@ -107,7 +107,7 @@ h3{
 .body
 {
 	position:absolute;
-	border: 1px solid black;
+	border: 3px solid #76323F;
 	padding:0;
 	border-radius: 6px;
 	background-size:cover;

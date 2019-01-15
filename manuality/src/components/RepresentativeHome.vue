@@ -179,7 +179,7 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 	width:600px;
     height: 600px;
     background: #F0F0F0;
-    border: 1px solid #000;
+    border: 3px solid #76323F;
 	position:absolute;
 	padding:80px 40px;
 	background:#FFFFFF;
@@ -192,13 +192,13 @@ h3
 {
 	padding:20px;
 	padding-top:0px;
-	color:black;
+	color:#7B6652;
 	text-align:center;
     margin-top: -50px;
 }
 .desc
 {
-	color:black;
+	color:#7B6652;
     float: left;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -224,9 +224,9 @@ h3
 }
 .product input[type="text"], .product input[type="text"], .product input[type="text"]
 {
+    border: none;
 	padding-bottom:5px;
 	padding-top:5px;
-	border:none;
 	border-bottom:1px solid #000;
 	background:transparent;
 	outline:none;
@@ -242,20 +242,20 @@ h3
 .product input[type="button"]
 {
 	margin-top:5px;
-	border:none;
 	outline:none;
 	height:40px;
     width: 150px;
 	color:#fff;
-	background:#708090;
+	background:#76323F;
 	cursor:pointer;
 	border-radius:20px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .product input[type="button"]:hover
 {
-	background:black;
-	color:white;
+	background:white;
+	color:black;
+    border-color: black;
 }
 .class-a {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;

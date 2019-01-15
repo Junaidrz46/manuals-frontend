@@ -1,6 +1,6 @@
 <template>
     <div id="navbar">
-        <b-navbar toggleable="md" type="navbar navbar-expand-sm bg-dark navbar-dark" variant="info">
+        <b-navbar toggleable="md" type="navbar navbar-expand-sm" class="nav-color">
 
      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
      <b-navbar-brand>
@@ -248,7 +248,7 @@ h2
 {
 	margin:0;
 	padding:0 0 20px;
-	color: rgba(0, 0, 0, 1);
+	color: #7B6652;
     text-align:center;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -256,7 +256,7 @@ h2
 {
 	margin:0;
 	padding:0 0 20px;
-	color:rgba(0, 0, 0, 1);
+	color:#7B6652;
     font-weight:bold;
     text-align: left;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -286,20 +286,19 @@ h2
 .loginBox input[type="button"]
 {
     margin-top: 45px;
-	border:none;
 	outline:none;
 	height:40px;
 	color:#fff;
 	font-size:16px;
-	background:#708090;
+	background:#76323F;
 	cursor:pointer;
     border-radius:20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .loginBox input[type="button"]:hover
 {
-	background:rgba(0, 0, 0, 1);
-	color:#FFFFFF;
+	background:white;
+	color:black;
 }
 
 .login-error p {
@@ -308,5 +307,20 @@ h2
 	text-align: center;
 	
 }
+
+.nav-color {
+    background: #565656;
+}
+
+.btn-secondary {
+    background-color: #76323F;
+    border-color: #76323F;
+}
+
+.submitbutton  {
+    background-color: #76323F;
+    border-color: #76323F;
+}
+
 </style>
 
