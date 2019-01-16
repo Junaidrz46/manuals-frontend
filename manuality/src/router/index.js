@@ -22,6 +22,9 @@ import ReportPage from '@/components/ReportPage'
 import ServiceProviderHome from '@/components/ServiceProviderHome'
 //Create service provider
 import CreateServiceProvider from '@/components/CreateServiceProvider'
+//All service providers
+import ServiceProviders from '@/components/ServiceProviders'
+
 Vue.use(Router)
 
 
@@ -36,8 +39,8 @@ const router  = new Router({
     { path: '/signup'                       , component: SignUp                 , meta: { rule: 'isNotLogged'}                   , name: 'SignUp'},
     { path: '/report'                       , component: ReportPage             , meta: { rule: 'isCompanyRepresentative'}       , name: 'Report'},
     { path: '/service_prov_home'            , component: ServiceProviderHome    , meta: { rule: 'isServiceProvider'}             , name: 'ServiceProviderHome'},
-    { path: '/create_service_prov'          , component: CreateServiceProvider  , meta: { rule: 'isCompanyAdmin'}                , name: 'CreateServiceProvider'}
-
+    { path: '/create_service_prov'          , component: CreateServiceProvider  , meta: { rule: 'isCompanyAdmin'}                , name: 'CreateServiceProvider'},
+    { path: '/service'                , component: ServiceProviders       , meta: { rule: 'isCompanyRepresentative'}       , name: 'ServiceProviders'}
   ]
 })
 

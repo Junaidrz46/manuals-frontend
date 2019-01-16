@@ -350,7 +350,7 @@ export function getAllSubscribedUsers(){
 }
 
 export function sendEmailtoOptInUsers(subject, emailBody){
-    return axios.post("http://localhost:8888/rest/users/sendEmailtoOptInUsers", {
+    return axios.get("http://localhost:8888/rest/users/sendEmailtoOptInUsers", {
         "subject":subject,
         "emailBody": emailBody
     })
@@ -375,6 +375,19 @@ export function createServiceProvider(firstname, lastname, username, email, phon
     })
     .then(response => {
         console.log(response)
+    })
+    .catch(function(error){
+        console.log(error)
+    })
+}
+
+export function serviceProviderByCompanyId(companyId){
+    return axios.get("http://localhost:8888/rest/users/findSPByCompanyId?role=serviceProvider&companyId=" + companyId, {
+        "companyId": companyId
+    })
+    .then(response => {
+        console.log(response)
+        return response;
     })
     .catch(function(error){
         console.log(error)
