@@ -29,7 +29,7 @@
 
 <script>
 import {VueEditor} from 'vue2-editor'
-import {findAllProducts, getUserByRole, sendEmailtoOptInUsers, findCompanyById} from '../API'
+import {findAllProducts, getUserByRole, SendEmailtoSubscribedUsersByCompanyId, findCompanyById} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -79,7 +79,7 @@ export default {
 	methods: {
 	    sendEmailToCustomers: function(){
 			this.emailSubject = "Message from "+this.companyName+" service provider!"
-			sendEmailtoOptInUsers(this.emailSubject, this.textAreaContent);
+			SendEmailtoSubscribedUsersByCompanyId(this.companyId, this.emailSubject, this.textAreaContent);
 		}
 	}
 }

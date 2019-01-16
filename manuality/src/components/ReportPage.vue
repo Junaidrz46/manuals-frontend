@@ -79,7 +79,7 @@
 
 <script>
 import {VueEditor} from 'vue2-editor'
-import {findAllProducts, getUserByRole, sendEmailtoOptInUsers, findCompanyById} from '../API'
+import {findAllProducts, getUserByRole, SendEmailtoSubscribedUsersByCompanyId, findCompanyById, getAllSubscribedUsers} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -89,6 +89,7 @@ export default {
   data () {
     return {
 		textAreaContent: '',
+		emailSubject: '',
 		textAreaToolbar: [
 			["bold", "italic", "underline"],
 			[{align: ""}, {align: "right"}, {align: "center"}, {align: "justify"}],
@@ -129,7 +130,10 @@ export default {
 	methods: {
 	    sendEmailToCustomers: function(){
 			this.emailSubject = "Message from "+this.companyName+" representative!"
-			sendEmailtoOptInUsers(this.emailSubject, this.textAreaContent);
+			console.log(this.emailSubject + ", " + this.textAreaContent);
+			SendEmailtoSubscribedUsersByCompanyId(this.companyId, this.emailSubject, this.textAreaContent).then(response => {
+				console.log(response)
+			});
 		}
 	}
 }

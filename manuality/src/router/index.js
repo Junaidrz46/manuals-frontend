@@ -40,7 +40,7 @@ const router  = new Router({
     { path: '/report'                       , component: ReportPage             , meta: { rule: 'isCompanyRepresentative'}       , name: 'Report'},
     { path: '/service_prov_home'            , component: ServiceProviderHome    , meta: { rule: 'isServiceProvider'}             , name: 'ServiceProviderHome'},
     { path: '/create_service_prov'          , component: CreateServiceProvider  , meta: { rule: 'isCompanyAdmin'}                , name: 'CreateServiceProvider'},
-    { path: '/service'                , component: ServiceProviders       , meta: { rule: 'isCompanyRepresentative'}       , name: 'ServiceProviders'}
+    { path: '/service'                      , component: ServiceProviders       , meta: { rule: 'isCompanyRepresentative'}       , name: 'ServiceProviders'}
   ]
 })
 
