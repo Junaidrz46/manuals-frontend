@@ -368,8 +368,8 @@ export function createServiceProvider(firstname, lastname, username, email, phon
         "firstname": firstname,
         "lastname": lastname,
         "username": username,
-        "email": email,
-        "phone": phone,
+        "emailaddress": email,
+        "teleNumber": phone,
         "password": password,
         "companyId": companyId
     })
@@ -386,10 +386,20 @@ export function serviceProviderByCompanyId(companyId){
         "companyId": companyId
     })
     .then(response => {
-        console.log(response)
-        return response;
+        return response.data;
     })
     .catch(function(error){
         console.log(error)
+    })
+}
+
+export function updateAuthorizedStatusForSP(id, newStatus){
+    return axios.post("http://localhost:8888/rest/users/updateAuthorizedStatusForSPByUserId?userId=" + id + "&status=" + newStatus, {
+        "userId":id,
+        "status": newStatus
+    })
+    .catch(function(error){
+        console.log("ERROR in updateAuthorizedStatusForSP API!")
+        console.log(error);
     })
 }

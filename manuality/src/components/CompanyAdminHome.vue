@@ -120,7 +120,7 @@ export default {
 	box-sizing:cover;
     background:white;
     border-color: #262626;
-    border: 1px solid black;
+    border: 3px solid #76323F;
     border-radius: 6px;
     background-size:border-box;
 	margin-left: 20%;
@@ -167,7 +167,7 @@ h3
 	margin-bottom: 50px;
 	padding:20px;
 	padding-top:0px;
-	color:black;
+	color: #7B6652;
 	text-align:center;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -175,7 +175,7 @@ p{
 	height:10px;
 	margin:0;
 	padding:0 0 20px;
-	color:black;
+	color: #7B6652;
 	text-align: left;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -209,14 +209,13 @@ p{
 }
 .signup input[type="button"]
 {
-	border:none;
 	align:center;
 	outline:none;
 	height:40px;
 	width: 200px;
 	color:#fff;
 	font-size:16px;
-	background:#708090;
+	background:#76323F;
 	cursor:pointer;
 	border-radius:20px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -224,8 +223,8 @@ p{
 }
 .signup input[type="button"]:hover
 {
-	background:black;
-	/* color:white; */
+	background:white;
+	color:black;
 }
 .addrep-error p {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;

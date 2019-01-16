@@ -26,6 +26,7 @@
                 <b-dropdown-item-button v-on:click="redirectToPage" v-if="isRepresentative">Add a product</b-dropdown-item-button>
                 <b-dropdown-item-button v-on:click="redirectToPage" v-if="isCompanyAdmin">Add a representative</b-dropdown-item-button>
                 <b-dropdown-item-button v-on:click="redirectReport" v-if="isRepresentative">Report & e-mail</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectService" v-if="isRepresentative">Service providers</b-dropdown-item-button>
                 <b-dropdown-item-button v-on:click="redirectCreateSP" v-if="isCompanyAdmin">Add a service provider</b-dropdown-item-button>
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item-button v-on:click="logout"><strong>Sign out</strong></b-dropdown-item-button>
@@ -120,6 +121,11 @@ export default {
 
         redirectReport: function(){
             this.$router.push("/report")
+            location.reload();
+        },
+
+        redirectService: function(){
+            this.$router.push("/service")
             location.reload();
         },
 

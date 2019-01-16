@@ -256,6 +256,9 @@ table{
 	border: 2px solid;
 }
 tr{
-	 border: 1px solid;
+	border: 1px solid;
+}
+th{
+  border: 1px solid;
 }
 </style>

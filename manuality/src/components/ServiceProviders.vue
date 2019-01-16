@@ -1,33 +1,50 @@
 <template>
 <div id="product">
-        <div class="body">
+	<div class="body">
 
-			<div style="display: flex;">
+		<div style="display: flex;">
 
-			<div style="margin-left: 40px; margin-top: 30px;">
+		<b-container>
+			<b-row>
+			<b-col></b-col>
+			<b-col>
+			<div  style="margin-top: 20px">
+				<font size="5px">Service Providers</font>				
+			</div>
+			<div style="margin-top: 20px; height: 400px; width: 500px; overflow-y:auto">
 					<table style="border: 2px solid; min-width: 450px;">
 						<thead>
 							<th>Name</th>
 							<th>E-mail</th>
 							<th>Phone</th>
-							<th v-if="userIsRepresentative">Remove</th>
+							<th>Authorized</th>
 						</thead>
 						<tbody v-bind:key="sp.id" v-for="sp in serviceProviders">
 							<tr style="border: 1px solid;">
 								<td>
-									{{sp.firstname}}
+									{{sp.firstname}} {{sp.lastname}}
 								</td>	
 								<td>
-									{{sp.emailddress}}
+									{{sp.emailaddress}}
 								</td>
 							
 								<td>
-									{{sp.phone}}
+									{{sp.teleNumber}}
+								</td>
+								<td>
+									<label class="switch">
+										<input type="checkbox" v-model="sp.authorizedSP" @change="updateServiceProviderStatus(sp.id, sp.authorizedSP)">
+										<span class="slider round"></span>
+									</label>
 								</td>
 							</tr>							
 						</tbody>
 					</table>
 				</div>
+				</b-col>
+				<b-col></b-col>
+				</b-row>
+			</b-container>
 			</div>	
         </div>	
 	</div>
@@ -35,38 +52,52 @@
 
 <script>
 
-import {serviceProviderByCompanyId} from '../API'
+import {/* serviceProviderByCompanyId,  */getUserByRole, updateAuthorizedStatusForSP} from '../API'
 
 export default {
 
     data (){
         return{
-            serviceProviders: [],
-            fields: [
-				{key:'name', label: 'Name'},
-				{key:'emailddress', label: 'E-mail'}
-            ],
-            showTable: false,
+			serviceProviders: [],
+			authServiceProviders: [],
             company: localStorage.getItem("company")
         }
     },
     beforeMount: function(){
 
-        serviceProviderByCompanyId(this.company).then(response => {
-			console.log(response.data)
-			response.data.forEach(element => {
-				this.serviceProviders.push(element);
+        /* serviceProviderByCompanyId(this.company).then(response => {
+			//console.log(response)
+			response.forEach(element => {
+				this.authServiceProviders.push(element);
 			});
-		})
-        
-        console.log(this.serviceProviders)
+		}); */
 
+		getUserByRole("serviceProvider").then(response => {
+			response.forEach(element => {
+				if(element.companyId==this.company) {
+					var temp = element;
+					if (temp.authorizedSP==0)
+						temp.authorizedSP = false;
+					else
+						temp.authorizedSP = true;
+					this.serviceProviders.push(temp);
+				}
+				
+			});
+		})//.then(console.log(this.serviceProviders))
+	
     },
 
     methods:{
-
-    }
-    
+		updateServiceProviderStatus: function(userId, newStatus) {
+			if (newStatus==true)
+				newStatus = 1;
+			else
+				newStatus = 0;
+			updateAuthorizedStatusForSP(userId, newStatus);
+			console.log(userId+" "+newStatus);
+		}
+    } 
 }
 </script>
 
@@ -75,10 +106,12 @@ h1
 {
 	margin:200;
 	text-align:center;
-	color:#101010;
+	color: #7B6652;
 }
 h3{
-	text-align: left;
+	
+	text-align:center;
+	color: #7B6652;
 }
 .smallImg{
 	height: 40px;
@@ -92,7 +125,7 @@ h3{
 .body
 {
 	position:absolute;
-	border: 1px solid black;
+	border: 3px solid #76323F;
 	padding:0;
 	border-radius: 6px;
 	background-size:cover;
@@ -186,5 +219,67 @@ li{
     width:15px;
     height:auto;
     display:inline-block;
+}
+
+/*Toggle switches*/
+.switch {
+  margin-top: 4px;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 22px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 1px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #76323F;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #76323F;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(33px);
+  -ms-transform: translateX(33px);
+  transform: translateX(33px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 30px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 </style>
