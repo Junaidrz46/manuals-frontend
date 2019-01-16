@@ -345,20 +345,24 @@ export function increaseAccessCountMaterial(materialId){
 
 export function getAllSubscribedUsers(){
     return axios.get("http://localhost:8888/rest/users/findEmailofSubscribedUsers",{
-
+        
+    })
+    .then(response => {
+        console.log(response)
     })
 }
 
-export function sendEmailtoOptInUsers(subject, emailBody){
-    return axios.get("http://localhost:8888/rest/users/sendEmailtoOptInUsers", {
-        "subject":subject,
+export function SendEmailtoSubscribedUsersByCompanyId(companyId, subject, emailBody){   
+    return axios.post("http://localhost:8888/rest/users/SendEmailtoSubscribedUsersByCompanyId", {
+        
+        "companyId": companyId,
+        "subject": subject,
         "emailBody": emailBody
     })
     .then(response => {
-        console.log("Email sent!")
+        console.log(response);
     })
     .catch(function(error){
-        console.log("ERROR in sendEmailtoOptInUsers API!")
         console.log(error);
     })
 }
