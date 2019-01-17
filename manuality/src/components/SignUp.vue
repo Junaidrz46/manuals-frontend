@@ -71,6 +71,7 @@ export default {
 				this.seen = true;
 			}else if(this.checkEmail(this.$refs.email.value) === false){
 				this.message = 'Enter a valid e-mail address!'
+				this.seen = true;
 			}else{
 				var pass = this.$refs.pass.value;
 				var confirmPass = this.$refs.confirmPass.value;
@@ -82,11 +83,13 @@ export default {
 						this.$refs.pass.value,
 						this.$refs.email.value
 					).then(response => {
-						console.log("New user: " + response);
+						console.log("New user: " + response.data);
 					})
 					this.seen = false;
 					this.message = 'Account created! Logging you in...'
 					this.seenSuccess = true
+					this.waitFunc();
+					console.log(this.$refs.username.value + " " + this.$refs.pass.value)
 					loginUser(
 						this.$refs.username.value,
 						this.$refs.pass.value
@@ -144,12 +147,10 @@ export default {
 			}
 		},
 
-		// waitFunc: function(){   
-		// 	setTimeout(function(){
-		// 		this.$router.push('/consumer_home')
-		// 		location.reload()
-		// 		}, 2000);
-        // }
+		waitFunc: function(){   
+			setTimeout(function(){
+				}, 3000);
+        }
 	}
     
 }
