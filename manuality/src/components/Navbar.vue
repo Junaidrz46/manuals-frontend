@@ -1,6 +1,6 @@
 <template>
     <div id="navbar">
-        <b-navbar toggleable="md" type="navbar navbar-expand-sm bg-dark navbar-dark" variant="info">
+        <b-navbar toggleable="md" type="navbar navbar-expand-sm" class="nav-color">
 
      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
      <b-navbar-brand>
@@ -22,8 +22,12 @@
       
         <b-dropdown v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Options" size="lg">
             <div>
-                <b-dropdown-item-button v-on:click="redirectToPage">{{fname}}</b-dropdown-item-button>
-                <b-dropdown-item-button v-on:click="redirectReport" v-if="isRepresentative">Report</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectToPage" v-if="isConsumer">{{fname}}</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectToPage" v-if="isRepresentative">Add a product</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectToPage" v-if="isCompanyAdmin">Add a representative</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectReport" v-if="isRepresentative">Report & e-mail</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectService" v-if="isRepresentative">Service providers</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectCreateSP" v-if="isCompanyAdmin">Add a service provider</b-dropdown-item-button>
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item-button v-on:click="logout"><strong>Sign out</strong></b-dropdown-item-button>
             </div>
@@ -77,7 +81,8 @@ export default {
             lname: localStorage.getItem("lname"),
             isConsumer: false,
             role: localStorage.getItem("role"),
-            isRepresentative: false
+            isRepresentative: false,
+            isCompanyAdmin: false
 		}
     },
     created : function(){
@@ -90,6 +95,9 @@ export default {
         if(localStorage.getItem("permissions") === "company_representative"){
             this.isRepresentative = true;
         }
+        if(localStorage.getItem("permissions") === "company_admin"){
+            this.isCompanyAdmin = true;
+        }
 
     },
 	methods: {
@@ -98,12 +106,14 @@ export default {
             var permissions = {
                 "companyAdmin" : 'company_admin',
                 "companyRepresentative" : 'company_representative', 
-                "customer" : 'consumer'
+                "customer" : 'consumer',
+                "serviceProvider": 'service_provider',
             }
             var redirectToHomeMap = {
 				"customer": "/consumer_home",
 				"companyRepresentative": "/company_rep_home",
-				"companyAdmin": "/company_admin_home"
+                "companyAdmin": "/company_admin_home",
+                "serviceProvider": "/service_prov_home",
 			};
             this.$router.push(redirectToHomeMap[this.role] )
             location.reload();
@@ -114,8 +124,18 @@ export default {
             location.reload();
         },
 
+        redirectService: function(){
+            this.$router.push("/service")
+            location.reload();
+        },
+
         redirectSignUp: function(){
             this.$router.push("/signup");
+            location.reload();
+        },
+
+        redirectCreateSP: function(){
+            this.$router.push("/create_service_prov")
             location.reload();
         },
 
@@ -159,7 +179,8 @@ export default {
                         var permissions = {
                             "companyAdmin" : 'company_admin',
                             "companyRepresentative" : 'company_representative',
-                            "customer" : 'consumer'
+                            "customer" : 'consumer',
+                            "serviceProvider": 'service_provider',
                         }
 
                         // For redirection
@@ -172,7 +193,9 @@ export default {
 						var redirectToHomeMap = {
 							"customer": "/consumer_home",
 							"companyRepresentative": "/company_rep_home",
-							"companyAdmin": "/company_admin_home"
+                            "companyAdmin": "/company_admin_home",
+                            "serviceProvider": "/service_prov_home",
+
 						};
                         this.$router.push( redirectToHomeMap[response.data.user.role] )
                         location.reload();
@@ -231,7 +254,7 @@ h2
 {
 	margin:0;
 	padding:0 0 20px;
-	color: rgba(0, 0, 0, 1);
+	color: #7B6652;
     text-align:center;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -239,7 +262,7 @@ h2
 {
 	margin:0;
 	padding:0 0 20px;
-	color:rgba(0, 0, 0, 1);
+	color:#7B6652;
     font-weight:bold;
     text-align: left;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -269,20 +292,19 @@ h2
 .loginBox input[type="button"]
 {
     margin-top: 45px;
-	border:none;
 	outline:none;
 	height:40px;
 	color:#fff;
 	font-size:16px;
-	background:#708090;
+	background:#76323F;
 	cursor:pointer;
     border-radius:20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .loginBox input[type="button"]:hover
 {
-	background:rgba(0, 0, 0, 1);
-	color:#FFFFFF;
+	background:white;
+	color:black;
 }
 
 .login-error p {
@@ -291,5 +313,20 @@ h2
 	text-align: center;
 	
 }
+
+.nav-color {
+    background: #565656;
+}
+
+.btn-secondary {
+    background-color: #76323F;
+    border-color: #76323F;
+}
+
+.submitbutton  {
+    background-color: #76323F;
+    border-color: #76323F;
+}
+
 </style>
 

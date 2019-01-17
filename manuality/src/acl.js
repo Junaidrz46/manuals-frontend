@@ -28,12 +28,13 @@ export default new AclCreate({
   globalRules: {
     isManualityAdmin: new AclRule('admin').generate(),
     
-    isPublic: new AclRule('public').or('admin').or('consumer').or('company_admin').or('company_representative').generate(),
+    isPublic: new AclRule('public').or('admin').or('consumer').or('company_admin').or('company_representative').or('service_provider').generate(),
 
     isNotLogged: new AclRule('public').generate(),
 
     isConsumer: new AclRule('consumer').generate(),
     isCompanyAdmin: new AclRule('company_admin').generate(),
     isCompanyRepresentative: new AclRule('company_representative').generate(),
+    isServiceProvider: new AclRule('service_provider').generate()
   }
 })

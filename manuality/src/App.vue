@@ -41,7 +41,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #7B6652;
   margin-top: 60px;
 }
 body
@@ -50,7 +50,7 @@ margin:0;
 padding:0;
 background-size:cover;
 font-family:sans-serif;
-background-color: lightgray;
+background-color: #d7cec7;
 }
 h1
 {

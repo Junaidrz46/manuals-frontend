@@ -1,9 +1,8 @@
-
 <template>
-    <div id="company_admin_home">
+    <div id="create_service_provider">
         <div class="signup">
             <form>
-                <h3>Add Representatives</h3>
+                <h3>Add Service Provider</h3>
 				<div class="firstname">
 					<p>First Name</p>
 					<input type="text" ref="fname" name="" placeholder="First name...">
@@ -18,9 +17,9 @@
 				</div>
 				<div class="mail">
 					<p>E-mail</p>
-					<input type="text" ref="email" name="" placeholder="E-mail.....">
+					<input type="text" ref="email" name="" placeholder="E-mail...">
 				</div>
-				<div class="pwd">
+                <div class="pwd">
 					<p>Password</p>		
 					<input type="password" ref="pass" name="" placeholder="*******">
 				</div>
@@ -28,7 +27,11 @@
 					<p>Confirm Password</p>
 					<input type="password" ref="confirmPass" name="" placeholder="*******">
 				</div>
-				<input type="button" class="submitbutton" value="Add representative" v-on:click="createRepresentative" align="middle">
+                <div class="phone" style="text-align: left">
+					<p>Phone</p>
+					<input type="text" ref="phone" name="" placeholder="Phone..." style="align: left; margin-top: 50px">
+				</div>
+				<input type="button" class="submitbutton" value="Add SP" v-on:click="createServiceProvider" align="middle">
 				<div class="addrep-error" id="error" v-if="seen">
 					<p class="message">
 						{{ message }}
@@ -45,27 +48,29 @@
 </template>
 
 <script>
-import {addRepresentative} from '../API'
-import router from '../router/index'
+
+import {createServiceProvider} from '../API'
+
 export default {
-	data () {
-		return{
-			seen: false,
-			seenSuccess: false,
-			message: '',
-			company: '',
+    data (){
+        return{
+            seen: false,
+            message: "",
+            seenSuccess: false,
+            company: '',
 			fname: '',
 			lname: ''
-		}
-	},
-	methods: {
-		checkEmail: function (email) {
+        }
+    },
+    methods:{
+        checkEmail: function (email) {
 			var emailTest = /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
   			return emailTest.test(email);	
-		},
-		createRepresentative: function() {
-			if (this.$refs.username.value === "" || this.$refs.pass.value === "" || this.$refs.email.value === "" || this.$refs.confirmPass.value === "" || this.$refs.fname.value === "" || this.$refs.lname.value === ""){
-				this.message = 'Please complete all fields!'
+        },
+
+        createServiceProvider: function (){
+            if (this.$refs.username.value === "" || this.$refs.pass.value === "" || this.$refs.email.value === "" || this.$refs.confirmPass.value === "" || this.$refs.fname.value === "" || this.$refs.lname.value === "" || this.$refs.phone.value ===""){
+				this.message = 'Please complete all the fields!'
 				this.seen = true;
 			}else if(this.checkEmail(this.$refs.email.value) === false){
 				this.message = 'Enter a valid e-mail address!'
@@ -74,11 +79,12 @@ export default {
 				var confirmPass = this.$refs.confirmPass.value;
 				if (pass === confirmPass) {
 					this.company = localStorage.getItem("company");
-					addRepresentative(
+					createServiceProvider(
 						this.$refs.fname.value,
 						this.$refs.lname.value,
 						this.$refs.username.value,
-						this.$refs.email.value,
+                        this.$refs.email.value,
+                        this.$refs.phone.value,
 						this.$refs.pass.value,
 						this.company
 					)
@@ -94,18 +100,20 @@ export default {
 					this.seen = true;
 				}
 			}
-		},
-		waitFunc: function(){   
+        },
+
+        waitFunc: function(){   
             setTimeout(function(){ location.reload(); }, 2000);
         }
-	}
+    }
+    
 }
 </script>
 
-
 <style>
+
 .greeting-message{
-	color: #262626;
+    color: #262626;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	float: left;
 	margin-top: 30px;
@@ -115,7 +123,7 @@ export default {
 {
 	position:absolute;
 	width:600px;
-	height:660px;
+	height:680px;
 	padding:50px 40px;
 	box-sizing:cover;
     background:white;
@@ -163,8 +171,8 @@ export default {
 }
 h3	
 {
-	margin:5px;
-	margin-bottom: 50px;
+	margin:0px;
+	margin-bottom: 10px;
 	padding:20px;
 	padding-top:0px;
 	color: #7B6652;
@@ -219,7 +227,7 @@ p{
 	cursor:pointer;
 	border-radius:20px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	margin-top: 20px;
+	margin-top: 0px;
 }
 .signup input[type="button"]:hover
 {
@@ -238,4 +246,6 @@ p{
 	text-align: center;
 	margin-top: 0px;
 }
+
 </style>
+

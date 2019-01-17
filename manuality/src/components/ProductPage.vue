@@ -16,8 +16,8 @@
 				</p>
 				
 				<div id="like" v-if="userIsConsumer">
-					<b-button v-on:click="saveLikedProduct" @click="showAlert" variant="primary">&#9733;</b-button>
-					<b-button v-on:click="deleteLikedProduct" @click="showAlert" variant="primary">&#9734;</b-button>
+					<b-button v-on:click="saveLikedProduct" @click="showAlert">&#9733;</b-button>
+					<b-button v-on:click="deleteLikedProduct" @click="showAlert">&#9734;</b-button>
 				</div>
 			</b-card>
 
@@ -212,7 +212,7 @@ h3{
 .body
 {
 	position:absolute;
-	border: 1px solid black;
+	border: 3px solid #76323F;
 	padding:0;
 	border-radius: 6px;
 	background-size:cover;

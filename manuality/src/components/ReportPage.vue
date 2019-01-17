@@ -26,10 +26,10 @@
 								<td></td>
 								<td></td>
 							</tr>
-							<tr v-bind:key="material.id" v-for="material in product.materials" style="border: 1px solid;">
+							<tr v-bind:key="material.id"  v-if="product.profileImage != material.id" v-for="material in product.materials" style="border: 1px solid;">
 								<td></td>
 								<td></td>
-								<td> {{material.fileName}} </td>
+								<td> {{material.description}} </td>
 								<td> {{material.accessCounter}} </td>
 							</tr>					
 						</tbody>
@@ -79,7 +79,7 @@
 
 <script>
 import {VueEditor} from 'vue2-editor'
-import {findAllProducts, getUserByRole, sendEmail, findCompanyById} from '../API'
+import {findAllProducts, getUserByRole, SendEmailtoSubscribedUsersByCompanyId, findCompanyById, getAllSubscribedUsers} from '../API'
 
 export default {
   name: 'ProductPage',
@@ -89,6 +89,7 @@ export default {
   data () {
     return {
 		textAreaContent: '',
+		emailSubject: '',
 		textAreaToolbar: [
 			["bold", "italic", "underline"],
 			[{align: ""}, {align: "right"}, {align: "center"}, {align: "justify"}],
@@ -103,7 +104,6 @@ export default {
 
 		products:[],
 		materials:[],
-		emailAddresses: [],
 		companyName: "",
 		companyId: localStorage.getItem('company')
     }
@@ -112,9 +112,6 @@ export default {
 		findAllProducts().then(response => {
 			response.forEach(tempProd => {
 				if (tempProd.companyId==this.companyId) {
-					/* findLikedCounterForProduct(tempProd.id).then( product => {
-						this.products.push(product)
-					}) */
 					this.products.push(tempProd)
 					var prodMaterials = tempProd.materials
 					prodMaterials.forEach(material => {
@@ -129,22 +126,15 @@ export default {
 		findCompanyById(this.companyId).then(response => {
 					this.companyName = response.name;
 		});
-		this.emailAddresses = [];
-		getUserByRole("customer").then(response => {
-			response.forEach(user => {
-				this.emailAddresses.push(user.emailaddress);
-			})
-		});
 	},
 	methods: {
 	    sendEmailToCustomers: function(){
 			this.emailSubject = "Message from "+this.companyName+" representative!"
-			sendEmail(this.emailSubject, this.textAreaContent, this.emailAddresses);
-			this.waitFunc();
-		},
-		 waitFunc: function(){   
-            setTimeout(function(){ location.reload(); }, 2000);
-        }
+			console.log(this.emailSubject + ", " + this.textAreaContent);
+			SendEmailtoSubscribedUsersByCompanyId(this.companyId, this.emailSubject, this.textAreaContent).then(response => {
+				console.log(response)
+			});
+		}
 	}
 }
 </script>
@@ -171,7 +161,7 @@ h3{
 .body
 {
 	position:absolute;
-	border: 1px solid black;
+	border: 3px solid #76323F;
 	padding:0;
 	border-radius: 6px;
 	background-size:cover;
@@ -270,6 +260,9 @@ table{
 	border: 2px solid;
 }
 tr{
-	 border: 1px solid;
+	border: 1px solid;
+}
+th{
+  border: 1px solid;
 }
 </style>

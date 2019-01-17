@@ -345,6 +345,65 @@ export function increaseAccessCountMaterial(materialId){
 
 export function getAllSubscribedUsers(){
     return axios.get("http://localhost:8888/rest/users/findEmailofSubscribedUsers",{
+        
+    })
+    .then(response => {
+        console.log(response)
+    })
+}
 
+export function SendEmailtoSubscribedUsersByCompanyId(companyId, subject, emailBody){   
+    return axios.post("http://localhost:8888/rest/users/SendEmailtoSubscribedUsersByCompanyId", {
+        
+        "companyId": companyId,
+        "subject": subject,
+        "emailBody": emailBody
+    })
+    .then(response => {
+        console.log(response);
+    })
+    .catch(function(error){
+        console.log(error);
+    })
+}
+
+export function createServiceProvider(firstname, lastname, username, email, phone, password, companyId){
+    return axios.post("http://localhost:8888/rest/users/saveServiceProvider", {
+        "firstname": firstname,
+        "lastname": lastname,
+        "username": username,
+        "emailaddress": email,
+        "teleNumber": phone,
+        "password": password,
+        "companyId": companyId
+    })
+    .then(response => {
+        console.log(response)
+    })
+    .catch(function(error){
+        console.log(error)
+    })
+}
+
+export function serviceProviderByCompanyId(companyId){
+    return axios.get("http://localhost:8888/rest/users/findSPByCompanyId?role=serviceProvider&companyId=" + companyId, {
+        "companyId": companyId
+    })
+    .then(response => {
+        return response.data;
+    })
+    .catch(function(error){
+        console.log(error)
+    })
+}
+
+export function updateAuthorizedStatusForSP(id, newStatus){
+    return axios.post("http://localhost:8888/rest/users/updateAuthorizedStatusForSPByUserId?userId=" + id + "&status=" + newStatus, {
+        "userId":id,
+        "status": newStatus
+    })
+    .catch(function(error){
+        console.log("ERROR in updateAuthorizedStatusForSP API!")
+        console.log(error);
     })
 }
