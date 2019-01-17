@@ -23,6 +23,7 @@
         <b-dropdown v-if="isLogged === true" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" right text="Options" size="lg">
             <div>
                 <b-dropdown-item-button v-on:click="redirectToPage" v-if="isConsumer">{{fname}}</b-dropdown-item-button>
+                <b-dropdown-item-button v-on:click="redirectToPage" v-if="isServiceProvider">Home</b-dropdown-item-button>
                 <b-dropdown-item-button v-on:click="redirectToPage" v-if="isRepresentative">Add a product</b-dropdown-item-button>
                 <b-dropdown-item-button v-on:click="redirectToPage" v-if="isCompanyAdmin">Add a representative</b-dropdown-item-button>
                 <b-dropdown-item-button v-on:click="redirectReport" v-if="isRepresentative">Report & e-mail</b-dropdown-item-button>
@@ -82,7 +83,8 @@ export default {
             isConsumer: false,
             role: localStorage.getItem("role"),
             isRepresentative: false,
-            isCompanyAdmin: false
+            isCompanyAdmin: false,
+            isServiceProvider: false
 		}
     },
     created : function(){
@@ -97,6 +99,9 @@ export default {
         }
         if(localStorage.getItem("permissions") === "company_admin"){
             this.isCompanyAdmin = true;
+        }
+        if(localStorage.getItem("permissions") === "service_provider"){
+            this.isServiceProvider = true;
         }
 
     },
