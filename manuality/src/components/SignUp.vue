@@ -86,70 +86,18 @@ export default {
 						console.log("New user: " + response.data);
 					})
 					this.seen = false;
-					this.message = 'Account created! Logging you in...'
+					this.message = 'Account created! Try loggining in...'
 					this.seenSuccess = true
 					this.waitFunc();
-					console.log(this.$refs.username.value + " " + this.$refs.pass.value)
-					loginUser(
-						this.$refs.username.value,
-						this.$refs.pass.value
-					)
-					.then(response2 => {
-                    
-					if (response2.data.loginstatus === "login-success") {
 
-                        //Sessions
-                        localStorage.setItem("id", response2.data.user.id);
-                        localStorage.setItem("loginstatus", response2.data.loginstatus);
-                        localStorage.setItem("currentUser", response2.data.user.username);
-                        localStorage.setItem("company", response2.data.user.companyId);
-                        localStorage.setItem("fname", response2.data.user.firstname);
-                        localStorage.setItem("lname", response2.data.user.lastName);
-                        localStorage.setItem("role", response2.data.user.role);
-                        localStorage.setItem("email", response2.data.user.emailaddress);
-
-                        this.greetingSeen = true;
-                        this.greet = localStorage.getItem("fname") + " " + localStorage.getItem("lname")
-                        this.company = localStorage.getItem("company");
-                        console.log(this.user);
-
-                        // Permissons
-                        var permissions = {
-                            "companyAdmin" : 'company_admin',
-                            "companyRepresentative" : 'company_representative',
-                            "customer" : 'consumer'
-                        }
-
-                        // For redirection
-                        this.$acl.change( permissions[response2.data.user.role] )
-                        
-                        // For session
-                        localStorage.setItem("permissions", permissions[response2.data.user.role])
-
-                        // Redirect
-						var redirectToHomeMap = {
-							"customer": "/consumer_home",
-							"companyRepresentative": "/company_rep_home",
-							"companyAdmin": "/company_admin_home"
-						};
-                        this.$router.push( redirectToHomeMap[response2.data.user.role] )
-                        location.reload();
-                        // if(localStorage.getItem("role") === "costumer"){
-                            // this.isConsumer = true
-                        // }
-                       
-					}
-					else{
-						this.seen = true;
-					}
-				})
 				}
 			}
 		},
 
 		waitFunc: function(){   
 			setTimeout(function(){
-				}, 3000);
+				location.reload();
+				}, 2500);
         }
 	}
     

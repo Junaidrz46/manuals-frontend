@@ -3,7 +3,7 @@
         <b-carousel id="carousel1" class=""
             style="text-shadow: 1px 1px 2px #333;"
             controls
-            background="lightgray"
+            background="#d7cec7"
             :interval="3000"
             v-model="slide"
             @sliding-start="onSlideStart"

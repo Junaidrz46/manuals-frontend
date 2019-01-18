@@ -68,7 +68,8 @@
 					<font size="6px">Email to consumers</font>
                 	<vue-editor v-model="textAreaContent" :editorToolbar="textAreaToolbar" style="height: 300px"></vue-editor>
             	</div>
-				<b-btn style="margin-top: 120px;" v-on:click="sendEmailToCustomers">Send Email</b-btn>				
+				<b-btn style="margin-top: 120px;" v-on:click="sendEmailToCustomers">Send Email</b-btn>
+				<p class="infoMessage" v-if="show">E-mail successully sent!</p>				
 			</b-col>
 			</b-row>
 			</b-container>
@@ -105,7 +106,8 @@ export default {
 		products:[],
 		materials:[],
 		companyName: "",
-		companyId: localStorage.getItem('company')
+		companyId: localStorage.getItem('company'),
+		show: false
     }
   },
   beforeMount: function () {
@@ -134,7 +136,14 @@ export default {
 			SendEmailtoSubscribedUsersByCompanyId(this.companyId, this.emailSubject, this.textAreaContent).then(response => {
 				console.log(response)
 			});
-		}
+			this.show = true;
+			this.waitFunc();
+		},
+		waitFunc: function(){   
+			setTimeout(function(){
+				location.reload();
+				}, 2500);
+        }
 	}
 }
 </script>
@@ -174,6 +183,15 @@ h3{
 	margin-top: 4%; 
 
 }
+
+.infoMessage
+{
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	text-align: center;
+    color: green;
+	margin-top: 7px;
+}
+
 .productdetails
 {	
 	width:90%;

@@ -165,8 +165,8 @@ export function createAccount(fname, lname, username, password, email){
         "password": password
     })
     .then(response => {
-        console.log(response)
-        return response;
+        console.log(response.data)
+        return response.data;
     })
     .catch(function(error){
         console.log(error);

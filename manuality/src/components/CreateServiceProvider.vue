@@ -92,7 +92,7 @@ export default {
 						console.log(response);
 					})
 					this.seen = false;
-					this.message = 'Representative added! Reloading...'
+					this.message = 'Service provider added! Reloading...'
 					this.seenSuccess = true;
 					this.waitFunc();
 				} else {
